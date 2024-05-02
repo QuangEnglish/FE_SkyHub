@@ -10,7 +10,16 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 })
 export class HeaderComponent implements OnInit, DoCheck {
   visible = true;
-  isCollapsed = false
+  isCollapsed = false;
+  employeeName: any;
+  userId: any;
+  request: any = {
+    listTextSearch: [],
+    code: null,
+    page: 0,
+    name: null,
+    size: 10, // -: desc | +: asc,
+  };
 
   @ViewChild(TemplateRef, { static: false }) template?: TemplateRef<{}>;
 
@@ -20,8 +29,22 @@ export class HeaderComponent implements OnInit, DoCheck {
               private loginService :LoginService) { }
 
   ngOnInit(): void {
-
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.employeeName = userObject.userDetailName;
+    this.userId = userObject.userDetailId;
   }
+
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
 
   logOut(){
     this.visible = false;
@@ -49,4 +72,8 @@ export class HeaderComponent implements OnInit, DoCheck {
     this.notification.template(template2, { nzData: notifyData });
   }
 
+  navigateToDetails = () => {
+    this.visible = false;
+    this.router.navigate(['/detail-employee/' + this.userId], {state: {page: this.request}});
+  };
 }

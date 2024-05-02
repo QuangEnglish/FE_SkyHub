@@ -78,3 +78,34 @@ img {
   margin-top: 10px;
   font-weight: 400;
 }
+
+.wrapper-right{
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+.user-info__container {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+
+  .user-info__img {
+    margin-right: 8px;
+
+    i {
+      font-size: 15px;
+    }
+  }
+
+  .user-info__description {
+    display: flex;
+    flex-flow: column;
+    line-height: 20px;
+  }
+
+  .user-info__name {
+    font-weight: 600;
+    font-size: 17px;
+    color: black;
+  }
+}
