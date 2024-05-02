@@ -4,6 +4,7 @@ import {ToastService} from "../../../../service/toast.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {AttendanceLeaveService} from "../../../../service/attendance-leave.service";
 import {EmployeeService} from "../../../../service/employee.service";
+import {differenceInCalendarDays} from "date-fns";
 
 @Component({
   selector: 'app-form-attendance-leave',
@@ -220,5 +221,8 @@ export class FormAttendanceLeaveComponent implements OnInit, OnChanges {
     })
   }
 
+  isDisableDateFromToday = (current: Date): boolean => {
+    return differenceInCalendarDays(current, new Date()) < 0;
+  };
 
 }

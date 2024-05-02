@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Optional, Output, Self} from '@angular/core';
-import {ControlValueAccessor, FormControl, NgControl} from "@angular/forms";
+import {ControlValueAccessor, NgControl} from "@angular/forms";
 import { format } from 'date-fns';
 @Component({
-  selector: 'app-date-picker',
-  templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.less']
+  selector: 'app-time-picker',
+  templateUrl: './time-picker.component.html',
+  styleUrls: ['./time-picker.component.less']
 })
-export class DatePickerComponent implements OnInit, ControlValueAccessor {
+export class TimePickerComponent implements OnInit, ControlValueAccessor  {
 
   @Input() placeHolder = 'dd/mm/yyyy';
   @Input() labelContent!: string;
@@ -23,7 +23,6 @@ export class DatePickerComponent implements OnInit, ControlValueAccessor {
   @Input() isVisibilityLabel = false;
   @Input() formController: any;
   @Input() ngStyleCus : any;
-  @Input() disableDateFromToday: any;
   @Output() changeDate: EventEmitter<Date> = new EventEmitter<Date>();
 
   date!: string;
@@ -64,4 +63,5 @@ export class DatePickerComponent implements OnInit, ControlValueAccessor {
   onChange(event: any) {
     this.changeDate.emit(event);
   }
+
 }

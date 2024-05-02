@@ -6,6 +6,7 @@ import {FileManagerService} from "../../../../service/file-manager.service";
 import * as moment from "moment/moment";
 import {en_US, NzI18nService} from "ng-zorro-antd/i18n";
 import {AttendanceLeaveService} from "../../../../service/attendance-leave.service";
+import {EmployeeService} from "../../../../service/employee.service";
 
 @Component({
   selector: 'app-list-attendance-leave',
@@ -54,6 +55,15 @@ export class ListAttendanceLeaveComponent implements OnInit {
       trackerId: null,
       description: null
   };
+  lstEmployee: any[] = [];
+  payloadEmployee = {
+    employeeCode: null,
+    employeeName: null,
+    employeeEmail: null,
+    employeeGender: null,
+    positionId: null,
+    departmentId: null
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -61,7 +71,8 @@ export class ListAttendanceLeaveComponent implements OnInit {
     private toastService: ToastService,
     private spinner: NgxSpinnerService,
     private fileManagerService: FileManagerService,
-    private i18n: NzI18nService
+    private i18n: NzI18nService,
+    private employeeService: EmployeeService
   ) {
 
   }
@@ -72,11 +83,13 @@ export class ListAttendanceLeaveComponent implements OnInit {
       isActive: new FormControl(null, [Validators.maxLength(100)]),
       startDay: new FormControl(null, [Validators.maxLength(100)]),
       endDay: new FormControl(null),
+      employeeId: new FormControl(null),
     });
     if (this.searchFormValue) {
       this.searchForm.patchValue(this.searchFormValue);
     }
     this.fetchData(this.request.currentPage, this.request.pageSize);
+    this.fetchEmployee();
   }
 
   fetchData(currentPage?: number, pageSize?: number){
@@ -85,6 +98,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
       isActive: formValue.isActive === 0 ? '0' : !formValue.isActive ? null : formValue.isActive.toString(),
       startDay: !formValue.startDay ? null : formValue.startDay,
       endDay: !formValue.endDay ? null : formValue.endDay,
+      employeeId: !formValue.employeeId ? null : formValue.employeeId,
     };
     const pageable = {
       page: currentPage,
@@ -167,7 +181,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
   callBackModalDelete() {
     this.attendanceLeaveService.deleteAttendanceLeave(this.idAttendanceLeave).subscribe(res => {
       if (res && res.code === "OK") {
-        this.toastService.openSuccessToast('Xóa chức vụ thành công');
+        this.toastService.openSuccessToast('Xóa đơn nghỉ phép thành công');
         this.isVisibleModalDelete = false;
       } else {
         this.toastService.openErrorToast(res.body.msgCode);
@@ -204,7 +218,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
       } else {
         const currentDate = moment();
         const formattedDate = currentDate.format('DD-MM-YYYY');
-        this.fileManagerService.downloadFile(response, 'danhsachchucvu_'+formattedDate+'.xlsx');
+        this.fileManagerService.downloadFile(response, 'danhsachdonnghiphep_'+formattedDate+'.xlsx');
       }
     }, error => {
       this.toastService.openErrorToast(error);
@@ -295,5 +309,51 @@ export class ListAttendanceLeaveComponent implements OnInit {
     this.fetchData(this.request.currentPage, this.request.pageSize);
   }
 
+  openUpdateActiveModal(data?: any){
+    const dataModel = {leaveID : data.leaveID, isActive: 1};
+    this.attendanceLeaveService.editAttendanceLeave(dataModel).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.toastService.openSuccessToast('Đã được duyệt');
+        this.fetchData(this.request.currentPage, this.request.pageSize);
+      } else {
+        this.toastService.openErrorToast(res.body.msgCode);
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.error.msgCode);
+    }, () => {
+      this.spinner.hide().then();
+    });
+  }
+
+  fetchEmployee() {
+    this.employeeService.searchEmployee(this.payloadEmployee, {page: 0, size: -1}).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.lstEmployee = res.data.data;
+        this.lstEmployee = this.lstEmployee.map(item => ({
+          ...item,
+          employeeName: item.employeeName + " - " + item.employeeCode
+        }));
+        this.lstEmployee.sort((a, b) => a.employeeName.localeCompare(b.employeeName));
+      }
+    }, (error: any) => {
+      console.log(error);
+    })
+  }
+
+  openUpdateActiveFalseModal(data?: any){
+    const dataModel = {leaveID : data.leaveID, isActive: 3};
+    this.attendanceLeaveService.editAttendanceLeave(dataModel).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.toastService.openInfoToast('Đơn đã bị từ chối');
+        this.fetchData(this.request.currentPage, this.request.pageSize);
+      } else {
+        this.toastService.openErrorToast(res.body.msgCode);
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.error.msgCode);
+    }, () => {
+      this.spinner.hide().then();
+    });
+  }
 
 }

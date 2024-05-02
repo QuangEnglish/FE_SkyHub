@@ -14,7 +14,7 @@
 <nz-collapse nzExpandIconPosition="right">
   <nz-collapse-panel nzHeader="Thông tin tìm kiếm" [nzActive]="isActive">
     <form nz-form [formGroup]="searchForm" nzLayout="vertical" (keyup.enter)="nzOnSearch()">
-      <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+      <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 24, xl: 32, xxl: 32 }">
         <div nz-col [nzSm]="24" [nzMd]="8" [nzLg]="8">
           <nz-form-item nz-col nzSpan="24">
             <nz-form-control>
@@ -42,6 +42,16 @@
                            [ngClass]="'w-150'"
                            (changeDate)="onChangeEndDay($event)" [errorTip]="endDayErrorMessage"
                            [span]="24"></app-date-picker>
+        </div>
+        <div nz-col [nzSm]="24" [nzMd]="8" [nzLg]="8">
+          <nz-form-item nz-col nzSpan="24">
+            <nz-form-control>
+              <app-select [ngClass]="'w-100'" [data]="lstEmployee" [valueField]="'id'" [placeHolder]="'--Tất cả--'"
+                          [labelField]="'employeeName'" [openSearchModal]="false" [getObjectValue]="true"
+                          [labelHorizontal]="false" formControlName="employeeId" labelContent="Người gửi đơn:">
+              </app-select>
+            </nz-form-control>
+          </nz-form-item>
         </div>
       </div>
       <div nz-row>
@@ -128,7 +138,7 @@
           <th nzWidth="250px" class="text-center">
             Nội dung
           </th>
-          <th nzWidth="200px" class="text-center" nzRight="0">
+          <th nzWidth="270px" class="text-center" nzRight="0">
             Hành động
           </th>
         </tr>
@@ -152,12 +162,17 @@
             <td class="max-width-250" [nz-tooltip]="data.description">
               {{ data.description.length > 100 ? (data.description | slice:0:50) + '...' : data.description }}
             </td>
-            <td class="text-center max-width-200" nzRight="0">
+            <td class="text-center max-width-270" nzRight="0">
               <div class="action">
                 <app-button-icon class="action__margin" [isUploadFile] = "true"
                                  [tooltipTitle]="'Duyệt đơn'"
                                  [loading]="isLoading"
-                                 (clickAction)="openUpdateModal(data)"></app-button-icon>
+                                 (clickAction)="openUpdateActiveModal(data)"></app-button-icon>
+                <app-button-icon class="action__margin" [isLock]="true"
+                                 [tooltipTitle]="'Từ chối'"
+                                 [loading]="isLoading"
+                                 (clickAction)="openUpdateActiveFalseModal(data)">
+                </app-button-icon>
                 <app-button-icon class="action__margin" [isEdit] = "true"
                                  [tooltipTitle]="'Sửa đơn'"
                                  [loading]="isLoading"

@@ -26,6 +26,7 @@
                          [ngClass]="'w-150'"
                          [required]="true"
                          [ngStyleCus]="{'padding-left' : '50px'}"
+                         [disableDateFromToday]="isDisableDateFromToday"
                          (changeDate)="onChangeStartDay($event)" [errorTip]="startDayErrorMessage"
                          [span]="24"></app-date-picker>
       </div>
@@ -38,6 +39,7 @@
                          [ngClass]="'w-150'"
                          [required]="true"
                          [ngStyleCus]="{'padding-left' : '40px'}"
+                         [disableDateFromToday]="isDisableDateFromToday"
                          (changeDate)="onChangeEndDay($event)" [errorTip]="endDayErrorMessage"
                          [span]="24"></app-date-picker>
       </div>

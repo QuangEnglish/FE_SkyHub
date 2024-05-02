@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AttendanceLeaveService} from "../../../../service/attendance-leave.service";
 import {ToastService} from "../../../../service/toast.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {FileManagerService} from "../../../../service/file-manager.service";
@@ -42,17 +41,17 @@ export class ListAttendanceOtComponent implements OnInit {
   isVisibleModalDelete = false;
   isLoading = false;
   message: string = '';
-  idAttendanceLeave: any;
+  idAttendanceOT: any;
   isVisible: any;
   isUpdate = false;
   idChild: any;
   objectChild = {
-    leaveCategory: null,
     startDay: null,
-    endDay: null,
-    reviewerId: null,
-    trackerId: null,
-    description: null
+    startTime: null,
+    endTime: null,
+    totalTime: null,
+    followId: null,
+    descriptionOt: null
   };
   lstEmployee: any[] = [];
   payloadEmployee = {
@@ -95,7 +94,7 @@ export class ListAttendanceOtComponent implements OnInit {
     const queryModel = {
       isActive: formValue.isActive === 0 ? '0' : !formValue.isActive ? null : formValue.isActive.toString(),
       startDay: !formValue.startDay ? null : formValue.startDay,
-      endDay: !formValue.endDay ? null : formValue.endDay,
+      employeeId: !formValue.employeeId ? null : formValue.employeeId,
     };
     const pageable = {
       page: currentPage,
@@ -149,24 +148,56 @@ export class ListAttendanceOtComponent implements OnInit {
   }
 
   openUpdateModal(data?: any): void {
-    this.idChild = data.leaveID;
+    this.idChild = data.attendanceOtID;
     this.objectChild = {
-      leaveCategory: data.leaveCategory,
       startDay: data.startDay,
-      endDay: data.endDay,
-      reviewerId: data.reviewerId,
-      trackerId: data.trackerId,
-      description: data.description
+      startTime: data.startTime,
+      endTime: data.endTime,
+      totalTime: data.totalTime,
+      followId: data.followId,
+      descriptionOt: data.descriptionOt
     };
     this.isVisible = true;
     this.isUpdate = true;
   }
 
+  openUpdateActiveModal(data?: any){
+    const dataModel = {attendanceOtID : data.attendanceOtID, isActive: 1};
+    this.attendanceOTService.editAttendanceOt(dataModel).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.toastService.openSuccessToast('Đã được duyệt');
+        this.fetchData(this.request.currentPage, this.request.pageSize);
+      } else {
+        this.toastService.openErrorToast(res.body.msgCode);
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.error.msgCode);
+    }, () => {
+      this.spinner.hide().then();
+    });
+  }
+
+  openUpdateActiveFalseModal(data?: any){
+    const dataModel = {attendanceOtID : data.attendanceOtID, isActive: 3};
+    this.attendanceOTService.editAttendanceOt(dataModel).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.toastService.openInfoToast('Đơn đã bị từ chối');
+        this.fetchData(this.request.currentPage, this.request.pageSize);
+      } else {
+        this.toastService.openErrorToast(res.body.msgCode);
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.error.msgCode);
+    }, () => {
+      this.spinner.hide().then();
+    });
+  }
+
   openModalDelete(item: any): void {
     if (!item.totalEmp) {
       this.isVisibleModalDelete = true;
-      this.idAttendanceLeave = item.leaveID;
-      this.message = `<span>Bạn có chắc chắn muốn xóa đơn nghỉ phép này không?</span>`
+      this.idAttendanceOT = item.attendanceOtID;
+      this.message = `<span>Bạn có chắc chắn muốn xóa đơn tăng ca này không?</span>`
     }
   }
 
@@ -176,9 +207,9 @@ export class ListAttendanceOtComponent implements OnInit {
   }
 
   callBackModalDelete() {
-    this.attendanceOTService.deleteAttendanceOt(this.idAttendanceLeave).subscribe(res => {
+    this.attendanceOTService.deleteAttendanceOt(this.idAttendanceOT).subscribe(res => {
       if (res && res.code === "OK") {
-        this.toastService.openSuccessToast('Xóa chức vụ thành công');
+        this.toastService.openSuccessToast('Xóa đơn tăng ca thành công');
         this.isVisibleModalDelete = false;
       } else {
         this.toastService.openErrorToast(res.body.msgCode);
@@ -215,7 +246,7 @@ export class ListAttendanceOtComponent implements OnInit {
       } else {
         const currentDate = moment();
         const formattedDate = currentDate.format('DD-MM-YYYY');
-        this.fileManagerService.downloadFile(response, 'danhsachchucvu_'+formattedDate+'.xlsx');
+        this.fileManagerService.downloadFile(response, 'danhsachdontangca_'+formattedDate+'.xlsx');
       }
     }, error => {
       this.toastService.openErrorToast(error);

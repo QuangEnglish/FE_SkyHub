@@ -1,5 +1,5 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#3ec995"
-             type = "line-scale" [fullScreen] = "false"><p style="color: white" > Đang tải... </p>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#3ec995"
+             type="line-scale" [fullScreen]="false"><p style="color: white"> Đang tải... </p>
 </ngx-spinner>
 <div class="ant-breadcrumb-custom">
   <nz-breadcrumb>
@@ -26,10 +26,10 @@
         <div nz-col [nzSm]="24" [nzMd]="8" [nzLg]="8">
           <nz-form-item>
             <nz-form-control nzErrorTip="Loại hợp đồng" [nzSm]="24" [nzXs]="24">
-<!--              <app-select [data]="lstContractType" [valueField]="'id'" [placeHolder]="'&#45;&#45;Tất cả&#45;&#45;'"-->
-<!--                          [labelField]="'name'" [openSearchModal]="false" [getObjectValue]="true"-->
-<!--                          [labelHorizontal]="false" formControlName="contractType" labelContent="Loại hợp đồng">-->
-<!--              </app-select>-->
+              <!--              <app-select [data]="lstContractType" [valueField]="'id'" [placeHolder]="'&#45;&#45;Tất cả&#45;&#45;'"-->
+              <!--                          [labelField]="'name'" [openSearchModal]="false" [getObjectValue]="true"-->
+              <!--                          [labelHorizontal]="false" formControlName="contractType" labelContent="Loại hợp đồng">-->
+              <!--              </app-select>-->
               <app-input-text-v2 formControlName="contractType" label="{{ 'Loại hợp đồng' }}" [maxlength]="'255'"
                                  [nzAllowClear]="true"></app-input-text-v2>
             </nz-form-control>
@@ -88,7 +88,7 @@
           <th nzWidth="50px" class="text-center">
             STT
           </th>
-          <th  nzWidth="150px" class="text-center">
+          <th nzWidth="150px" class="text-center">
             Mã hợp đồng
           </th>
           <th nzWidth="250px" class="text-center">
@@ -108,23 +108,24 @@
             <td class="text-center max-width-50">{{ (request.currentPage * request.pageSize) + idx + 1}}</td>
             <td class="max-width-150" [nz-tooltip]="data.contractCode">{{data.contractCode}}</td>
             <td class="max-width-250 text-center" [nz-tooltip]="data.contractType">
-              <span class="css-badge badge badge-pill bg-success p-3">{{data.contractType}}</span></td>
-<!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng thử việc'" *ngIf="data.contractType == 0">-->
-<!--              <span class="css-badge badge badge-pill bg-warning p-3">Hợp đồng thử việc</span></td>-->
-<!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng chính thức'" *ngIf="data.contractType == 1">-->
-<!--              <span class="css-badge badge badge-pill bg-success p-3">Hợp đồng chính thức</span></td>-->
-<!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng thời vụ'" *ngIf="data.contractType == 2">-->
-<!--              <span class="css-badge badge badge-pill bg-primary p-3">Hợp đồng thời vụ</span></td>-->
-<!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng làm thêm giờ'" *ngIf="data.contractType == 3">-->
-<!--              <span class="css-badge badge badge-pill bg-secondary p-3">Hợp đồng làm thêm giờ</span></td>-->
-<!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng lao động tự do'" *ngIf="data.contractType == 4">-->
-<!--              <span class="css-badge badge badge-pill bg-info p-3">Hợp đồng lao động tự do</span></td>-->
+              {{data.contractType}}
+              <!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng thử việc'" *ngIf="data.contractType == 0">-->
+              <!--              <span class="css-badge badge badge-pill bg-warning p-3">Hợp đồng thử việc</span></td>-->
+              <!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng chính thức'" *ngIf="data.contractType == 1">-->
+              <!--              <span class="css-badge badge badge-pill bg-success p-3">Hợp đồng chính thức</span></td>-->
+              <!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng thời vụ'" *ngIf="data.contractType == 2">-->
+              <!--              <span class="css-badge badge badge-pill bg-primary p-3">Hợp đồng thời vụ</span></td>-->
+              <!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng làm thêm giờ'" *ngIf="data.contractType == 3">-->
+              <!--              <span class="css-badge badge badge-pill bg-secondary p-3">Hợp đồng làm thêm giờ</span></td>-->
+              <!--            <td class="max-width-250 text-center" [nz-tooltip]="'Hợp đồng lao động tự do'" *ngIf="data.contractType == 4">-->
+              <!--              <span class="css-badge badge badge-pill bg-info p-3">Hợp đồng lao động tự do</span></td>-->
             <td class="max-width-350" [nz-tooltip]="data.attachFile">
-              <a style="color: #1abc9c; font-weight: bold" (click)="handleClick(data.attachFile)">{{data.attachFile}}</a>
+              <a style="color: #1abc9c; font-weight: bold"
+                 (click)="handleClick(data.attachFile)">{{data.attachFile}}</a>
             </td>
             <td class="text-center max-width-150">
               <div class="action">
-                <app-button-icon class="action__margin" [isEdit] = "true"
+                <app-button-icon class="action__margin" [isEdit]="true"
                                  [tooltipTitle]="'Cập nhật hợp đồng'"
                                  [loading]="isLoading"
                                  (clickAction)="openUpdateModal(data)"></app-button-icon>
