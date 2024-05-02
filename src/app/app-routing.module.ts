@@ -26,6 +26,9 @@ import {DashboardComponent} from "./pages/dashboard/dashboard/dashboard.componen
 import {
   ListAttendanceLeaveComponent
 } from "./pages/quanlychamcong/dangkylichnghiphep/list-attendance-leave/list-attendance-leave.component";
+import {
+  ListAttendanceOtComponent
+} from "./pages/quanlychamcong/dangkylichOT/list-attendance-ot/list-attendance-ot.component";
 
 const routes: Routes = [
   {
@@ -83,6 +86,10 @@ const routes: Routes = [
       {
         path: 'attendanceleave',
         component: ListAttendanceLeaveComponent
+      },
+      {
+        path: 'attendanceOt',
+        component: ListAttendanceOtComponent
       },
     ]
   },

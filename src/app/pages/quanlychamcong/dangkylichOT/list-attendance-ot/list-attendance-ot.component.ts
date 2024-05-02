@@ -1,18 +1,20 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AttendanceLeaveService} from "../../../../service/attendance-leave.service";
 import {ToastService} from "../../../../service/toast.service";
 import {NgxSpinnerService} from "ngx-spinner";
 import {FileManagerService} from "../../../../service/file-manager.service";
-import * as moment from "moment/moment";
 import {en_US, NzI18nService} from "ng-zorro-antd/i18n";
-import {AttendanceLeaveService} from "../../../../service/attendance-leave.service";
+import * as moment from "moment";
+import {EmployeeService} from "../../../../service/employee.service";
+import {AttendanceOTService} from "../../../../service/attendance-ot.service";
 
 @Component({
-  selector: 'app-list-attendance-leave',
-  templateUrl: './list-attendance-leave.component.html',
-  styleUrls: ['./list-attendance-leave.component.less']
+  selector: 'app-list-attendance-ot',
+  templateUrl: './list-attendance-ot.component.html',
+  styleUrls: ['./list-attendance-ot.component.less']
 })
-export class ListAttendanceLeaveComponent implements OnInit {
+export class ListAttendanceOtComponent implements OnInit {
 
   isActive = true;
   searchForm!: FormGroup;
@@ -41,27 +43,35 @@ export class ListAttendanceLeaveComponent implements OnInit {
   isLoading = false;
   message: string = '';
   idAttendanceLeave: any;
-  startDayErrorMessage = '';
-  endDayErrorMessage = '';
   isVisible: any;
   isUpdate = false;
   idChild: any;
   objectChild = {
-      leaveCategory: null,
-      startDay: null,
-      endDay: null,
-      reviewerId: null,
-      trackerId: null,
-      description: null
+    leaveCategory: null,
+    startDay: null,
+    endDay: null,
+    reviewerId: null,
+    trackerId: null,
+    description: null
+  };
+  lstEmployee: any[] = [];
+  payloadEmployee = {
+    employeeCode: null,
+    employeeName: null,
+    employeeEmail: null,
+    employeeGender: null,
+    positionId: null,
+    departmentId: null
   };
 
   constructor(
     private formBuilder: FormBuilder,
-    private attendanceLeaveService: AttendanceLeaveService,
+    private attendanceOTService: AttendanceOTService,
     private toastService: ToastService,
     private spinner: NgxSpinnerService,
     private fileManagerService: FileManagerService,
-    private i18n: NzI18nService
+    private i18n: NzI18nService,
+    private employeeService: EmployeeService
   ) {
 
   }
@@ -69,14 +79,15 @@ export class ListAttendanceLeaveComponent implements OnInit {
   ngOnInit(): void {
     this.i18n.setLocale(en_US);
     this.searchForm = this.formBuilder.group({
-      isActive: new FormControl(null, [Validators.maxLength(100)]),
-      startDay: new FormControl(null, [Validators.maxLength(100)]),
-      endDay: new FormControl(null),
+      startDay: new FormControl(null),
+      employeeId: new FormControl(null),
+      isActive: new FormControl(null),
     });
     if (this.searchFormValue) {
       this.searchForm.patchValue(this.searchFormValue);
     }
     this.fetchData(this.request.currentPage, this.request.pageSize);
+    this.fetchEmployee();
   }
 
   fetchData(currentPage?: number, pageSize?: number){
@@ -92,7 +103,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
       sort: this.request.sort,
     };
     this.spinner.show().then();
-    this.attendanceLeaveService.searchAttendanceLeave(queryModel, pageable).subscribe(res => {
+    this.attendanceOTService.searchAttendanceOt(queryModel, pageable).subscribe(res => {
       if (res && res.code === "OK") {
         this.lstData = res.data.data;
         this.total = res.data.dataCount;
@@ -140,12 +151,12 @@ export class ListAttendanceLeaveComponent implements OnInit {
   openUpdateModal(data?: any): void {
     this.idChild = data.leaveID;
     this.objectChild = {
-        leaveCategory: data.leaveCategory,
-        startDay: data.startDay,
-        endDay: data.endDay,
-        reviewerId: data.reviewerId,
-        trackerId: data.trackerId,
-        description: data.description
+      leaveCategory: data.leaveCategory,
+      startDay: data.startDay,
+      endDay: data.endDay,
+      reviewerId: data.reviewerId,
+      trackerId: data.trackerId,
+      description: data.description
     };
     this.isVisible = true;
     this.isUpdate = true;
@@ -165,7 +176,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
   }
 
   callBackModalDelete() {
-    this.attendanceLeaveService.deleteAttendanceLeave(this.idAttendanceLeave).subscribe(res => {
+    this.attendanceOTService.deleteAttendanceOt(this.idAttendanceLeave).subscribe(res => {
       if (res && res.code === "OK") {
         this.toastService.openSuccessToast('Xóa chức vụ thành công');
         this.isVisibleModalDelete = false;
@@ -195,7 +206,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
       sort: this.request.sort
     };
     this.spinner.show().then();
-    this.attendanceLeaveService.exportAttendanceLeave(queryModel, pageable).subscribe(async response => {
+    this.attendanceOTService.exportAttendanceOt(queryModel, pageable).subscribe(async response => {
       const isJsonBlob = (data: any) => data instanceof Blob && data.type === 'application/json';
       const responseData = isJsonBlob(response.body) ? await (response.body).text() : response.body || {};
       if (typeof responseData === "string") {
@@ -225,66 +236,6 @@ export class ListAttendanceLeaveComponent implements OnInit {
     this.fetchData(this.request.currentPage, this.request.pageSize);
   }
 
-  onChangeStartDay(event: any) {
-    if (event) {
-      const startDay = new Date(event);
-      this.startDayErrorMessage = '';
-      if (this.searchForm.getRawValue().endDay) {
-        const endDay = new Date(this.searchForm.getRawValue().endDay);
-        if (startDay >= endDay) {
-          this.searchForm.get('startDay')?.setErrors({
-            'lessThanExpire': true
-          });
-          this.startDayErrorMessage = this.startDayErrorMessage + 'Ngày bắt đầu phải trước Ngày kết thúc';
-          this.searchForm.get('startDay')?.markAsDirty();
-          return;
-        } else {
-          this.searchForm.get('startDay')?.setErrors(null);
-          this.searchForm.get('endDay')?.setErrors(null);
-          this.startDayErrorMessage = '';
-          this.endDayErrorMessage = '';
-        }
-      }
-    } else {
-      if (this.searchForm.get('startDay')?.touched) {
-        this.searchForm.get('startDay')?.setErrors({
-          'required': true
-        });
-        this.startDayErrorMessage = 'Ngày bắt đầu không được để trống';
-        this.searchForm.get('startDay')?.markAsDirty();
-      }
-    }
-  }
-
-  onChangeEndDay(event: any) {
-    if (event) {
-      const endDay = new Date(event);
-      if (event && this.searchForm.getRawValue().startDay) {
-        const startDay = new Date(this.searchForm.getRawValue().startDay);
-        if (endDay <= startDay) {
-          this.searchForm.get('endDay')?.setErrors({
-            'lessThanExpire': true
-          });
-          this.endDayErrorMessage = 'Ngày kết thúc phải sau Ngày bắt đầu';
-          return;
-        } else {
-          this.onChangeStartDay(this.searchForm.getRawValue().startDay);
-          this.searchForm.get('endDay')?.setErrors(null);
-          this.endDayErrorMessage = '';
-        }
-      }
-    } else {
-      if (this.searchForm.get('endDay')?.touched) {
-        this.searchForm.get('endDay')?.setErrors({
-          'required': true
-        });
-        this.endDayErrorMessage = 'Ngày kết thúc không được để trống';
-        this.searchForm.get('endDay')?.markAsDirty();
-      }
-    }
-  }
-
-
   handleCancelModal(): void {
     this.isVisible = false;
     this.isUpdate = false;
@@ -293,6 +244,21 @@ export class ListAttendanceLeaveComponent implements OnInit {
     this.isVisible = false;
     this.isUpdate = false;
     this.fetchData(this.request.currentPage, this.request.pageSize);
+  }
+
+  fetchEmployee() {
+    this.employeeService.searchEmployee(this.payloadEmployee, {page: 0, size: -1}).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.lstEmployee = res.data.data;
+        this.lstEmployee = this.lstEmployee.map(item => ({
+          ...item,
+          employeeName: item.employeeName + " - " + item.employeeCode
+        }));
+        this.lstEmployee.sort((a, b) => a.employeeName.localeCompare(b.employeeName));
+      }
+    }, (error: any) => {
+      console.log(error);
+    })
   }
 
 

@@ -137,6 +137,10 @@ import { TimeoffAnalysisCardComponent } from './pages/components/timeoff-analysi
 import { ContractAnalysisCardComponent } from './pages/components/contract-analysis-card/contract-analysis-card.component';
 import { ListAttendanceLeaveComponent } from './pages/quanlychamcong/dangkylichnghiphep/list-attendance-leave/list-attendance-leave.component';
 import { FormAttendanceLeaveComponent } from './pages/quanlychamcong/dangkylichnghiphep/form-attendance-leave/form-attendance-leave.component';
+import { ListAttendanceOtComponent } from './pages/quanlychamcong/dangkylichOT/list-attendance-ot/list-attendance-ot.component';
+import {
+  FormAttendanceOtComponent
+} from "./pages/quanlychamcong/dangkylichOT/form-attendance-ot/form-attendance-ot.component";
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -218,6 +222,8 @@ const INTERCEPTOR_PROVIDES = [
     ContractAnalysisCardComponent,
     ListAttendanceLeaveComponent,
     FormAttendanceLeaveComponent,
+    ListAttendanceOtComponent,
+    FormAttendanceOtComponent
   ],
     imports: [
         BrowserModule,

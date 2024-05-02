@@ -16,11 +16,11 @@
         <li nz-submenu nzTitle="Quản lý nhân sự">
           <ul>
             <li nz-menu-item [nzMatchRouter]="true">
-<!--              <i nz-icon nzTheme="outline"></i>-->
+              <!--              <i nz-icon nzTheme="outline"></i>-->
               <span><a [routerLink]="'/employee'">Danh sách nhân viên</a></span>
             </li>
             <li nz-menu-item [nzMatchRouter]="true">
-<!--              <i nz-icon nzTheme="outline"></i>-->
+              <!--              <i nz-icon nzTheme="outline"></i>-->
               <span><a [routerLink]="'/detail-employee'">Tra cứu nhân viên</a></span>
             </li>
           </ul>
@@ -49,19 +49,20 @@
         </li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Quản lý lịch làm việc" nzIcon="contacts">
+    <li nz-submenu nzTitle="Quản lý lịch làm việc" nzIcon="contacts" [nzOpen]="subMenuLLV">
       <ul>
         <li nz-menu-item [nzMatchRouter]="true">
           <span><a [routerLink]="'/attendance'">Chấm công</a></span>
         </li>
-        <li nz-menu-item [nzMatchRouter]="true"><span>
-          <a [routerLink]="'/attendanceleave'">Đăng ký nghỉ phép</a></span>
+        <li nz-menu-item [nzMatchRouter]="true">
+          <span><a [routerLink]="'/attendanceleave'">Đăng ký nghỉ phép</a></span>
         </li>
-        <li nz-menu-item [nzMatchRouter]="true">Duyệt nghỉ phép</li>
-        <li nz-menu-item [nzMatchRouter]="true">Đăng ký OT</li>
+        <li nz-menu-item [nzMatchRouter]="true">
+          <span><a [routerLink]="'/attendanceOt'">Đăng ký OT</a></span>
+        </li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Quản trị hệ thống" nzIcon="user-add">
+    <li nz-submenu nzTitle="Quản trị hệ thống" nzIcon="user-add" [nzOpen]="subMenuQLHT">
       <ul>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/register'">Tạo tài khoản</a></span></li>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/account'">Quản lý tài khoản</a></span></li>

@@ -1,5 +1,5 @@
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "default" color = "#3ec995"
-             type = "line-scale" [fullScreen] = "false"><p style="color: white" > Đang tải... </p>
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#3ec995"
+             type="line-scale" [fullScreen]="false"><p style="color: white"> Đang tải... </p>
 </ngx-spinner>
 <div class="ant-breadcrumb-custom">
   <nz-breadcrumb>
@@ -32,16 +32,19 @@
                            [format]="'dd/MM/yyyy'"
                            labelContent="Từ ngày"
                            [ngClass]="'w-150'"
-                           (changeDate)="onChangeStartDay($event)" [errorTip]="startDayErrorMessage"
                            [span]="24"></app-date-picker>
         </div>
         <div nz-col [nzSm]="24" [nzMd]="8" [nzLg]="8">
-          <app-date-picker formControlName="endDay" placeHolder="dd/mm/yyyy"
-                           [format]="'dd/MM/yyyy'"
-                           labelContent="Đến ngày"
-                           [ngClass]="'w-150'"
-                           (changeDate)="onChangeEndDay($event)" [errorTip]="endDayErrorMessage"
-                           [span]="24"></app-date-picker>
+          <nz-form-item nz-col nzSpan="24">
+            <nz-form-control>
+              <app-select [ngClass]="'w-100'" [data]="lstEmployee" [valueField]="'id'" [placeHolder]="'--Tất cả--'"
+                          [required]="true"
+                          [labelField]="'employeeName'" [openSearchModal]="false" [getObjectValue]="true"
+                          [ngStyleCus]="{'padding-left' : '5px'}"
+                          [labelHorizontal]="false" formControlName="employeeId" labelContent="Nhân viên:">
+              </app-select>
+            </nz-form-control>
+          </nz-form-item>
         </div>
       </div>
       <div nz-row>
@@ -84,7 +87,7 @@
     <div class="list__head pb-3">
       <div class="list__head-left">
         <div class="list__head-title">
-          <span class="head-title">Danh sách đơn nghỉ phép</span>
+          <span class="head-title">Danh sách đơn tăng ca</span>
           <span class="head-count"><span class="head-count__bracket">(</span><span
             class="head-count__number">{{total}} bản ghi</span><span
             class="head-count__bracket">)</span></span>
@@ -104,23 +107,23 @@
           <th nzWidth="60px" class="text-center">
             STT
           </th>
-          <th  nzWidth="200px" class="text-center">
+          <th nzWidth="200px" class="text-center">
             Người gửi đơn
           </th>
-          <th nzWidth="170px" class="text-center">
-            Loại nghỉ phép
+          <th nzWidth="150px" class="text-center">
+            Ngày tăng ca
           </th>
           <th nzWidth="150px" class="text-center">
-            Từ ngày
+            Thời gian bắt đầu
           </th>
           <th nzWidth="150px" class="text-center">
-            Đến ngày
+            Thời gian kết thúc
           </th>
           <th nzWidth="200px" class="text-center">
             Trạng thái
           </th>
           <th nzWidth="200px" class="text-center">
-            Người phê duyệt
+            Tổng số giờ
           </th>
           <th nzWidth="200px" class="text-center">
             Người theo dõi
@@ -138,27 +141,30 @@
           <tr>
             <td class="text-center max-width-60">{{ (request.currentPage * request.pageSize) + idx + 1}}</td>
             <td class="max-width-200" [nz-tooltip]="data.employeeName">{{data.employeeName}}</td>
-            <td class="max-width-170" [nz-tooltip]="data.leaveCategory">{{data.leaveCategory}}</td>
-            <td class="max-width-150 text-center" [nz-tooltip]="data.startDay | date: 'dd/MM/yyyy'">{{data.startDay | date: 'dd/MM/yyyy'}}</td>
-            <td class="max-width-150 text-center" [nz-tooltip]="data.endDay | date: 'dd/MM/yyyy'">{{data.endDay | date: 'dd/MM/yyyy'}}</td>
+            <td class="max-width-150" [nz-tooltip]="data.startDay | date: 'dd/MM/yyyy'">
+              {{data.startDay | date: 'dd/MM/yyyy'}}</td>
+            <td class="max-width-150 text-center"
+                [nz-tooltip]="data.startTime | date: 'HH:mm:ss'">{{data.startTime | date: 'HH:mm:ss'}}</td>
+            <td class="max-width-150 text-center"
+                [nz-tooltip]="data.endTime | date: 'HH:mm:ss'">{{data.endTime | date: 'HH:mm:ss'}}</td>
             <td class="max-width-200 text-center" [nz-tooltip]="'Đã duyệt'" *ngIf="data.isActive == 1">
               <span class="css-badge badge badge-pill bg-success p-3">Đã duyệt</span></td>
             <td class="max-width-200 text-center" [nz-tooltip]="'Chờ duyệt'" *ngIf="data.isActive === 2">
               <span class="css-badge badge badge-pill bg-warning p-3">Chờ duyệt</span></td>
             <td class="max-width-200 text-center" [nz-tooltip]="'Từ chối'" *ngIf="data.isActive === 3">
               <span class="css-badge badge badge-pill bg-danger p-3">Từ chối</span></td>
-            <td class="max-width-200" [nz-tooltip]="data.reviewerName">{{data.reviewerName}}</td>
-            <td class="max-width-200" [nz-tooltip]="data.trackerName">{{data.trackerName}}</td>
-            <td class="max-width-250" [nz-tooltip]="data.description">
-              {{ data.description.length > 100 ? (data.description | slice:0:50) + '...' : data.description }}
+            <td class="max-width-200 text-center" [nz-tooltip]="data.totalTime">{{data.totalTime}} giờ</td>
+            <td class="max-width-200" [nz-tooltip]="data.followName">{{data.followName}}</td>
+            <td class="max-width-250" [nz-tooltip]="data.descriptionOt">
+              {{ data.descriptionOt.length > 100 ? (data.descriptionOt | slice:0:50) + '...' : data.descriptionOt }}
             </td>
             <td class="text-center max-width-200" nzRight="0">
               <div class="action">
-                <app-button-icon class="action__margin" [isUploadFile] = "true"
+                <app-button-icon class="action__margin" [isUploadFile]="true"
                                  [tooltipTitle]="'Duyệt đơn'"
                                  [loading]="isLoading"
                                  (clickAction)="openUpdateModal(data)"></app-button-icon>
-                <app-button-icon class="action__margin" [isEdit] = "true"
+                <app-button-icon class="action__margin" [isEdit]="true"
                                  [tooltipTitle]="'Sửa đơn'"
                                  [loading]="isLoading"
                                  (clickAction)="openUpdateModal(data)"></app-button-icon>
@@ -184,13 +190,13 @@
   </nz-card>
 </nz-collapse>
 
-<app-form-attendance-leave [visible]="isVisible"
-                           [idChild]="idChild"
-                           [isUpdate]="isUpdate"
-                           [objectChild]="objectChild"
-                           (clickCancel)="handleCancelModal()"
-                           (clickSave)="handleOkModal()">
-</app-form-attendance-leave>
+<app-form-attendance-ot [visible]="isVisible"
+                        [idChild]="idChild"
+                        [isUpdate]="isUpdate"
+                        [objectChild]="objectChild"
+                        (clickCancel)="handleCancelModal()"
+                        (clickSave)="handleOkModal()">
+</app-form-attendance-ot>
 <app-modal-confirm title="Xác nhận xóa" [isVisible]="isVisibleModalDelete"
                    textButtonCancel="Hủy"
                    [text]="'Đồng ý'"
