@@ -1,0 +1,79 @@
+<div class="wrapper side-bar-scroll scrollable-area" [style]="{'width': isCollapsed ? '80px' : '250px'}">
+  <button nz-button nzType="primary" (click)="toggleCollapsed()" class="toggle-sidebar-button"
+          [style]="{'width': isCollapsed ? '80px' : '250px'}">
+    <i nz-icon [nzType]="isCollapsed ? 'double-right' : 'double-left'" nzTheme="outline"></i>
+  </button>
+  <ul nz-menu nzMode="inline" [nzInlineCollapsed]="isCollapsed" class="sidebar-item">
+    <li
+      nz-menu-item
+      [nzMatchRouter]="true"
+    >
+      <i nz-icon nzType="home" nzTheme="outline"></i>
+      <span><a [routerLink]="'/dashboard'">Trang chủ</a></span>
+    </li>
+    <li nz-submenu nzTitle="Hành chính nhân sự" nzIcon="usergroup-add" [nzOpen]="subMenuQLNS">
+      <ul>
+        <li nz-submenu nzTitle="Quản lý nhân sự">
+          <ul>
+            <li nz-menu-item [nzMatchRouter]="true">
+<!--              <i nz-icon nzTheme="outline"></i>-->
+              <span><a [routerLink]="'/employee'">Danh sách nhân viên</a></span>
+            </li>
+            <li nz-menu-item [nzMatchRouter]="true">
+<!--              <i nz-icon nzTheme="outline"></i>-->
+              <span><a [routerLink]="'/detail-employee'">Tra cứu nhân viên</a></span>
+            </li>
+          </ul>
+        </li>
+        <li
+          nz-menu-item
+          [nzMatchRouter]="true"
+        >
+          <!--          <i nz-icon nzTheme="outline"></i>-->
+          <span><a [routerLink]="'/socialInsurance'">Thông tin phụ cấp</a></span>
+        </li>
+        <li
+          nz-menu-item
+          [nzMatchRouter]="true"
+        >
+          <!--          <i nz-icon nzTheme="outline"></i>-->
+          <span><a [routerLink]="'/contract'">Quản lý hợp đồng</a></span>
+        </li>
+        <li nz-menu-item [nzMatchRouter]="true">
+          <!--          <i nz-icon nzTheme="outline"></i>-->
+          <span><a [routerLink]="'/department'">Quản lý phòng ban</a></span>
+        </li>
+        <li nz-menu-item [nzMatchRouter]="true">
+          <!--          <i nz-icon nzTheme="outline"></i>-->
+          <span><a [routerLink]="'/position'">Quản lý chức vụ</a></span>
+        </li>
+      </ul>
+    </li>
+    <li nz-submenu nzTitle="Quản lý lịch làm việc" nzIcon="contacts">
+      <ul>
+        <li nz-menu-item [nzMatchRouter]="true">
+          <span><a [routerLink]="'/attendance'">Chấm công</a></span>
+        </li>
+        <li nz-menu-item [nzMatchRouter]="true"><span>
+          <a [routerLink]="'/attendanceleave'">Đăng ký nghỉ phép</a></span>
+        </li>
+        <li nz-menu-item [nzMatchRouter]="true">Duyệt nghỉ phép</li>
+        <li nz-menu-item [nzMatchRouter]="true">Đăng ký OT</li>
+      </ul>
+    </li>
+    <li nz-submenu nzTitle="Quản trị hệ thống" nzIcon="user-add">
+      <ul>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/register'">Tạo tài khoản</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/account'">Quản lý tài khoản</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/system'">Quản lý cây phân cấp</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/system'">Cấu hình</a></span></li>
+      </ul>
+    </li>
+    <!--    <li nz-submenu nzTitle="Quản lý công việc" nzIcon="carry-out">-->
+    <!--      <ul>-->
+    <!--        <li nz-menu-item>Danh sách công việc</li>-->
+    <!--        <li nz-menu-item>Chi tiết công việc</li>-->
+    <!--      </ul>-->
+    <!--    </li>-->
+  </ul>
+</div>

@@ -1,0 +1,54 @@
+<app-card-analytics titleText="Phân tích nghỉ phép" contentClass="sales-by-state grid">
+    <dx-data-grid
+            [dataSource]="data"
+            [height]="290"
+            [loadPanel]="{ enabled: false }"
+    >
+        <dxi-column caption="Phòng ban" dataField="stateName"> </dxi-column>
+
+        <dxi-column
+                alignment="left"
+                caption="Số ngày nghỉ"
+                dataField="total"
+                dataType="number"
+                format="currency"
+                sortOrder="desc"
+                [hidingPriority]="2"
+        >
+        </dxi-column>
+
+        <dxi-column
+                alignment="left"
+                caption="Số người nghỉ"
+                dataField="percentage"
+                name="percentN"
+                format="percent"
+                [hidingPriority]="1"
+        >
+        </dxi-column>
+
+        <dxi-column
+                alignment="left"
+                caption="Phần trăm"
+                dataField="percentage"
+                name="percentB"
+                cellTemplate="salesBullet"
+                cssClass="sales-bullet"
+                [width]="200"
+        >
+        </dxi-column>
+
+        <div *dxTemplate="let cellInfo of 'salesBullet'">
+            <dx-bullet
+                    [showTarget]="false"
+                    [showZeroLevel]="false"
+                    [value]="cellInfo.data.percentage * 100"
+                    [startScaleValue]="0"
+                    [endScaleValue]="100"
+            >
+                <dxo-tooltip [enabled]="false"></dxo-tooltip>
+                <dxo-size [width]="200" [height]="20"></dxo-size>
+            </dx-bullet>
+        </div>
+    </dx-data-grid>
+</app-card-analytics>

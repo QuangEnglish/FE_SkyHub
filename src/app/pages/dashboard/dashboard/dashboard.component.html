@@ -1,0 +1,44 @@
+<dx-scroll-view class="view-wrapper-scroll">
+    <div class="view-wrapper">
+<!--        <app-toolbar-analytics-->
+<!--                titleText="Hệ thống văn phòng điện tử"-->
+<!--                [panelItems]="analyticsPanelItems"-->
+<!--                [selectedItems]="[5]"-->
+<!--                (selectionChanged)="selectionChange($event)"-->
+<!--        >-->
+<!--        </app-toolbar-analytics>-->
+        <div class="cards grey">
+            <app-ticker-card
+                    titleText="Tổng nhân viên"
+                    [data]="data"
+                    [percentage]="20.3"
+                    icon="group"
+            ></app-ticker-card>
+            <app-ticker-card
+                    titleText="Sinh nhật trong tháng"
+                    [data]="data2"
+                    [percentage]="-14.7"
+                    icon="gift"
+            ></app-ticker-card>
+            <app-ticker-card
+                    titleText="Số ngày đi muộn"
+                    total="16%"
+                    [percentage]="-2.3"
+                    icon="runner"
+                    tone="warning"
+            ></app-ticker-card>
+            <app-ticker-card
+                    titleText="Số ngày nghỉ"
+                    total="51"
+                    [percentage]="8.5"
+                    tone="info"
+                    icon="event"
+            ></app-ticker-card>
+        </div>
+        <app-sales-by-range-card [data]="salesByCategory"></app-sales-by-range-card>
+        <div class="cards">
+            <app-timeoff-analysis-card [data]="salesByState"></app-timeoff-analysis-card>
+            <app-contract-analysis-card [data]="lstContractType"></app-contract-analysis-card>
+        </div>
+    </div>
+</dx-scroll-view>

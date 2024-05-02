@@ -1,13 +1,16 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sky-hub": {
+    "company-management-fe": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "less"
         },
         "@schematics/angular:application": {
           "strict": true
@@ -20,24 +23,44 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sky-hub",
+            "allowedCommonJsDependencies": [
+              "devexpress-gantt"
+            ],
+            "outputPath": "dist/company-management-fe",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "less",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
-              }
+              "src/assets"
             ],
             "styles": [
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "./node_modules/ngx-toastr/toastr.css",
+              "./node_modules/ngx-spinner/animations/line-scale.css",
+              "./node_modules/devextreme/dist/css/dx.common.css",
+              "./node_modules/devextreme/dist/css/dx.light.css",
+              "./node_modules/devexpress-gantt/dist/dx-gantt.css",
+              "src/styles.less",
               "src/theme.less",
-              "src/styles.scss"
+              {
+                "input": "devextreme/scss/bundles/dx.fluent.blue.light.scss",
+                "bundleName": "theme-light"
+              },
+              {
+                "input": "devextreme/scss/bundles/dx.fluent.blue.dark.scss",
+                "bundleName": "theme-dark"
+              },
+              {
+                "input": "src/app/theme/styles/variables-light.scss",
+                "bundleName": "theme-light"
+              },
+              {
+                "input": "src/app/theme/styles/variables-dark.scss",
+                "bundleName": "theme-dark"
+              }
             ],
             "scripts": []
           },
@@ -78,10 +101,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sky-hub:build:production"
+              "browserTarget": "company-management-fe:build:production"
             },
             "development": {
-              "browserTarget": "sky-hub:build:development"
+              "browserTarget": "company-management-fe:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +112,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sky-hub:build"
+            "browserTarget": "company-management-fe:build"
           }
         },
         "test": {
@@ -99,13 +122,14 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "inlineStyleLanguage": "scss",
+            "inlineStyleLanguage": "less",
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
+              "src/styles.less"
             ],
             "scripts": []
           }
@@ -113,5 +137,5 @@
       }
     }
   },
-  "defaultProject": "sky-hub"
+  "defaultProject": "company-management-fe"
 }

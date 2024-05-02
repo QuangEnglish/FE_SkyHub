@@ -1,0 +1,77 @@
+<div class="ant-breadcrumb-custom">
+  <nz-breadcrumb>
+    <nz-breadcrumb nzSeparator=">">
+      <nz-breadcrumb-item><a [routerLink]="'/dashboard'">Trang chủ</a></nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a>Hồ sơ chi tiết</a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </nz-breadcrumb>
+</div>
+<dx-scroll-view class="view-wrapper-scroll">
+  <div class="view-wrapper">
+    <dx-toolbar class="toolbar-details theme-dependent">
+      <dxi-item location="before">
+        <dx-button icon="arrowleft" stylingMode="text" (click)="redirectToPreviousPage()"></dx-button>
+      </dxi-item>
+      <dxi-item location="before" [text]="contactName"></dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <dx-button
+          text="Terminate"
+          type="default"
+          stylingMode="contained"
+        ></dx-button>
+      </dxi-item>
+      <dxi-item location="after">
+        <dx-drop-down-button
+          text="Actions"
+          stylingMode="text"
+          [items]="['Assign to Me', 'Archive']"
+          [dropDownOptions]="{ width: 'auto' }"
+        ></dx-drop-down-button>
+      </dxi-item>
+      <dxi-item location="after" locateInMenu="auto">
+        <div class="separator"></div>
+      </dxi-item>
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        widget="dxButton"
+        showText="inMenu"
+        [options]="{
+          text: 'Copy',
+          icon: 'copy',
+          stylingMode: 'text'
+        }"
+      ></dxi-item>
+      <dxi-item
+        location="after"
+        locateInMenu="auto"
+        widget="dxButton"
+        showText="inMenu"
+        [options]="{
+          text: 'Refresh',
+          icon: 'refresh',
+          onClick: refresh,
+          stylingMode: 'text'
+        }"
+      ></dxi-item>
+    </dx-toolbar>
+
+    <div class="panels theme-dependent">
+      <div class="left" style="position: relative; height: 100vh;">
+        <app-panel-employee-managerment
+          [(isOpened)]="isPanelOpened"
+          [isDisablePinClose]="true"
+          [userId]="contactId"
+          [isMarTop] = "true"
+        >
+        </app-panel-employee-managerment>
+      </div>
+
+      <div class="right theme-dependent">
+        <app-information-flow></app-information-flow>
+      </div>
+    </div>
+  </div>
+</dx-scroll-view>
