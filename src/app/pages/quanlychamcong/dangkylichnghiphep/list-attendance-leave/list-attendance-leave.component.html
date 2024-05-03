@@ -164,13 +164,15 @@
             </td>
             <td class="text-center max-width-270" nzRight="0">
               <div class="action">
-                <app-button-icon class="action__margin" [isUploadFile] = "true"
+                <app-button-icon class="action__margin" [isCheckCircle] = "true"
                                  [tooltipTitle]="'Duyệt đơn'"
                                  [loading]="isLoading"
+                                 [disabled] ="data.reviewerId != idUserDetailId"
                                  (clickAction)="openUpdateActiveModal(data)"></app-button-icon>
-                <app-button-icon class="action__margin" [isLock]="true"
+                <app-button-icon class="action__margin" [isUnCheckCircle]="true"
                                  [tooltipTitle]="'Từ chối'"
                                  [loading]="isLoading"
+                                 [disabled] ="data.reviewerId != idUserDetailId"
                                  (clickAction)="openUpdateActiveFalseModal(data)">
                 </app-button-icon>
                 <app-button-icon class="action__margin" [isEdit] = "true"

@@ -62,6 +62,7 @@ export class ListAttendanceOtComponent implements OnInit {
     positionId: null,
     departmentId: null
   };
+  idUserDetailId: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -77,6 +78,10 @@ export class ListAttendanceOtComponent implements OnInit {
 
   ngOnInit(): void {
     this.i18n.setLocale(en_US);
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.idUserDetailId = userObject.userDetailId;
     this.searchForm = this.formBuilder.group({
       startDay: new FormControl(null),
       employeeId: new FormControl(null),
@@ -88,6 +93,16 @@ export class ListAttendanceOtComponent implements OnInit {
     this.fetchData(this.request.currentPage, this.request.pageSize);
     this.fetchEmployee();
   }
+
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
 
   fetchData(currentPage?: number, pageSize?: number){
     const formValue = this.searchForm.value;
@@ -136,7 +151,7 @@ export class ListAttendanceOtComponent implements OnInit {
     this.searchForm.patchValue({
       isActive: null,
       startDay: null,
-      endDay: null,
+      employeeId: null,
     });
     this.fetchData(this.request.currentPage, this.request.pageSize);
   }
@@ -231,7 +246,7 @@ export class ListAttendanceOtComponent implements OnInit {
     const queryModel = {
       isActive: formValue.isActive === 0 ? '0' : !formValue.isActive ? null : formValue.isActive.toString(),
       startDay: !formValue.startDay ? null : formValue.startDay,
-      endDay: !formValue.endDay ? null : formValue.endDay,
+      employeeId: !formValue.employeeId ? null : formValue.employeeId,
     };
     const pageable = {
       sort: this.request.sort

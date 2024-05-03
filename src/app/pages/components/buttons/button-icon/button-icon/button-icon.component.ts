@@ -41,6 +41,8 @@ export class ButtonIconComponent implements OnInit {
   @Input() isUnlock = false;
   @Input() isAction = false;
   @Input() isBars = false;
+  @Input() isCheckCircle = false;
+  @Input() isUnCheckCircle = false;
 
   constructor() { }
 

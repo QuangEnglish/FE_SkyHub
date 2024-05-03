@@ -64,7 +64,8 @@ export class ListAttendanceLeaveComponent implements OnInit {
     positionId: null,
     departmentId: null
   };
-
+  isDisabled: any;
+  idUserDetailId: any;
   constructor(
     private formBuilder: FormBuilder,
     private attendanceLeaveService: AttendanceLeaveService,
@@ -79,6 +80,10 @@ export class ListAttendanceLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.i18n.setLocale(en_US);
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.idUserDetailId = userObject.userDetailId;
     this.searchForm = this.formBuilder.group({
       isActive: new FormControl(null, [Validators.maxLength(100)]),
       startDay: new FormControl(null, [Validators.maxLength(100)]),
@@ -91,6 +96,16 @@ export class ListAttendanceLeaveComponent implements OnInit {
     this.fetchData(this.request.currentPage, this.request.pageSize);
     this.fetchEmployee();
   }
+
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
 
   fetchData(currentPage?: number, pageSize?: number){
     const formValue = this.searchForm.value;

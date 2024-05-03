@@ -144,7 +144,6 @@ export class ListAttendanceManagermentComponent implements OnInit {
           this.backgroundColorOne = '#999999'
           console.log("//" + this.idAttendance);
         } else {
-          this.toastService.openErrorToast(res.body.msgCode);
           this.spinner.hide().then();
         }
       }, error => {

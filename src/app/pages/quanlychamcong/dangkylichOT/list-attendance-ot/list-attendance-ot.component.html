@@ -38,7 +38,6 @@
           <nz-form-item nz-col nzSpan="24">
             <nz-form-control>
               <app-select [ngClass]="'w-100'" [data]="lstEmployee" [valueField]="'id'" [placeHolder]="'--Tất cả--'"
-                          [required]="true"
                           [labelField]="'employeeName'" [openSearchModal]="false" [getObjectValue]="true"
                           [ngStyleCus]="{'padding-left' : '5px'}"
                           [labelHorizontal]="false" formControlName="employeeId" labelContent="Người gửi đơn:">
@@ -68,14 +67,14 @@
                 </nz-form-control>
               </nz-form-item>
             </div>
-            <div nz-col>
-              <nz-form-item>
-                <nz-form-control>
-                  <app-button-export (clickExport)="openExport()"
-                                     [buttonClass]="'css-box-shadow'"></app-button-export>
-                </nz-form-control>
-              </nz-form-item>
-            </div>
+<!--            <div nz-col>-->
+<!--              <nz-form-item>-->
+<!--                <nz-form-control>-->
+<!--                  <app-button-export (clickExport)="openExport()"-->
+<!--                                     [buttonClass]="'css-box-shadow'"></app-button-export>-->
+<!--                </nz-form-control>-->
+<!--              </nz-form-item>-->
+<!--            </div>-->
           </div>
         </div>
       </div>
@@ -160,14 +159,16 @@
             </td>
             <td class="text-center max-width-270" nzRight="0">
               <div class="action">
-                <app-button-icon class="action__margin" [isUploadFile]="true"
+                <app-button-icon class="action__margin" [isCheckCircle]="true"
                                  [tooltipTitle]="'Duyệt đơn'"
                                  [loading]="isLoading"
+                                 [disabled] ="data.followId != idUserDetailId"
                                  (clickAction)="openUpdateActiveModal(data)">
                 </app-button-icon>
-                <app-button-icon class="action__margin" [isLock]="true"
+                <app-button-icon class="action__margin" [isUnCheckCircle]="true"
                                  [tooltipTitle]="'Từ chối'"
                                  [loading]="isLoading"
+                                 [disabled] ="data.followId != idUserDetailId"
                                  (clickAction)="openUpdateActiveFalseModal(data)">
                 </app-button-icon>
                 <app-button-icon class="action__margin" [isEdit]="true"
