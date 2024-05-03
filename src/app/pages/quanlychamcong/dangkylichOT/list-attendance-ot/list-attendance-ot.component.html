@@ -112,10 +112,10 @@
           <th nzWidth="150px" class="text-center">
             Ngày tăng ca
           </th>
-          <th nzWidth="150px" class="text-center">
+          <th nzWidth="220px" class="text-center">
             Thời gian bắt đầu
           </th>
-          <th nzWidth="150px" class="text-center">
+          <th nzWidth="220px" class="text-center">
             Thời gian kết thúc
           </th>
           <th nzWidth="200px" class="text-center">
@@ -142,9 +142,9 @@
             <td class="max-width-200" [nz-tooltip]="data.employeeName">{{data.employeeName}}</td>
             <td class="max-width-150" [nz-tooltip]="data.startDay | date: 'dd/MM/yyyy'">
               {{data.startDay | date: 'dd/MM/yyyy'}}</td>
-            <td class="max-width-150 text-center"
+            <td class="max-width-220 text-center"
                 [nz-tooltip]="data.startTime | date: 'HH:mm:ss'">{{data.startTime | date: 'HH:mm:ss'}}</td>
-            <td class="max-width-150 text-center"
+            <td class="max-width-220 text-center"
                 [nz-tooltip]="data.endTime | date: 'HH:mm:ss'">{{data.endTime | date: 'HH:mm:ss'}}</td>
             <td class="max-width-200 text-center" [nz-tooltip]="'Đã duyệt'" *ngIf="data.isActive == 1">
               <span class="css-badge badge badge-pill bg-success p-3">Đã duyệt</span></td>
