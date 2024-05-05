@@ -58,6 +58,7 @@ export class ListAttendanceManagermentComponent implements OnInit {
   payloadEmployee = {employeeCode: null, employeeName: null, employeeEmail: null, employeeGender: null, positionId: null, departmentId: null};
   lstDepartment: any[] = [];
   lstEmployee: any[] = [];
+  dateNow: any;
 
   constructor(
     private attendanceService: AttendanceService,
@@ -70,6 +71,7 @@ export class ListAttendanceManagermentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dateNow = new Date();
     const token = localStorage.getItem('token');
     const payloadToken: any = token ? this.parseJwt(token) : null;
     const userObject = JSON.parse(payloadToken.user);

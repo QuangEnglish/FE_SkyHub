@@ -140,7 +140,8 @@ export class RegisterComponent implements OnInit {
       this.http.get(`http://localhost:8080/api/v1/auth/${verifyCode}`).subscribe({
         next: res=> {
           console.log(res)
-          this.notification.success("Thành công", "Kích hoạt tài khoản thành công")
+          this.notification.success("Thành công", "Kích hoạt tài khoản thành công");
+          this.fetchAccount();
           this.current++;
         },
         error: err => {
@@ -227,4 +228,10 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  onChangeCurrent(){
+    this.current = 2;
+  }
+  onChangeCurrentOne(){
+    this.current = 0;
+  }
 }
