@@ -143,6 +143,10 @@ import {
 } from "./pages/quanlychamcong/dangkylichOT/form-attendance-ot/form-attendance-ot.component";
 import { TimePickerComponent } from './pages/components/date/time-picker/time-picker.component';
 import {NzTimePickerModule} from "ng-zorro-antd/time-picker";
+import { ListWageManagermentComponent } from './pages/HRM/wage/list-wage-managerment/list-wage-managerment.component';
+import { FormWageManagermentComponent } from './pages/HRM/wage/form-wage-managerment/form-wage-managerment.component';
+import { ListWageForEmployeeComponent } from './pages/HRM/wage/list-wage-for-employee/list-wage-for-employee.component';
+import { FormWageForEmployeeComponent } from './pages/HRM/wage/form-wage-for-employee/form-wage-for-employee.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -226,7 +230,11 @@ const INTERCEPTOR_PROVIDES = [
     FormAttendanceLeaveComponent,
     ListAttendanceOtComponent,
     FormAttendanceOtComponent,
-    TimePickerComponent
+    TimePickerComponent,
+    ListWageManagermentComponent,
+    FormWageManagermentComponent,
+    ListWageForEmployeeComponent,
+    FormWageForEmployeeComponent
   ],
   imports: [
     BrowserModule,

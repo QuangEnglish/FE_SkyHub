@@ -29,6 +29,7 @@ import {
 import {
   ListAttendanceOtComponent
 } from "./pages/quanlychamcong/dangkylichOT/list-attendance-ot/list-attendance-ot.component";
+import {ListWageManagermentComponent} from "./pages/HRM/wage/list-wage-managerment/list-wage-managerment.component";
 
 const routes: Routes = [
   {
@@ -62,6 +63,10 @@ const routes: Routes = [
       {
         path: 'contract',
         component: ListContractManagermentComponent
+      },
+      {
+        path: 'wage',
+        component: ListWageManagermentComponent
       },
       {
         path: 'attendance',
