@@ -201,8 +201,6 @@ export class RegisterComponent implements OnInit {
     return {};
   };
 
-  resendVerifyCode() {
-  }
 
   fetchEmployee() {
     this.employeeService.searchEmployee(this.payloadEmployee, {page: 0, size: -1}).subscribe(res => {
