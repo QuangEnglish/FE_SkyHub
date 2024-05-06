@@ -23,6 +23,7 @@
                              label="Giảm số phần trăm" nz-col nzSpan="24"
                              [typeInput]="'number'"
                              (change)="onChangePercent($event)"
+                             [numberMax]="100"
                              [ngStyleCus]="{'padding-left' : '40px'}"
                              [nzAllowClear]="true"></app-input-text-v2>
         </div>

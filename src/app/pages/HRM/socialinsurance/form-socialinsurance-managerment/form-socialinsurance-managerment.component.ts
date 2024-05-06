@@ -48,7 +48,7 @@ export class FormSocialinsuranceManagermentComponent implements OnInit {
   ngOnInit(): void {
     this.i18n.setLocale(en_US);
     this.createForm = this.formBuilder.group({
-      id: new FormControl(null),
+      socialInsuranceId: new FormControl(null),
       socialInsuranceCode: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
       initialPayment: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
       percent: new FormControl(null),
@@ -57,7 +57,7 @@ export class FormSocialinsuranceManagermentComponent implements OnInit {
       expiredDate: new FormControl(null),
     });
     setTimeout(()=>{
-      this.createForm.get('id')?.setValue(this.idSocialInsuranceForm);
+      this.createForm.get('socialInsuranceId')?.setValue(this.idSocialInsuranceForm);
       this.createForm.get('socialInsuranceCode')?.setValue(this.socialInsuranceCodeForm);
       this.createForm.get('initialPayment')?.setValue(this.initialPaymentForm);
       this.createForm.get('percent')?.setValue(this.percentForm);
@@ -78,7 +78,7 @@ export class FormSocialinsuranceManagermentComponent implements OnInit {
     }
     if (this.createForm.valid) {
       const data = this.createForm.value;
-      data.id = data.id ? data.id : null;
+      data.socialInsuranceId = data.socialInsuranceId ? data.socialInsuranceId : null;
       data.socialInsuranceCode = data.socialInsuranceCode ? data.socialInsuranceCode : null;
       data.initialPayment = data.initialPayment ? data.initialPayment : null;
       data.percent = data.percent ? data.percent : null;
@@ -125,4 +125,23 @@ export class FormSocialinsuranceManagermentComponent implements OnInit {
     }
   }
 
+  onChangeInitialPayment(event: any){
+    if(event){
+      if(this.createForm.getRawValue().percent){
+        const getPersent = this.createForm.getRawValue().percent;
+        const priceFinal = event.target.value - (event.target.value * (getPersent / 100));
+        this.createForm.get('actualPayment')?.setValue(priceFinal);
+      }
+    }
+  }
+
+  onChangePercent(event: any){
+    if(event){
+      if(this.createForm.getRawValue().initialPayment){
+        const getInitialPayment = this.createForm.getRawValue().initialPayment;
+        const priceFinal = getInitialPayment - (getInitialPayment * (event.target.value / 100));
+        this.createForm.get('actualPayment')?.setValue(priceFinal);
+      }
+    }
+  }
 }

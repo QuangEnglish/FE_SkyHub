@@ -17,6 +17,8 @@
         (keyup)="onChange(inputRef.value)"
         no-space
         [ngClass]="ngClass"
+        [max]="numberMax"
+        (input)="checkMaxValue($event)"
       />
       <ng-template #inputClearTpl>
         <i *ngIf="inputRef.value && isFocused && nzAllowClear"

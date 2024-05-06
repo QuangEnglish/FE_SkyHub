@@ -4,9 +4,6 @@ import {ToastService} from "../../../../service/toast.service";
 import {NzModalService} from "ng-zorro-antd/modal";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ActivatedRoute} from "@angular/router";
-import {
-  DetailQualificationManagerComponent
-} from "../../qualification/detail-qualification-manager/detail-qualification-manager.component";
 import {SocialinsuranceService} from "../../../../service/socialinsurance.service";
 import {
   FormSocialinsuranceManagermentComponent
@@ -119,6 +116,7 @@ export class ListSocialinsuranceManagermentComponent implements OnInit {
       nzViewContainerRef: this.viewContainerRef,
       nzComponentParams: {
         isUpdate: true,
+        idSocialInsuranceForm: data.socialInsuranceId,
         socialInsuranceCodeForm: data.socialInsuranceCode,
         initialPaymentForm: data.initialPayment,
         percentForm: data.percent,
@@ -141,6 +139,7 @@ export class ListSocialinsuranceManagermentComponent implements OnInit {
   openModalDelete(item: any): void {
     if (!item.totalEmp) {
       this.isVisibleModalDelete = true;
+      this.idSocialinsurance = item.socialInsuranceId;
       this.message = `<span>Bạn có chắc chắn muốn xóa thông tin bảo hiểm <b>${this.idSocialinsurance}</b> không?</span>`
     }
   }

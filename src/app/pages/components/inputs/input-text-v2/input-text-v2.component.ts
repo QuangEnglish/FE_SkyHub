@@ -26,6 +26,7 @@ export class InputTextV2Component implements ControlValueAccessor, OnInit {
   @Input() typeInput = 'text';
   @Input() controlName = '';
   @Input() ngStyleCus : any;
+  @Input() numberMax : any;
 
   @Output() eventFocus = new EventEmitter<any>();
   @Output() eventBlur = new EventEmitter<any>();
@@ -88,6 +89,15 @@ export class InputTextV2Component implements ControlValueAccessor, OnInit {
       return this.ngClass.hasOwnProperty('w-100');
     }
     return false;
+  }
+
+  checkMaxValue(event: any) {
+    if(this.numberMax){
+      const value = event.target.value;
+      if (value > 100) {
+        event.target.value = 100;
+      }
+    }
   }
 
 }

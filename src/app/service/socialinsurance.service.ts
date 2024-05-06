@@ -11,17 +11,7 @@ const httpOptions = {
 })
 export class SocialinsuranceService {
 
-  token: BehaviorSubject<any> = new BehaviorSubject<any>('');
-  header = ['Authorization', 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiIiwic3ViIjoiaHF1YW5nYW5oMkBnbWFpbC5jb20iLCJpYXQiOjE3MDkzNzYzMjMsImV4cCI6MTcwOTQ2MjcyM30.olrDEr5ep7mXNPAYbBpchybsOIgqeIswTrX_W3evSsQ']
-
   constructor(private httpClient: HttpClient) {
-    if (!localStorage.getItem('token')) {
-      this.token.subscribe(val => {
-        this.header = ['Authorization', 'Bearer ' + val];
-      })
-    } else {
-      this.header = ['Authorization', 'Bearer ' + localStorage.getItem('token')]
-    }
   }
 
   search(userDetailId: any, pageable: any): Observable<any> {
@@ -39,7 +29,6 @@ export class SocialinsuranceService {
       AUTH_API + "/create",
       qualification,
       {
-        headers: new HttpHeaders().set(this.header[0], this.header[1]),
         observe: 'response'
       }
     );
