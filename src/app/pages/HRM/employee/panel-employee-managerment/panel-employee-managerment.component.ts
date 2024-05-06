@@ -126,6 +126,7 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
       this.employeeService.editEmployee(avatarFile, data).subscribe(res => {
         if (res && res.code === "OK") {
           this.toastService.openSuccessToast('Cập nhật nhân viên thành công');
+          this.onClosePanel();
         } else {
           this.toastService.openErrorToast(res.msgCode);
         }

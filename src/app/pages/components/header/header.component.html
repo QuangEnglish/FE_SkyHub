@@ -2,22 +2,30 @@
   <div class="banner-header">
     <a [routerLink]="'/dashboard'">
       <img *ngIf="!isCollapsed"
-        src="./assets/images/logoNodoJscBothText.jpg"
-        alt="Logo"
+           src="./assets/images/logoNodoJscBothText.jpg"
+           alt="Logo"
       />
       <img *ngIf="isCollapsed"
-        [ngClass]="isCollapsed ? 'img-response' : ''"
-        src="./assets/images/logoNodoJsc.jpg"
-        alt="Logo"
+           [ngClass]="isCollapsed ? 'img-response' : ''"
+           src="./assets/images/logoNodoJsc.jpg"
+           alt="Logo"
       />
     </a>
     <span class="toolbar-header">Hệ thống văn phòng điện tử</span>
-    <span class="toolbar-child"><a href="https://nodo.vn/" style="color: #1F1F1F;" target="_blank">Giới thiệu</a></span>
+    <span class="toolbar-child"><a href="https://nodo.vn/" style="color: #1F1F1F;" target="_blank">
+      <i class="fa-solid fa-house-user" style="margin-right: 3px;"></i>Giới thiệu</a></span>
     <div class="menu-divider"></div>
-    <span class="toolbar-child"><a style="color: #1F1F1F;">Liên hệ</a></span>
+    <span class="toolbar-child"><a style="color: #1F1F1F;">
+      <i class="fa-solid fa-phone" style="margin-right: 3px;"></i>Liên hệ</a>
+    </span>
+    <div class="menu-divider"></div>
+    <span class="toolbar-child"><a style="color: #1F1F1F;">
+      <i class="fa-solid fa-circle-info" style="margin-right: 3px;"></i>Trợ giúp</a>
+    </span>
   </div>
   <div class="d-flex wrapper-right">
-    <button nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)" style="margin-right: 10px;position: relative;">
+    <button nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)"
+            style="margin-right: 10px;position: relative;">
       <i class="fa-solid fa-gift" style="font-size: 20px;"></i>
       <div class="circle"></div>
     </button>
@@ -37,7 +45,8 @@
         </div>
       </div>
     </ng-template>
-    <button nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)" style="margin-right: 10px;position: relative;">
+    <button nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)"
+            style="margin-right: 10px;position: relative;">
       <i class="fas fa-bell" style="font-size: 20px;"></i>
       <div class="circle"></div>
     </button>
@@ -86,12 +95,12 @@
         <li nz-menu-item (click)="visible = false">
           <span nz-icon nzType="safety" nzTheme="outline"></span>Đổi mật khẩu
         </li>
-<!--        <li nz-menu-item (click)="visible = false">-->
-<!--          <a [routerLink]="'/account'">Quản lý tài khoản</a>-->
-<!--        </li>-->
-<!--        <li nz-menu-item (click)="visible = false">-->
-<!--          <a [routerLink]="'/system'">Quản lý cấu hình</a>-->
-<!--        </li>-->
+        <!--        <li nz-menu-item (click)="visible = false">-->
+        <!--          <a [routerLink]="'/account'">Quản lý tài khoản</a>-->
+        <!--        </li>-->
+        <!--        <li nz-menu-item (click)="visible = false">-->
+        <!--          <a [routerLink]="'/system'">Quản lý cấu hình</a>-->
+        <!--        </li>-->
         <li nz-menu-item nzDanger (click)="logOut()">
           <span nz-icon nzType="logout" nzTheme="outline"></span>Đăng xuất
         </li>

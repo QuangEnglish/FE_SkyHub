@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DepartmentService} from "../../../../service/department.service";
 import {PositionService} from "../../../../service/position.service";
 import DevExpress from "devextreme";
@@ -41,9 +41,11 @@ export class FormEmployeeManagermentComponent implements OnInit {
   }
   avatarFile!: File;
   stylingMode: EditorStyle = 'outlined';
-  labelMode: LabelMode = 'static';
+
   getSizeQualifier = getSizeQualifier;
   getNewContactData = () => ({...this.newUser})
+
+  @Input() genderCode: any;
 
   constructor(
     private departmentService: DepartmentService,

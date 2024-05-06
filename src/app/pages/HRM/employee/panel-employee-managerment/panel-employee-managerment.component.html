@@ -12,6 +12,13 @@
           </div>
         </dxi-item>
         <dxi-item location="before">
+          <dx-button
+            *ngIf="isDisablePinClose"
+            [text]="user.isActive == 2 ? 'Đang làm việc' : 'Không làm việc'"
+            [type]="user.isActive == 2 ? 'success' : 'danger'"
+            stylingMode="contained"
+          >
+          </dx-button>
         </dxi-item>
         <dxi-item location="after" [visible]="isPinEnabled">
           <dx-button

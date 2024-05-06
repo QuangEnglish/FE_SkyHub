@@ -41,6 +41,7 @@ export class ListEmployeeManagermentComponent implements OnInit {
   };
   lstData: any[] = [];
   total = 0;
+  genderCodeFromList: any;
 
   constructor(
     private toastService: ToastService,
@@ -102,6 +103,24 @@ export class ListEmployeeManagermentComponent implements OnInit {
 
   addContact() {
     this.isAddContactPopupOpened = true;
+    const currentDate = new Date();
+    const year = currentDate.getFullYear().toString();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    const genderCode = year + month + day + hours + minutes;
+    this.contactNewForm.newUser = {
+      employeeCode: 'NV'+genderCode,
+      employeeName: '',
+      positionId: '',
+      departmentId: '',
+      birthday: new Date(),
+      phone: '',
+      email: '',
+      address: '',
+      gender: ''
+    };
   };
 
   refresh = () => {
@@ -159,8 +178,6 @@ export class ListEmployeeManagermentComponent implements OnInit {
     if (this.contactNewForm.getNewContactData()) {
       const data = this.contactNewForm.getNewContactData();
       const avatarFile = this.contactNewForm.avatarFile;
-      console.log(data);
-      console.log(avatarFile);
       this.spinner.show().then();
       this.employeeService.createEmployee(avatarFile, data).subscribe(res => {
         if (res && res.body.code === "OK") {

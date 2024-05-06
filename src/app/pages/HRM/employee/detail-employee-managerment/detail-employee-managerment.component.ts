@@ -1,11 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Contact} from "../../../../core/contact";
-import {Notes} from "../../../../core/notes";
-import {Messages} from "../../../../core/messages";
-import {Opportunities} from "../../../../core/opportunities";
 import {DataService} from "../../../../service/data.service";
-import {forkJoin} from "rxjs";
-import {map} from "rxjs/operators";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({

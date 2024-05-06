@@ -40,7 +40,8 @@ export interface Contact {
   positionName: string,
   departmentId: number,
   positionId: number,
-  avatar: string
+  avatar: string,
+  isActive: any,
 }
 
 export const newContact: ContactBase = {
