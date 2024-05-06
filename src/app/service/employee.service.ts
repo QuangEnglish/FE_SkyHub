@@ -96,4 +96,14 @@ export class EmployeeService {
         }
     );
   }
+
+  exportPdf() : Observable<any>{
+    return this.httpClient.post(AUTH_API + "/export-pdf",
+      null,
+      {
+        headers: new HttpHeaders({'Content-Type': 'application/json'}),
+        responseType: 'blob',
+        observe: 'response',
+      })
+  }
 }
