@@ -47,14 +47,14 @@ export class FormWageManagermentComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm = this.formBuilder.group({
-      id: new FormControl(null),
+      wageId: new FormControl(null),
       wageName: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
       wageBase: new FormControl(null, [Validators.required]),
       file: new FormControl(null),
       wageDescription: new FormControl(null),
     });
     setTimeout(()=>{
-      this.createForm.get('id')?.setValue(this.idWageForm);
+      this.createForm.get('wageId')?.setValue(this.idWageForm);
       this.createForm.get('wageName')?.setValue(this.wageNameForm);
       this.createForm.get('wageBase')?.setValue(this.wageBaseForm);
       this.createForm.get('wageDescription')?.setValue(this.wageDescriptionForm);
@@ -72,7 +72,7 @@ export class FormWageManagermentComponent implements OnInit {
     }
     if (this.createForm.valid) {
       const data = this.createForm.value;
-      data.contractId = data.id ? data.id : null;
+      data.wageId = data.wageId ? data.wageId : null;
       data.wageName = data.wageName ? data.wageName.trim() : null;
       data.wageBase = data.wageBase ? data.wageBase : null;
       data.wageDescription = data.wageDescription ? data.wageDescription.trim() : null;
