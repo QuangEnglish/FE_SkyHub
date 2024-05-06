@@ -31,7 +31,7 @@
             Mức đóng
           </th>
           <th nzWidth="150px" class="text-center">
-            Giảm số phần trăm
+            Phần trăm giảm
           </th>
           <th nzWidth="200px" class="text-right">
             Người lao động đóng
@@ -52,9 +52,13 @@
           <tr>
             <td class="text-center max-width-60">{{ (request.currentPage * request.pageSize) + idx + 1}}</td>
             <td class="max-width-150" [nz-tooltip]="data.socialInsuranceCode">{{data.socialInsuranceCode}}</td>
-            <td class="max-width-150" [nz-tooltip]="data.initialPayment">{{data.initialPayment}}</td>
+            <td class="max-width-150" [nz-tooltip]="data.initialPayment | currency: 'VND'">
+              <span style="color: #1e61f3; font-weight: bold">{{data.initialPayment | currency: 'VND'}}</span>
+            </td>
             <td class="max-width-150 text-center" [nz-tooltip]="data.percent">{{data.percent}}%</td>
-            <td class="max-width-150 text-right" [nz-tooltip]="data.actualPayment">{{data.actualPayment}}</td>
+            <td class="max-width-150 text-right" [nz-tooltip]="data.actualPayment | currency: 'VND'">
+              <span style="color: #1e61f3; font-weight: bold">{{data.actualPayment | currency: 'VND'}}</span>
+            </td>
             <td class="max-width-150" [nz-tooltip]="data.licenseDate | date: 'dd/MM/yyyy'">{{ data.licenseDate | date: 'dd/MM/yyyy' }}</td>
             <td class="max-width-150" [nz-tooltip]="data.expiredDate | date: 'dd/MM/yyyy'">{{ data.expiredDate | date: 'dd/MM/yyyy' }}</td>
             <td class="text-center max-width-150" nzRight="0px">

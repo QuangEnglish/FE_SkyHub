@@ -125,7 +125,7 @@ export class FormContractForEmployeeComponent implements OnInit {
   }
 
   fetchContract() {
-    this.contractService.search(this.payloadContract, {page: 0, size: 20}).subscribe(res => {
+    this.contractService.search(this.payloadContract, {page: 0, size: -1}).subscribe(res => {
       if (res && res.code === "OK") {
         this.lstContractType = res.data.data;
         // this.lstContractType.sort((a, b) => a.contractCode.localeCompare(b.contractCode));

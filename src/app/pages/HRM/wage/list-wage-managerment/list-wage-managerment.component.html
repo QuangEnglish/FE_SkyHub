@@ -108,7 +108,9 @@
           <tr>
             <td class="text-center max-width-60">{{ (request.currentPage * request.pageSize) + idx + 1}}</td>
             <td class="max-width-200" [nz-tooltip]="data.wageName">{{data.wageName}}</td>
-            <td class="max-width-150 text-center" [nz-tooltip]="data.wageBase">{{data.wageBase}}</td>
+            <td class="max-width-150 text-center" [nz-tooltip]="data.wageBase | currency: 'VND'">
+              <span style="color: #1e61f3; font-weight: bold">{{data.wageBase | currency: 'VND'}}</span>
+            </td>
             <td class="max-width-250" [nz-tooltip]="data.attachFile">
               <a style="color: #1abc9c; font-weight: bold"
                  (click)="handleClick(data.attachFile)">{{data.attachFile}}</a>

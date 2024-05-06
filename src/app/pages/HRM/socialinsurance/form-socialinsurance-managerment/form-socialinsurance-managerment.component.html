@@ -13,18 +13,24 @@
         <div nz-row>
           <app-input-text-v2 [ngClass]="'w-100'" formControlName="initialPayment" [required]="true"
                              label="Mức đóng ban đầu" nz-col nzSpan="24"
+                             [typeInput]="'number'"
+                             (change)="onChangeInitialPayment($event)"
                              [ngStyleCus]="{'padding-left' : '41px'}"
                              [nzAllowClear]="true"></app-input-text-v2>
         </div>
         <div nz-row>
           <app-input-text-v2 [ngClass]="'w-100'" formControlName="percent" [required]="true"
                              label="Giảm số phần trăm" nz-col nzSpan="24"
+                             [typeInput]="'number'"
+                             (change)="onChangePercent($event)"
                              [ngStyleCus]="{'padding-left' : '40px'}"
                              [nzAllowClear]="true"></app-input-text-v2>
         </div>
         <div nz-row>
-          <app-input-text-v2 [ngClass]="'w-100'" formControlName="actualPayment" [required]="true"
+          <app-input-text-v2 [ngClass]="{'w-100': true, 'disabled-button': true}" formControlName="actualPayment" [required]="true"
                              label="Người lao động đóng" nz-col nzSpan="24"
+                             [typeInput]="'number'"
+                             [isDisabled]="true"
                              [ngStyleCus]="{'padding-left' : '25px'}"
                              [nzAllowClear]="true"></app-input-text-v2>
         </div>
