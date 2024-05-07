@@ -12,16 +12,16 @@
       <th nzWidth="100px" class="text-center">
         Ngày làm việc
       </th>
-      <th nzWidth="100px" class="text-center">
+      <th nzWidth="150px" class="text-center">
         Buổi sáng
       </th>
-      <th nzWidth="100px" class="text-center">
+      <th nzWidth="150px" class="text-center">
         Buổi chiều
       </th>
-      <th nzWidth="50px" class="text-center">
+      <th nzWidth="100px" class="text-center">
         Số giờ
       </th>
-      <th nzWidth="50px" class="text-center">
+      <th nzWidth="100px" class="text-center">
         Hệ số công
       </th>
       <th nzWidth="100px" class="text-center">
@@ -38,15 +38,15 @@
             [nz-tooltip]="data.workingDay | date: 'dd/MM/yyyy'">{{ data.workingDay | date: 'dd/MM/yyyy' }}</td>
         <td *ngIf="data.checkInTime" class="max-width-100 text-center" [nz-tooltip]="data.checkInTime | date: 'HH:mm'">
           {{ data.checkInTime | date: 'HH:mm' }}</td>
-        <td *ngIf="!data.checkInTime" class="max-width-100 text-center" [nz-tooltip]="'Chưa chấm công'">
+        <td *ngIf="!data.checkInTime" class="max-width-150 text-center" [nz-tooltip]="'Chưa chấm công'">
           <span class="css-badge badge badge-pill bg-danger p-3">Chưa chấm công</span></td>
-        <td *ngIf="data.checkOutTime" class="max-width-100 text-center"
+        <td *ngIf="data.checkOutTime" class="max-width-150 text-center"
             [nz-tooltip]="data.checkOutTime | date: 'HH:mm'">
           {{ data.checkOutTime | date: 'HH:mm' }}</td>
         <td *ngIf="!data.checkOutTime" class="max-width-100 text-center" [nz-tooltip]="'Chưa chấm công'">
           <span class="css-badge badge badge-pill bg-danger p-3">Chưa chấm công</span></td>
-        <td class="max-width-50 text-center" [nz-tooltip]="data.workingTime">{{data.workingTime}}</td>
-        <td class="max-width-50 text-center" [nz-tooltip]="data.workingPoint">{{data.workingPoint}}</td>
+        <td class="max-width-100 text-center" [nz-tooltip]="data.workingTime">{{data.workingTime}}</td>
+        <td class="max-width-100 text-center" [nz-tooltip]="data.workingPoint">{{data.workingPoint}}</td>
         <td class="max-width-100 text-center" [nz-tooltip]="data.totalPenalty"
             style="color: red;">{{data.totalPenalty}}</td>
       </tr>

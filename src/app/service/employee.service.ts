@@ -98,7 +98,7 @@ export class EmployeeService {
   }
 
   exportPdf() : Observable<any>{
-    return this.httpClient.post(AUTH_API + "/export-pdf",
+    return this.httpClient.post(AUTH_API + "/export-pdf" +"/3",
       null,
       {
         headers: new HttpHeaders({'Content-Type': 'application/json'}),

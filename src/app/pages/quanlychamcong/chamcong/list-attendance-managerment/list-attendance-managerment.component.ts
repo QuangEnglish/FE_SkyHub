@@ -143,7 +143,7 @@ export class ListAttendanceManagermentComponent implements OnInit {
         if (res && res.code === "OK" && res.data != null) {
           this.idAttendance = res.data;
           this.isDisabled = true;
-          this.backgroundColorOne = '#999999'
+          // this.backgroundColorOne = '#999999'
           console.log("//" + this.idAttendance);
         } else {
           this.spinner.hide().then();
@@ -192,6 +192,7 @@ export class ListAttendanceManagermentComponent implements OnInit {
     this.attendanceService.editAttendance(data).subscribe(res => {
       if (res && res.code === "OK") {
         this.toastService.openSuccessToast('Đã chấm công, xin cảm ơn');
+        this.isDisabledTwo = true;
       } else {
         this.toastService.openErrorToast(res.body.msgCode);
       }

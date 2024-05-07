@@ -50,7 +50,7 @@
         </li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Quản lý lịch làm việc" nzIcon="contacts" [nzOpen]="subMenuLLV">
+    <li nz-submenu nzTitle="Quản lý lịch làm việc" nzIcon="calendar" [nzOpen]="subMenuLLV">
       <ul>
         <li nz-menu-item [nzMatchRouter]="true">
           <span><a [routerLink]="'/attendance'">Chấm công</a></span>
@@ -63,7 +63,7 @@
         </li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Quản trị hệ thống" nzIcon="user-add" [nzOpen]="subMenuQLHT">
+    <li nz-submenu nzTitle="Quản trị hệ thống" nzIcon="database" [nzOpen]="subMenuQLHT">
       <ul>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/register'">Tạo tài khoản</a></span></li>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/account'">Quản lý tài khoản</a></span></li>

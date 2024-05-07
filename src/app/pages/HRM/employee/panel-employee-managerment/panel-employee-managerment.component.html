@@ -3,12 +3,16 @@
     <ng-container *ngIf="!isLoading">
       <dx-toolbar class="panel-toolbar">
         <dxi-item location="before" cssClass="accent">
-          <div *dxTemplate>
+          <div *dxTemplate style="display: flex;">
+            <div *ngIf="!isDisablePinClose"
+                 [ngClass]="user.isActive == 2 ? 'circle-button-success' : 'circle-button-danger'">
+            </div>
             <app-form-textbox
               [(value)]="user.employeeName"
               [isEditing]="isEditing"
-              [isEditText] = "true"
-            ></app-form-textbox>
+              [isEditText]="true"
+            >
+            </app-form-textbox>
           </div>
         </dxi-item>
         <dxi-item location="before">
@@ -62,7 +66,6 @@
                     </dx-file-uploader>
                   </div>
                 </dxi-item>
-
                 <dxi-item itemType="group">
                   <dxi-item cssClass="accent">
                     <div *dxTemplate>
