@@ -34,7 +34,7 @@ export class SideBarComponent implements OnInit, DoCheck {
       this.subMenuLLV = false
       this.subMenuQLHT = false
     }
-    else if (this.router.url.includes('/detail-employee')) {
+    else if (this.router.url.includes('/detail-employee') || this.router.url === '/infor-employee') {
       // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false

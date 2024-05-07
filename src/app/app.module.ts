@@ -148,6 +148,7 @@ import { ListWageManagermentComponent } from './pages/HRM/wage/list-wage-manager
 import { FormWageManagermentComponent } from './pages/HRM/wage/form-wage-managerment/form-wage-managerment.component';
 import { ListWageForEmployeeComponent } from './pages/HRM/wage/list-wage-for-employee/list-wage-for-employee.component';
 import { FormWageForEmployeeComponent } from './pages/HRM/wage/form-wage-for-employee/form-wage-for-employee.component';
+import { DetailInforEmployeeComponent } from './pages/HRM/employee/detail-infor-employee/detail-infor-employee.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -235,7 +236,8 @@ const INTERCEPTOR_PROVIDES = [
     ListWageManagermentComponent,
     FormWageManagermentComponent,
     ListWageForEmployeeComponent,
-    FormWageForEmployeeComponent
+    FormWageForEmployeeComponent,
+    DetailInforEmployeeComponent
   ],
   imports: [
     BrowserModule,
