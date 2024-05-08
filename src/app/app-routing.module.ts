@@ -54,7 +54,7 @@ const routes: Routes = [
         component: ListEmployeeManagermentComponent
       },
       {
-        path: 'infor-employee',
+        path: 'infor-employee/:id',
         component: DetailInforEmployeeComponent
       },
       {

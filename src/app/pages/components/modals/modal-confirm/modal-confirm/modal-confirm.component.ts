@@ -7,7 +7,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./modal-confirm.component.less']
 })
 export class ModalConfirmComponent implements OnInit {
-  @Input() isVisible!: boolean;
+  @Input() isVisible = false;
   @Input() title!: string;
   @Input() description = '';
   @Input() descriptionHTML: any;

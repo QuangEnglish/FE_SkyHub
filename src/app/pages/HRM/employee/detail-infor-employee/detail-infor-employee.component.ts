@@ -31,7 +31,6 @@ export class DetailInforEmployeeComponent implements OnInit {
   @Input() isOpened = false;
   @Input() isMarTop = false;
   @Input() isDisablePinClose = false;
-  @Input() userId: any;
   @Output() isOpenedChange = new EventEmitter<boolean>();
   @Output() pinnedChange = new EventEmitter<boolean>();
   private pinEventSubject = new Subject<boolean>();
@@ -69,11 +68,23 @@ export class DetailInforEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadUserById(28);
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.loadUserById(userObject.userDetailId);
     this.fetchDepartment();
     this.fetchPosition();
   }
 
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
   refresh = () => {
     this.isLoading = true;
   };
@@ -115,8 +126,10 @@ export class DetailInforEmployeeComponent implements OnInit {
       let pdf = new jspdf.default('p', 'mm', 'a4'); // A4 size page of PDF
       var position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-      pdf.save('ho_so_nhan_vien.pdf'); // Generated PDF
-      this.spinner.hide().then();
+      pdf.save('ho_so_nhan_vien.pdf'); // Generated
+      setTimeout(() =>{
+        this.spinner.hide().then();
+      }, 2000);
     }, error => {
       this.toastService.openErrorToast("Lỗi xuất file PDF");
       this.spinner.hide().then();

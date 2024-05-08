@@ -11,77 +11,50 @@
     <ng-template #nzModalTitle>
       <div [nz-tooltip]="titleTooltip">{{title}}</div>
     </ng-template>
-    <div class="modal-confirm__body" *ngIf="!isCancelLeave && !isNotAllowedCreate && !isDescHTML">
-      <div class="modal-confirm__contents" [nz-tooltip]="descriptionTooltip">
-        <span *ngIf="!hiddenContent">{{description}}</span>
-        <span *ngIf="hiddenContent">{{description}}
-          <span class="contents__bold"> {{content}} </span> không?
-        </span>
-      </div>
-    </div>
+<!--    <div class="modal-confirm__body" *ngIf="!isCancelLeave && !isNotAllowedCreate && !isDescHTML">-->
+<!--      <div class="modal-confirm__contents" [nz-tooltip]="descriptionTooltip">-->
+<!--        <span *ngIf="!hiddenContent">{{description}}</span>-->
+<!--        <span *ngIf="hiddenContent">{{description}}-->
+<!--          <span class="contents__bold"> {{content}} </span> không?-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <div class="modal-confirm__body" *ngIf="isNotAllowedCreate">
-      <div class="modal-confirm__contents">
-        <span *ngIf="!hiddenContent">
-          <span *ngIf="isPartnerCodeErr">Xác nhận đổi trạng thái cảnh báo</span>
-        </span>
-      </div>
-    </div>
+<!--    <div class="modal-confirm__body" *ngIf="isNotAllowedCreate">-->
+<!--      <div class="modal-confirm__contents">-->
+<!--        <span *ngIf="!hiddenContent">-->
+<!--          <span *ngIf="isPartnerCodeErr">Xác nhận đổi trạng thái cảnh báo</span>-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <div class="modal-confirm__body" *ngIf="isNotAllowedCreate">
-      <div class="modal-confirm__contents">
-        <span *ngIf="!hiddenContent">
-          <span *ngIf="isPermissionCodeErr">Xác nhận tiếp tục cảnh báo</span>
-        </span>
-      </div>
-    </div>
+<!--    <div class="modal-confirm__body" *ngIf="isNotAllowedCreate">-->
+<!--      <div class="modal-confirm__contents">-->
+<!--        <span *ngIf="!hiddenContent">-->
+<!--          <span *ngIf="isPermissionCodeErr">Xác nhận tiếp tục cảnh báo</span>-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
 
-    <div class="modal-confirm__body" *ngIf="isCancelLeave">
+<!--    <div class="modal-confirm__body" *ngIf="isCancelLeave">-->
+<!--      <div class="modal-confirm__contents">-->
+<!--        <span>-->
+<!--          <span *ngIf="!hiddenContent">Dữ liệu nhập chưa được lưu lại, bạn có muốn đóng không?</span>-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
+
+    <div class="modal-confirm__body">
       <div class="modal-confirm__contents">
         <span>
-          <span *ngIf="!hiddenContent">Dữ liệu nhập chưa được lưu lại, bạn có muốn đóng không?</span>
+          <span>Bạn có chắc chắn muốn xóa dữ liệu đã chọn không?</span>
         </span>
       </div>
     </div>
 
-    <div class="modal-confirm__body" *ngIf="isDescHTML">
-      <div class="modal-confirm__contents">
-        <div [innerHTML]="descriptionHTML"></div>
-      </div>
-    </div>
-
-<!--    <div class="modal-confirm__body" *ngIf="hasReason">-->
+<!--    <div class="modal-confirm__body" *ngIf="isDescHTML">-->
 <!--      <div class="modal-confirm__contents">-->
-<!--        <form [formGroup]="saveForm">-->
-<!--          <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">-->
-<!--            <div nz-col nzSpan="24">-->
-<!--              <nz-form-item>-->
-<!--                <nz-form-label [nzSm]="24" [nzXs]="24" nzFor="email" [nzRequired]="reasonRequired">{{reasonLabel}}</nz-form-label>-->
-<!--                <nz-form-control [nzSm]="24" [nzXs]="24" [nzErrorTip]="combineTpl">-->
-<!--                  <nz-input-group [nzSuffix]="inputTextareaClearTpl">-->
-<!--                    <textarea #inputTextareaRef nz-input formControlName="reason" [rows]="4" style="width: 100%" [placeholder]="reasonPlaceholder"></textarea>-->
-<!--                    <ng-template #inputTextareaClearTpl>-->
-<!--                      <i-->
-<!--                        *ngIf="inputTextareaRef.value"-->
-<!--                        nz-icon-->
-<!--                        class="ant-input-clear-icon"-->
-<!--                        nzTheme="fill"-->
-<!--                        nzType="close-circle"-->
-<!--                        (mousedown)="onClear()"-->
-<!--                        style="margin-left: auto"-->
-<!--                      ></i>-->
-<!--                    </ng-template>-->
-<!--                  </nz-input-group>-->
-<!--                  <ng-template #combineTpl let-control>-->
-<!--                    <app-inline-message [formController]="control"-->
-<!--                                        [field]="reasonLabel"-->
-<!--                    ></app-inline-message>-->
-<!--                  </ng-template>-->
-<!--                </nz-form-control>-->
-<!--              </nz-form-item>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </form>-->
+<!--        <div [innerHTML]="descriptionHTML"></div>-->
 <!--      </div>-->
 <!--    </div>-->
 

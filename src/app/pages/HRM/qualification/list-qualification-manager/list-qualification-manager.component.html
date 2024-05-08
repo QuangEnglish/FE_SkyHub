@@ -10,7 +10,7 @@
             class="head-count__bracket">)</span></span>
         </div>
       </div>
-      <div class="list__head-right">
+      <div *ngIf="isVisableButton" class="list__head-right">
         <div class="list__head-btn">
           <app-button-create (clickCreate)="openCreateModal()" [loading]="isLoading"></app-button-create>
         </div>
@@ -39,7 +39,7 @@
           <th nzWidth="150px" class="text-center">
             Mô tả
           </th>
-          <th nzWidth="150px" class="text-center" nzRight="0px">
+          <th *ngIf="isVisableButton" nzWidth="150px" class="text-center" nzRight="0px">
             Hành động
           </th>
         </tr>
@@ -55,7 +55,7 @@
             <td class="max-width-200" [nz-tooltip]="data.description">
               {{ data.description.length > 100 ? (data.description | slice:0:50) + '...' : data.description }}
             </td>
-            <td class="text-center max-width-150" nzRight="0px">
+            <td *ngIf="isVisableButton" class="text-center max-width-150" nzRight="0px">
               <div class="action">
                 <app-button-icon class="action__margin" [isEdit] = "true"
                                  [tooltipTitle]="'Cập nhật bằng cấp'"
@@ -69,8 +69,8 @@
         </ng-template>
         </tbody>
       </nz-table>
-      <div nz-row class="list__pagination" *ngIf="lstData?.length">
-        <div nz-col class="list__pagination-container">
+      <div  nz-row class="list__pagination" *ngIf="lstData?.length">
+        <div *ngIf="isVisableButton" nz-col class="list__pagination-container">
           <div>Tìm thấy
             <strong>{{ total }}</strong> bản ghi &nbsp;
           </div>
@@ -85,9 +85,10 @@
 
 <app-modal-confirm title="Xác nhận xóa" [isVisible]="isVisibleModalDelete"
                    textButtonCancel="Hủy"
-                   [text]="'Đồng ý'"
-                   [isConfirm]="true"
-                   [description]="message"
+                   [text]="'Xóa'"
+                   [isDelete]="true"
+                   [isDescHTML]= "true"
+                   [descriptionHTML]="message"
                    (callBack)="callBackModalDelete()"
                    (clickCancel)="onCancelModalDelete()">
 </app-modal-confirm>

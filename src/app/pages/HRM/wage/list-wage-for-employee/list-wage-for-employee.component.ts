@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {FileManagerService} from "../../../../service/file-manager.service";
 import {ToastService} from "../../../../service/toast.service";
 import {NzModalService} from "ng-zorro-antd/modal";
@@ -36,6 +36,7 @@ export class ListWageForEmployeeComponent implements OnInit {
   idUserDetailWage: any;
   idUserDetail: any;
 
+  @Input() isVisableButton = true;
 
   constructor(
     private wageService: WageService,

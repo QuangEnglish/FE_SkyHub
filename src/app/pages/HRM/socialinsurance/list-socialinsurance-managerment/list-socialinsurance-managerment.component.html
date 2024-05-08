@@ -10,7 +10,7 @@
             class="head-count__bracket">)</span></span>
         </div>
       </div>
-      <div class="list__head-right">
+      <div *ngIf="isVisableButton" class="list__head-right">
         <div class="list__head-btn">
           <app-button-create (clickCreate)="openCreateModal()" [loading]="isLoading"></app-button-create>
         </div>
@@ -42,7 +42,7 @@
           <th nzWidth="150px" class="text-center">
             Ngày hết hạn
           </th>
-          <th nzWidth="150px" class="text-center" nzRight="0px">
+          <th *ngIf="isVisableButton" nzWidth="150px" class="text-center" nzRight="0px">
             Hành động
           </th>
         </tr>
@@ -61,7 +61,7 @@
             </td>
             <td class="max-width-150" [nz-tooltip]="data.licenseDate | date: 'dd/MM/yyyy'">{{ data.licenseDate | date: 'dd/MM/yyyy' }}</td>
             <td class="max-width-150" [nz-tooltip]="data.expiredDate | date: 'dd/MM/yyyy'">{{ data.expiredDate | date: 'dd/MM/yyyy' }}</td>
-            <td class="text-center max-width-150" nzRight="0px">
+            <td *ngIf="isVisableButton" class="text-center max-width-150" nzRight="0px">
               <div class="action">
                 <app-button-icon class="action__margin" [isEdit] = "true"
                                  [tooltipTitle]="'Cập nhật bảo hiểm'"
@@ -76,7 +76,7 @@
         </tbody>
       </nz-table>
       <div nz-row class="list__pagination" *ngIf="lstData?.length">
-        <div nz-col class="list__pagination-container">
+        <div *ngIf="isVisableButton" nz-col class="list__pagination-container">
           <div>Tìm thấy
             <strong>{{ total }}</strong> bản ghi &nbsp;
           </div>

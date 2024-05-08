@@ -20,6 +20,15 @@ export class DetailEmployeeManagermentComponent implements OnInit {
 
   isLoading = false;
   isPanelOpened = true;
+  userId: any;
+
+  request: any = {
+    listTextSearch: [],
+    code: null,
+    page: 0,
+    name: null,
+    size: 10, // -: desc | +: asc,
+  };
 
   constructor(
     private service: DataService,
@@ -34,7 +43,21 @@ export class DetailEmployeeManagermentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.userId = userObject.userDetailId;
   }
+
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
 
   refresh = () => {
     this.isLoading = true;
@@ -65,23 +88,6 @@ export class DetailEmployeeManagermentComponent implements OnInit {
 //  }
 
   onExportPdf(){
-    this.spinner.show().then();
-    var data = document.getElementById('contentToConvert');
-    html2canvas(data!).then(canvas => {
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
-
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jspdf.default('p', 'mm', 'a4'); // A4 size page of PDF
-      var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-      pdf.save('ho_so_nhan_vien.pdf'); // Generated PDF
-      this.spinner.hide().then();
-    }, error => {
-      this.toastService.openErrorToast("Lỗi xuất file PDF");
-      this.spinner.hide().then();
-    });
+    this.router.navigate(['/infor-employee/' + this.userId], {state: {page: this.request}});
   }
 }

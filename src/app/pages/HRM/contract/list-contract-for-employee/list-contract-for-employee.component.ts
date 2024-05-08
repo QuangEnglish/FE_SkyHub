@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {QualificationService} from "../../../../service/qualification.service";
 import {ToastService} from "../../../../service/toast.service";
 import {NzModalService} from "ng-zorro-antd/modal";
@@ -46,6 +46,8 @@ export class ListContractForEmployeeComponent implements OnInit {
   message: string = '';
   idUserDetailContract: any;
   idUserDetail: any;
+
+  @Input() isVisableButton = true;
 
 
   constructor(

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {PositionService} from "../../../../service/position.service";
 import {ToastService} from "../../../../service/toast.service";
@@ -46,9 +46,11 @@ export class ListQualificationManagerComponent implements OnInit {
   department: any;
   departmentCode: any;
   isLoading = false;
-  message: string = '';
+  message = '';
   idQualification: any;
+  idUserDetail: any;
 
+  @Input() isVisableButton = true;
 
   constructor(
     private qualificationService: QualificationService,
@@ -61,7 +63,7 @@ export class ListQualificationManagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.idQualification = this.activatedRoute.snapshot.params['id'];
+    this.idUserDetail = this.activatedRoute.snapshot.params['id'];
     this.fetchData(this.request.currentPage, this.request.pageSize);
   }
 
@@ -72,7 +74,7 @@ export class ListQualificationManagerComponent implements OnInit {
       sort: this.request.sort,
     };
     this.spinner.show().then();
-    this.qualificationService.search(this.idQualification, pageable).subscribe(res => {
+    this.qualificationService.search(this.idUserDetail, pageable).subscribe(res => {
       if (res && res.code === "OK") {
         this.lstData = res.data.content;
         this.total = res.data.totalElements;
@@ -150,7 +152,10 @@ export class ListQualificationManagerComponent implements OnInit {
   openModalDelete(item: any): void {
     if (!item.totalEmp) {
       this.isVisibleModalDelete = true;
-      this.message = `<span>Bạn có chắc chắn muốn xóa bằng cấp mã <b>${this.idQualification}</b> không?</span>`
+      this.idQualification = item.id;
+      // this.message = `<span>Bạn có chắc chắn muốn xóa bằng cấp mã <b>${this.idQualification}</b> không?</span>`
+      this.message = 'Bạn có chắc chắn muốn xóa bằng cấp có mã <b>' + item.id + '</b> không?'
+
     }
   }
 

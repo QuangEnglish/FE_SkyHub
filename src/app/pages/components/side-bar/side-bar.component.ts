@@ -11,6 +11,16 @@ export class SideBarComponent implements OnInit, DoCheck {
   subMenuQLNS: boolean = false
   subMenuLLV: boolean = false
   subMenuQLHT: boolean = false
+  employeeName: any;
+  userId: any;
+
+  request: any = {
+    listTextSearch: [],
+    code: null,
+    page: 0,
+    name: null,
+    size: 10, // -: desc | +: asc,
+  };
   constructor(private router: Router) { }
 
   ngDoCheck(): void {
@@ -34,7 +44,7 @@ export class SideBarComponent implements OnInit, DoCheck {
       this.subMenuLLV = false
       this.subMenuQLHT = false
     }
-    else if (this.router.url.includes('/detail-employee') || this.router.url === '/infor-employee') {
+    else if (this.router.url.includes('/detail-employee') || this.router.url.includes('/infor-employee')) {
       // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
@@ -87,11 +97,29 @@ export class SideBarComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
-
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.employeeName = userObject.userDetailName;
+    this.userId = userObject.userDetailId;
   }
+
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
 
   toggleCollapsed(): void {
     this.isCollapsed = !this.isCollapsed;
     console.log("//"+this.isCollapsed);
   }
+
+  navigateToDetails = () => {
+    this.router.navigate(['/infor-employee/' + this.userId], {state: {page: this.request}});
+  };
 }
