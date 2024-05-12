@@ -313,7 +313,6 @@ export class ListAttendanceManagermentComponent implements OnInit {
     }, () => {
       this.spinner.hide().then();
     });
-    this.spinner.hide().then()
   }
 
 }
