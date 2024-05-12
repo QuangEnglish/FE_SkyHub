@@ -12,6 +12,8 @@ import DataSource from 'devextreme/data/data_source';
 import {EmployeeService} from "../../../../service/employee.service";
 import {NzDrawerPlacement} from "ng-zorro-antd/drawer";
 import {DepartmentService} from "../../../../service/department.service";
+import * as moment from "moment";
+import {FileManagerService} from "../../../../service/file-manager.service";
 
 type SelectedAppointment = { data: Record<string, any>, target: any };
 
@@ -66,7 +68,8 @@ export class ListAttendanceManagermentComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private employeeService: EmployeeService,
     protected screen: ScreenService,
-    private departmentService:DepartmentService
+    private departmentService:DepartmentService,
+    private fileManagerService: FileManagerService
   ) {
   }
 
@@ -283,6 +286,34 @@ export class ListAttendanceManagermentComponent implements OnInit {
   onOptionChangeEmployee(event: any): void {
     const selectedValue = event;
     console.log("Selected option:", selectedValue);
+  }
+
+  openExport() {
+    const queryModel = {
+      employeeCode: null,
+      employeeId: this.selectedOptionEmployee ? this.selectedOptionEmployee  : null,
+      employeeName: null,
+      departmentId: null,
+      workingDay: this.currentDate ? this.currentDate : null,
+    };
+    this.spinner.show().then();
+    this.attendanceService.exportAttendance(queryModel).subscribe(async response => {
+      const isJsonBlob = (data: any) => data instanceof Blob && data.type === 'application/json';
+      const responseData = isJsonBlob(response.body) ? await (response.body).text() : response.body || {};
+      if (typeof responseData === "string") {
+        const responseJson = JSON.parse(responseData);
+        this.toastService.openErrorToast(responseJson.msgCode);
+      } else {
+        const currentDate = moment();
+        const formattedDate = currentDate.format('DD-MM-YYYY');
+        this.fileManagerService.downloadFile(response, 'bang_thong_ke_cham_cong_'+formattedDate+'.xlsx');
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.body.msgCode);
+    }, () => {
+      this.spinner.hide().then();
+    });
+    this.spinner.hide().then()
   }
 
 }

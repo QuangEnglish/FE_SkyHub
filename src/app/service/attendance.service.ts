@@ -57,4 +57,14 @@ export class AttendanceService {
       AUTH_API + "/delete" + '/' + id,
     );
   }
+
+  exportAttendance(payload : any) : Observable<any>{
+    return this.httpClient.post(AUTH_API + "/exportListFollowMonth",
+      payload,
+      {
+        responseType: 'blob',
+        observe: 'response'
+      }
+    );
+  }
 }

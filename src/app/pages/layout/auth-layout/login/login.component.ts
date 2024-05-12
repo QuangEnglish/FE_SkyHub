@@ -12,8 +12,12 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
-  @Input() error!: string;
+  isMeassgeError = false;
+  meassgeError = '';
   @Output() submitEM = new EventEmitter();
+  password: string = '';
+  hidePassword: boolean = true;
+
 
   form: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -47,8 +51,16 @@ export class LoginComponent implements OnInit {
       }
       this.loginS.setSession(res);
       this.router.navigate(['/dashboard']).then();
-    }, error => {
-      this.toastService.openErrorToast(error.error);
+    }, (error) => {
+      // this.toastService.openErrorToast(error.error);
+      this.isMeassgeError = true;
+      this.meassgeError = "Email hoặc mật khẩu không đúng!";
     })
   }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+
 }

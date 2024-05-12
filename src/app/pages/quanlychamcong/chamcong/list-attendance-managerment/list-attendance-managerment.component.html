@@ -21,7 +21,8 @@
           <nz-select id="select1" style="width: 100%;" nzShowSearch nzAllowClear
                      [(ngModel)]="selectedOptionDepartment"
                      (ngModelChange)="onOptionChangeDepartment($event)">
-            <nz-option *ngFor="let option of lstDepartment" [nzValue]="option.departmentId" [nzLabel]="option.departmentName"></nz-option>
+            <nz-option *ngFor="let option of lstDepartment" [nzValue]="option.departmentId"
+                       [nzLabel]="option.departmentName"></nz-option>
           </nz-select>
         </div>
         <div nz-col style="width: 45%; margin-left: 10px;">
@@ -29,7 +30,8 @@
           <nz-select id="select2" style="width: 100%;" nzShowSearch nzAllowClear
                      [(ngModel)]="selectedOptionEmployee"
                      (ngModelChange)="onOptionChangeEmployee($event)">
-            <nz-option *ngFor="let option of lstEmployee" [nzValue]="option.id" [nzLabel]="option.employeeName +' - '+ option.employeeCode"></nz-option>
+            <nz-option *ngFor="let option of lstEmployee" [nzValue]="option.id"
+                       [nzLabel]="option.employeeName +' - '+ option.employeeCode"></nz-option>
           </nz-select>
         </div>
       </div>
@@ -71,6 +73,15 @@
             [value]="currentDate"
             (valueChange)="onCalendarDateChange($event)"
           ></dx-calendar>
+        </div>
+        <div class="wrapper-button d-flex justify-content-center">
+            <span
+              style="width: 80%; font-size: 14px; color: #F0F0F0; border-radius: 10px; box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;">
+                <dx-button
+                  text="Xuất chấm công theo tháng"
+                  (onClick)="openExport()"
+                ></dx-button>
+            </span>
         </div>
       </div>
       <dx-scheduler
