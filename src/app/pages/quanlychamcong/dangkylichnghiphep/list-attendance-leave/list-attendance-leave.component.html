@@ -126,6 +126,9 @@
           <th nzWidth="150px" class="text-center">
             Đến ngày
           </th>
+          <th nzWidth="150px" class="text-center">
+            Tổng số ngày
+          </th>
           <th nzWidth="200px" class="text-center">
             Trạng thái
           </th>
@@ -151,6 +154,7 @@
             <td class="max-width-170" [nz-tooltip]="data.leaveCategory">{{data.leaveCategory}}</td>
             <td class="max-width-150 text-center" [nz-tooltip]="data.startDay | date: 'dd/MM/yyyy'">{{data.startDay | date: 'dd/MM/yyyy'}}</td>
             <td class="max-width-150 text-center" [nz-tooltip]="data.endDay | date: 'dd/MM/yyyy'">{{data.endDay | date: 'dd/MM/yyyy'}}</td>
+            <td class="max-width-150 text-center" [nz-tooltip]="data.totalTime">{{data.totalTime}}</td>
             <td class="max-width-200 text-center" [nz-tooltip]="'Đã duyệt'" *ngIf="data.isActive == 1">
               <span class="css-badge badge badge-pill bg-success p-3">Đã duyệt</span></td>
             <td class="max-width-200 text-center" [nz-tooltip]="'Chờ duyệt'" *ngIf="data.isActive === 2">

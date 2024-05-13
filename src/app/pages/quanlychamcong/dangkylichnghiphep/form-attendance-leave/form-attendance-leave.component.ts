@@ -56,6 +56,7 @@ export class FormAttendanceLeaveComponent implements OnInit, OnChanges {
           this.createForm.get('leaveCategory')?.setValue(this.objectChild.leaveCategory);
           this.createForm.get('startDay')?.setValue(this.objectChild.startDay);
           this.createForm.get('endDay')?.setValue(this.objectChild.endDay);
+          this.createForm.get('totalTime')?.setValue(this.objectChild.totalTime);
           this.createForm.get('reviewerId')?.setValue(this.objectChild.reviewerId);
           this.createForm.get('trackerId')?.setValue(this.objectChild.trackerId);
           this.createForm.get('description')?.setValue(this.objectChild.description);
@@ -75,6 +76,7 @@ export class FormAttendanceLeaveComponent implements OnInit, OnChanges {
       leaveCategory: new FormControl(null, [Validators.required]),
       startDay: new FormControl(null, [Validators.required]),
       endDay: new FormControl(null, [Validators.required]),
+      totalTime: new FormControl(null),
       employeeId: new FormControl(null),
       reviewerId: new FormControl(null, [Validators.required]),
       trackerId: new FormControl(null, [Validators.required]),
@@ -105,6 +107,7 @@ export class FormAttendanceLeaveComponent implements OnInit, OnChanges {
       data.leaveCategory = data.leaveCategory === 0 ? 0 : !data.leaveCategory ? null : data.leaveCategory;
       data.startDay = data.startDay ? data.startDay : null;
       data.endDay = data.endDay ? data.endDay : null;
+      data.totalTime = data.totalTime ? data.totalTime : null;
       data.employeeId = this.idUserDetailId ? this.idUserDetailId : null;
       data.reviewerId = data.reviewerId ? data.reviewerId : null;
       data.trackerId = data.trackerId ? data.trackerId : null;
@@ -165,6 +168,14 @@ export class FormAttendanceLeaveComponent implements OnInit, OnChanges {
           this.createForm.get('endDay')?.setErrors(null);
           this.startDayErrorMessage = '';
           this.endDayErrorMessage = '';
+
+          const start = new Date(event).getTime();
+          const end = new Date(this.createForm.getRawValue().endDay).getTime();
+          const millisecondsPerDay = 1000 * 60 * 60 * 24;
+          const differenceMilliseconds = end - start;
+          const numberOfDays = Math.floor(differenceMilliseconds / millisecondsPerDay);
+          this.createForm.get('totalTime')?.setValue(numberOfDays);
+
         }
       }
     } else {
@@ -193,6 +204,13 @@ export class FormAttendanceLeaveComponent implements OnInit, OnChanges {
           this.onChangeStartDay(this.createForm.getRawValue().startDay);
           this.createForm.get('endDay')?.setErrors(null);
           this.endDayErrorMessage = '';
+
+          const end = new Date(event).getTime();
+          const start = new Date(this.createForm.getRawValue().startDay).getTime();
+          const millisecondsPerDay = 1000 * 60 * 60 * 24;
+          const differenceMilliseconds = end - start;
+          const numberOfDays = Math.floor(differenceMilliseconds / millisecondsPerDay);
+          this.createForm.get('totalTime')?.setValue(numberOfDays);
         }
       }
     } else {

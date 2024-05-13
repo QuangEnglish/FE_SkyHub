@@ -51,6 +51,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
       leaveCategory: null,
       startDay: null,
       endDay: null,
+      totalTime: null,
       reviewerId: null,
       trackerId: null,
       description: null
@@ -172,6 +173,7 @@ export class ListAttendanceLeaveComponent implements OnInit {
         leaveCategory: data.leaveCategory,
         startDay: data.startDay,
         endDay: data.endDay,
+        totalTime: data.totalTime,
         reviewerId: data.reviewerId,
         trackerId: data.trackerId,
         description: data.description
