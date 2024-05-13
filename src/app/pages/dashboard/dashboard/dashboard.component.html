@@ -10,27 +10,27 @@
         <div class="cards grey">
             <app-ticker-card
                     titleText="Tổng nhân viên"
-                    [data]="data"
-                    [percentage]="20.3"
+                    [total]="totalEmployee"
+                    [percentage]="totalEmployee"
                     icon="group"
             ></app-ticker-card>
             <app-ticker-card
                     titleText="Sinh nhật trong tháng"
-                    [data]="data2"
-                    [percentage]="-14.7"
+                    [total]="totalBirthDayMonth"
+                    [percentage]="totalBirthDayMonth"
                     icon="gift"
             ></app-ticker-card>
             <app-ticker-card
                     titleText="Số ngày đi muộn"
-                    total="16%"
-                    [percentage]="-2.3"
+                    [total]="totalLeaveWork"
+                    [percentage]="totalLateWork"
                     icon="runner"
                     tone="warning"
             ></app-ticker-card>
             <app-ticker-card
                     titleText="Số ngày nghỉ"
-                    total="51"
-                    [percentage]="8.5"
+                    [total]="totalLeaveWork"
+                    [percentage]="totalLeaveWork"
                     tone="info"
                     icon="event"
             ></app-ticker-card>

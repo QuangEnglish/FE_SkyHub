@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataService} from "../../../service/data.service";
 import {Sales, SalesOrOpportunitiesByCategory} from "../../components/ticker-card/ticker-card.component";
-import {formatDate} from "@angular/common";
 import {SalesByState} from "../../components/timeoff-analysis-card/timeoff-analysis-card.component";
-import {SalesByStateAndCity} from "../../components/contract-analysis-card/contract-analysis-card.component";
+import {DashboardService} from "../../../service/dashboard.service";
+import {ToastService} from "../../../service/toast.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 export type PanelItem = { text: string, value: string, key: number };
 export type Dates = { startDate: string, endDate: string};
@@ -33,65 +33,29 @@ export class DashboardComponent implements OnInit {
   salesByCategory!: SalesOrOpportunitiesByCategory;
   lstContractType!: SalesOrOpportunitiesByCategory;
   salesByState!: SalesByState;
+  totalEmployee:any;
+  totalBirthDayMonth:any;
+  totalLateWork:any;
+  totalLeaveWork:any;
+  idUserDetailId: any;
+
 
   @Input() data!: SalesOrOpportunitiesByCategory;
   @Input() data2!: Sales;
 
   isLoading: boolean = true;
 
-  constructor() {}
-
-  selectionChange(dates: Dates) {
-    this.loadData(dates.startDate, dates.endDate);
-  }
-
-  loadData = (startDate: string, endDate: string) => {
-    // this.isLoading = true;
-    // const tasks: Observable<object>[] = [
-    //   ['opportunities', this.service.getOpportunitiesByCategory],
-    //   ['sales', this.service.getSales],
-    //   ['salesByCategory', this.service.getSalesByCategory],
-    //   ['salesByState', (startDate: string, endDate: string) => this.service.getSalesByStateAndCity(startDate, endDate).pipe(
-    //       map((data) => this.service.getSalesByState(data))
-    //   )
-    //   ]
-    // ].map(([dataName, loader]: [string, DataLoader]) => {
-    //   const loaderObservable = loader(startDate, endDate).pipe(share());
-    //
-    //   loaderObservable.subscribe((result: DashboardData) => {
-    //     this[dataName] = result;
-    //   });
-    //
-    //   return loaderObservable;
-    // });
-    //
-    // forkJoin(tasks).subscribe(() => {
-    //   this.isLoading = false;
-    // });
-  };
+  constructor(
+    private dashboardService:DashboardService,
+    private toastService: ToastService,
+    private spinner: NgxSpinnerService,
+  ) {}
 
   ngOnInit(): void {
-    // this.loadData(startDate, endDate);
-    const currentDate = new Date();
-    // this.onRangeChanged({ value: [currentDate] })
-    this.salesByCategory = [
-      {
-        name: "Phòng java",
-        value: 20,
-      },
-      {
-        name: "Phòng vv",
-        value: 25,
-      },
-      {
-        name: "Phòng jađsadva",
-        value: 50,
-      },
-      {
-        name: "Phòng dfd",
-        value: 60,
-      },
-    ];
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.idUserDetailId = userObject.userDetailId;
 
     this.salesByState = [
       {
@@ -150,18 +114,49 @@ export class DashboardComponent implements OnInit {
         value: 60,
       },
     ];
+
+    this.loadStatisticalDepartment();
+    this.loadStatisticalHeader();
   }
 
-  // onRangeChanged = ({ value: dates }: { value: Date[] }) => {
-  //   const [startDate, endDate] = dates.map((date: any) => formatDate(date, 'YYYY-MM-dd', 'en'));
-  //
-  //   this.isLoading = true;
-  //
-  //   this.service.getSalesByCategory(startDate, endDate)
-  //       .subscribe((result) => {
-  //         this.salesByCategory = result;
-  //         this.isLoading = false;
-  //       });
-  // };
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
+
+  loadStatisticalDepartment(){
+    this.dashboardService.getStaticticalDepartment().subscribe(
+      res => {
+        if (res && res.code === "OK") {
+          this.salesByCategory = res.data;
+          this.spinner.hide().then();
+        } else {
+          this.toastService.openErrorToast(res.body.msgCode);
+        }
+        this.spinner.hide().then();
+      }
+    )
+  }
+
+  loadStatisticalHeader(){
+    this.dashboardService.getStaticticalHeader(this.idUserDetailId).subscribe(
+      res => {
+        if (res && res.code === "OK") {
+          this.totalEmployee = res.data.totalEmployee;
+          this.totalBirthDayMonth = res.data.totalBirthDayMonth;
+          this.totalLateWork = res.data.totalLateWork;
+          this.totalLeaveWork = res.data.totalLeaveWork;
+        } else {
+          this.toastService.openErrorToast(res.body.msgCode);
+        }
+      }
+    )
+  }
+
 
 }

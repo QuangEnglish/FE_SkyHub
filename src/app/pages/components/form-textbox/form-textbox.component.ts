@@ -15,6 +15,8 @@ export class FormTextboxComponent implements OnInit {
 
   @Input() label = '';
 
+  @Input() isStyleTop = false;
+
   @Input() mask: string = '';
 
   @Input() icon: string = '';

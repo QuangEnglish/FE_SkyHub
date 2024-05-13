@@ -18,7 +18,7 @@ export type Sales = Sale[];
 })
 export class TickerCardComponent {
 
-  @Input() titleText!: string;
+  @Input() titleText: any;
 
   @Input() data: SalesOrOpportunitiesByCategory | Sales | null = null;
 
