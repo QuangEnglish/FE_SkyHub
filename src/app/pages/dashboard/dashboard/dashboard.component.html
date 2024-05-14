@@ -12,18 +12,21 @@
                     titleText="Tổng nhân viên"
                     [total]="totalEmployee"
                     [percentage]="totalEmployee"
+                    [addText]="' nhân viên'"
                     icon="group"
             ></app-ticker-card>
             <app-ticker-card
                     titleText="Sinh nhật trong tháng"
                     [total]="totalBirthDayMonth"
                     [percentage]="totalBirthDayMonth"
+                    [addText]="' nhân viên'"
                     icon="gift"
             ></app-ticker-card>
             <app-ticker-card
                     titleText="Số ngày đi muộn"
                     [total]="totalLeaveWork"
                     [percentage]="totalLateWork"
+                    [addText]="' ngày'"
                     icon="runner"
                     tone="warning"
             ></app-ticker-card>
@@ -31,6 +34,7 @@
                     titleText="Số ngày nghỉ"
                     [total]="totalLeaveWork"
                     [percentage]="totalLeaveWork"
+                    [addText]="' ngày'"
                     tone="info"
                     icon="event"
             ></app-ticker-card>

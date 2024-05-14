@@ -95,25 +95,6 @@ export class DashboardComponent implements OnInit {
       },
     ];
 
-    // this.lstContractType = [
-    //   {
-    //     name: "Phòng java",
-    //     value: 20,
-    //   },
-    //   {
-    //     name: "Phòng vv",
-    //     value: 25,
-    //   },
-    //   {
-    //     name: "Phòng jađsadva",
-    //     value: 50,
-    //   },
-    //   {
-    //     name: "Phòng dfd",
-    //     value: 60,
-    //   },
-    // ];
-
     this.loadStatisticalDepartment();
     this.loadStatisticalHeader();
     this.loadStatisticalContract();

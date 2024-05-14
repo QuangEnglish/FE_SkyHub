@@ -36,7 +36,7 @@ export class AccountManagementComponent implements OnInit {
     },
     {
       title: 'Trạng thái kích hoạt',
-      width: '140px',
+      width: '170px',
       compare: (a: any, b: any) => a.active - b.active,
     },
     {
