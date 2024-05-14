@@ -29,7 +29,6 @@ export const analyticsPanelItems: Array<PanelItem> = [
 })
 export class DashboardComponent implements OnInit {
 
-  analyticsPanelItems = analyticsPanelItems;
   salesByCategory!: SalesOrOpportunitiesByCategory;
   lstContractType!: SalesOrOpportunitiesByCategory;
   salesByState!: SalesByState;
@@ -96,27 +95,28 @@ export class DashboardComponent implements OnInit {
       },
     ];
 
-    this.lstContractType = [
-      {
-        name: "Phòng java",
-        value: 20,
-      },
-      {
-        name: "Phòng vv",
-        value: 25,
-      },
-      {
-        name: "Phòng jađsadva",
-        value: 50,
-      },
-      {
-        name: "Phòng dfd",
-        value: 60,
-      },
-    ];
+    // this.lstContractType = [
+    //   {
+    //     name: "Phòng java",
+    //     value: 20,
+    //   },
+    //   {
+    //     name: "Phòng vv",
+    //     value: 25,
+    //   },
+    //   {
+    //     name: "Phòng jađsadva",
+    //     value: 50,
+    //   },
+    //   {
+    //     name: "Phòng dfd",
+    //     value: 60,
+    //   },
+    // ];
 
     this.loadStatisticalDepartment();
     this.loadStatisticalHeader();
+    this.loadStatisticalContract();
   }
 
   parseJwt(token: string): string {
@@ -151,6 +151,18 @@ export class DashboardComponent implements OnInit {
           this.totalBirthDayMonth = res.data.totalBirthDayMonth;
           this.totalLateWork = res.data.totalLateWork;
           this.totalLeaveWork = res.data.totalLeaveWork;
+        } else {
+          this.toastService.openErrorToast(res.body.msgCode);
+        }
+      }
+    )
+  }
+
+  loadStatisticalContract(){
+    this.dashboardService.getStaticticalContract().subscribe(
+      res => {
+        if (res && res.code === "OK") {
+          this.lstContractType = res.data;
         } else {
           this.toastService.openErrorToast(res.body.msgCode);
         }

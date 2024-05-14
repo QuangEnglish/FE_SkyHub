@@ -74,7 +74,7 @@ export class ListWageManagermentComponent implements OnInit {
     const formValue = this.searchForm.value;
     const queryModel = {
       wageName: !formValue.wageName ? null : formValue.wageName.toString(),
-      createdDate: !formValue.createdDate ? null : formValue.createdDate.toString()
+      createdDate: !formValue.createdDate ? null : formValue.createdDate
     };
     const pageable = {
       page: currentPage,
