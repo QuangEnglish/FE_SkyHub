@@ -37,4 +37,13 @@ export class AccountService {
       payload,
     );
   }
+
+  updateRoleMenuItem(roleId: any, payload: any): Observable<any> {
+    return this.http.post(
+      AUTH_API + apiAccountManagement.apiUpdateRoleMenuItem + "/"+roleId,
+      payload,
+    );
+  }
+
+
 }

@@ -15,3 +15,24 @@ export interface AccountSearchResponse {
   createdDate: any
   updatedDate: any
 }
+
+export interface Permission {
+  id: number;
+  permissionCode: string;
+  permissionName: string;
+  status: number;
+}
+
+export interface MenuItem {
+  id: number;
+  menuItemCode: string;
+  menuItemName: string;
+  status: number;
+  permissions: Permission[];
+}
+
+export interface Role {
+  id: number;
+  roleName: string;
+  menuItems: MenuItem[];
+}

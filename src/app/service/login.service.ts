@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
 import * as moment from "moment";
+import {MenuItem, Role} from "../pages/system/account-management/types/account";
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +37,7 @@ export class LoginService {
     if(tmp){
       localStorage.setItem('expireIn', tmp.exp);
     }
+    localStorage.setItem('roles', JSON.stringify(authResult.roles));
   }
 
   isLoggedIn() {
@@ -70,4 +72,13 @@ export class LoginService {
 
     return JSON.parse(jsonPayload);
   };
+
+   getListRolesMenuItem(): Role[] {
+    const serializedList = localStorage.getItem("roles");
+    if (serializedList) {
+      return JSON.parse(serializedList);
+    }
+    return [];
+  }
+
 }

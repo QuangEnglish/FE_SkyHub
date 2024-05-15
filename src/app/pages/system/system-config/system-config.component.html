@@ -1,3 +1,6 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#3ec995"
+             type="line-scale" [fullScreen]="false"><p style="color: white"> Đang tải... </p>
+</ngx-spinner>
 <div class="ant-breadcrumb-custom">
   <nz-breadcrumb>
     <nz-breadcrumb nzSeparator=">">
@@ -64,9 +67,14 @@
             </td>
           </tr>
           </tbody>
-          <ng-template #footer></ng-template>
+          <ng-template #footer>
+          </ng-template>
         </nz-table>
       </ng-template>
     </nz-transfer>
+    <div class="d-flex wrapper-submit">
+      <button style="width: 160px;" nz-button nzType="primary" (click)="handleOkModal()">
+        <i class="fa-solid fa-floppy-disk" style="margin-right: 7px;"></i>Lưu</button>
+    </div>
   </nz-collapse-panel>
 </nz-collapse>

@@ -1,5 +1,7 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {LoginService} from "../../../service/login.service";
+import {MenuItem, Role} from "../../system/account-management/types/account";
 
 @Component({
   selector: 'app-side-bar',
@@ -13,6 +15,8 @@ export class SideBarComponent implements OnInit, DoCheck {
   subMenuQLHT: boolean = false
   employeeName: any;
   userId: any;
+  listRolesMenuItem: any;
+  isVisibleAdmin: any;
 
   request: any = {
     listTextSearch: [],
@@ -21,7 +25,8 @@ export class SideBarComponent implements OnInit, DoCheck {
     name: null,
     size: 10, // -: desc | +: asc,
   };
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private loginService:LoginService) { }
 
   ngDoCheck(): void {
     if (this.router.url === '/user') {
@@ -102,6 +107,7 @@ export class SideBarComponent implements OnInit, DoCheck {
     const userObject = JSON.parse(payloadToken.user);
     this.employeeName = userObject.userDetailName;
     this.userId = userObject.userDetailId;
+    this.loadData();
   }
 
   parseJwt(token: string): string {
@@ -122,4 +128,13 @@ export class SideBarComponent implements OnInit, DoCheck {
   navigateToDetails = () => {
     this.router.navigate(['/infor-employee/' + this.userId], {state: {page: this.request}});
   };
+
+  loadData(): void {
+    this.listRolesMenuItem = this.loginService.getListRolesMenuItem();
+
+
+    console.log('//', this.listRolesMenuItem[0]);
+
+  }
+
 }

@@ -1,6 +1,8 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {AccountService} from "../../../service/account.service";
 import {TransferChange, TransferItem} from "ng-zorro-antd/transfer";
+import {ToastService} from "../../../service/toast.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-system-config',
@@ -14,7 +16,9 @@ export class SystemConfigComponent implements OnInit {
   tableLoading: boolean = false
   $asTransferItems = (data: unknown): TransferItem[] => data as TransferItem[];
 
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService,
+              private toastService: ToastService,
+              private spinner: NgxSpinnerService) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -95,4 +99,27 @@ export class SystemConfigComponent implements OnInit {
   clickLog(e: any) {
     console.log(e)
   }
+
+  handleOkModal(){
+    let roleId;
+    if(this.roleSelect == 'ADMIN'){
+      roleId = 2;
+    }else {
+      roleId = 1;
+    }
+    const targetKeys = this.menuItems.filter(item => item.direction === 'right').map(item => item['id']);
+    this.accountService.updateRoleMenuItem(roleId, targetKeys).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.toastService.openSuccessToast('Cập nhật menu thành công');
+      } else {
+        this.toastService.openErrorToast(res.body.msgCode);
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.error.msgCode);
+    }, () => {
+      this.spinner.hide().then();
+    });
+
+  }
+
 }
