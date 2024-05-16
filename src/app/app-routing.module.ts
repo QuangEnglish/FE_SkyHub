@@ -31,6 +31,7 @@ import {
 } from "./pages/quanlychamcong/dangkylichOT/list-attendance-ot/list-attendance-ot.component";
 import {ListWageManagermentComponent} from "./pages/HRM/wage/list-wage-managerment/list-wage-managerment.component";
 import {DetailInforEmployeeComponent} from "./pages/HRM/employee/detail-infor-employee/detail-infor-employee.component";
+import {ChangePasswordComponent} from "./pages/layout/auth-layout/change-password/change-password.component";
 
 const routes: Routes = [
   {
@@ -106,6 +107,10 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'changePassword',
+        component: ChangePasswordComponent
       }
     ]
   }

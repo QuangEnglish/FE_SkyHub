@@ -150,6 +150,7 @@ import { ListWageForEmployeeComponent } from './pages/HRM/wage/list-wage-for-emp
 import { FormWageForEmployeeComponent } from './pages/HRM/wage/form-wage-for-employee/form-wage-for-employee.component';
 import { DetailInforEmployeeComponent } from './pages/HRM/employee/detail-infor-employee/detail-infor-employee.component';
 import { ActionComponentDirective } from './shared/directives/action-component.directive';
+import {ChangePasswordComponent} from "./pages/layout/auth-layout/change-password/change-password.component";
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -239,7 +240,8 @@ const INTERCEPTOR_PROVIDES = [
     ListWageForEmployeeComponent,
     FormWageForEmployeeComponent,
     DetailInforEmployeeComponent,
-    ActionComponentDirective
+    ActionComponentDirective,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

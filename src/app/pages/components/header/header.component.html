@@ -90,10 +90,10 @@
     <nz-dropdown-menu #menu="nzDropdownMenu">
       <ul nz-menu class="wrapper-ul">
         <li nz-menu-item (click)="navigateToDetails()">
-          <span nz-icon nzType="user" nzTheme="outline"></span>Hồ sơ cá nhân
+          <span nz-icon nzType="user" nzTheme="outline"></span> Hồ sơ cá nhân
         </li>
-        <li nz-menu-item (click)="visible = false">
-          <span nz-icon nzType="safety" nzTheme="outline"></span>Đổi mật khẩu
+        <li nz-menu-item (click)="navigateToChangePass()">
+          <span nz-icon nzType="safety" nzTheme="outline"></span> Đổi mật khẩu
         </li>
         <!--        <li nz-menu-item (click)="visible = false">-->
         <!--          <a [routerLink]="'/account'">Quản lý tài khoản</a>-->
@@ -102,7 +102,7 @@
         <!--          <a [routerLink]="'/system'">Quản lý cấu hình</a>-->
         <!--        </li>-->
         <li nz-menu-item nzDanger (click)="logOut()">
-          <span nz-icon nzType="logout" nzTheme="outline"></span>Đăng xuất
+          <span nz-icon nzType="logout" nzTheme="outline"></span> Đăng xuất
         </li>
       </ul>
     </nz-dropdown-menu>

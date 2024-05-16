@@ -7,7 +7,7 @@
       </div>
     </mat-card-title>
   </mat-card>
-  <mat-card class="containner" style="padding: 0">
+  <mat-card class="containner animate__animated animate__fadeInLeft" style="padding: 0">
     <mat-card-title style="display: flex; justify-content: center; background-color: white">
       <div class="wrapper__logo">
         <p style="margin: 0px; font-weight: bold;  text-transform: uppercase; margin-top: 20px;">N-Office</p>
@@ -17,10 +17,10 @@
     <mat-card>
       <mat-card-title style="color: #FFFFFF">Đăng nhập</mat-card-title>
       <mat-card-content>
-        <form [formGroup]="form" (ngSubmit)="login()">
+        <form [formGroup]="form" (keyup.enter)="login()">
           <p>
             <mat-form-field>
-              <input type="email" matInput placeholder="Email" formControlName="email" style="color: #F0F0F0; font-size: 20px;">
+              <input type="email" matInput placeholder="Email" formControlName="email" style="color: #F0F0F0; font-size: 17px;">
             </mat-form-field>
           </p>
           <div *ngIf="form.controls['email'].errors && (form.controls['email'].dirty || form.controls['email'].touched)">
@@ -36,7 +36,7 @@
               <input [type]="hidePassword ? 'password' : 'text'" matInput placeholder="Mật khẩu" formControlName="password" style="color: #F0F0F0; font-size: 20px;">
             </mat-form-field>
             <button (click)="togglePasswordVisibility()" class="cl-button">
-              <i class="fa-solid " [ngClass]="{ 'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword }"></i>
+              <i class="fa-solid " [ngClass]="{ 'fa-eye': hidePassword, 'fa-eye-slash': !hidePassword }" (click)="login()"></i>
             </button>
           </p>
 
@@ -44,7 +44,8 @@
             <i class="fa-solid fa-triangle-exclamation" style="margin-right: 7px;"></i>{{ meassgeError }}
           </p>
 
-          <div class="button">
+          <div class="button d-flex justify-content-between">
+            <a style="color: #03a9f4; margin-top: 15px;" [routerLink]="'/auth/changePassword'">Quên mật khẩu</a>
             <button type="submit" [disabled]="!form.valid" mat-button style="color: #FFFFFF; background-color: #181818" (click)="login()">Đăng nhập</button>
           </div>
 
