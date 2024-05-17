@@ -24,7 +24,7 @@
     </span>
   </div>
   <div class="d-flex wrapper-right">
-    <button nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)"
+    <button class="btn-gift" nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)"
             style="margin-right: 10px;position: relative;">
       <i class="fa-solid fa-gift" style="font-size: 20px;"></i>
       <div class="circle"></div>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </ng-template>
-    <button nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)"
+    <button class="btn-nofi" nz-button [nzType]="'text'" [nzShape]="'circle'" (click)="ninja(template2)"
             style="margin-right: 10px;position: relative;">
       <i class="fas fa-bell" style="font-size: 20px;"></i>
       <div class="circle"></div>
@@ -85,26 +85,27 @@
             <span>{{employeeName}}</span>
           </div>
         </div>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu class="wrapper-ul">
+            <li nz-menu-item (click)="navigateToDetails()">
+              <span nz-icon nzType="user" nzTheme="outline"></span> Hồ sơ cá nhân
+            </li>
+            <li nz-menu-item (click)="navigateToChangePass()">
+              <span nz-icon nzType="safety" nzTheme="outline"></span> Đổi mật khẩu
+            </li>
+            <!--        <li nz-menu-item (click)="visible = false">-->
+            <!--          <a [routerLink]="'/account'">Quản lý tài khoản</a>-->
+            <!--        </li>-->
+            <!--        <li nz-menu-item (click)="visible = false">-->
+            <!--          <a [routerLink]="'/system'">Quản lý cấu hình</a>-->
+            <!--        </li>-->
+            <li nz-menu-item nzDanger (click)="logOut()">
+              <span nz-icon nzType="logout" nzTheme="outline"></span> Đăng xuất
+            </li>
+          </ul>
+        </nz-dropdown-menu>
       </div>
     </a>
-    <nz-dropdown-menu #menu="nzDropdownMenu">
-      <ul nz-menu class="wrapper-ul">
-        <li nz-menu-item (click)="navigateToDetails()">
-          <span nz-icon nzType="user" nzTheme="outline"></span> Hồ sơ cá nhân
-        </li>
-        <li nz-menu-item (click)="navigateToChangePass()">
-          <span nz-icon nzType="safety" nzTheme="outline"></span> Đổi mật khẩu
-        </li>
-        <!--        <li nz-menu-item (click)="visible = false">-->
-        <!--          <a [routerLink]="'/account'">Quản lý tài khoản</a>-->
-        <!--        </li>-->
-        <!--        <li nz-menu-item (click)="visible = false">-->
-        <!--          <a [routerLink]="'/system'">Quản lý cấu hình</a>-->
-        <!--        </li>-->
-        <li nz-menu-item nzDanger (click)="logOut()">
-          <span nz-icon nzType="logout" nzTheme="outline"></span> Đăng xuất
-        </li>
-      </ul>
-    </nz-dropdown-menu>
+
   </div>
 </div>

@@ -27,6 +27,7 @@
           </ul>
         </li>
         <li
+          appCheckAuthorize
           nz-menu-item
           [nzMatchRouter]="true"
         >
@@ -34,17 +35,22 @@
           <span><a [routerLink]="'/wage'">Thông tin phụ cấp</a></span>
         </li>
         <li
+          appCheckAuthorize
           nz-menu-item
           [nzMatchRouter]="true"
         >
           <!--          <i nz-icon nzTheme="outline"></i>-->
           <span><a [routerLink]="'/contract'">Quản lý hợp đồng</a></span>
         </li>
-        <li nz-menu-item [nzMatchRouter]="true">
+        <li
+          appCheckAuthorize
+          nz-menu-item [nzMatchRouter]="true">
           <!--          <i nz-icon nzTheme="outline"></i>-->
           <span><a [routerLink]="'/department'">Phòng ban</a></span>
         </li>
-        <li nz-menu-item [nzMatchRouter]="true">
+        <li
+          appCheckAuthorize
+          nz-menu-item [nzMatchRouter]="true">
           <!--          <i nz-icon nzTheme="outline"></i>-->
           <span><a [routerLink]="'/position'">Chức vụ</a></span>
         </li>
@@ -63,7 +69,7 @@
         </li>
       </ul>
     </li>
-    <li nz-submenu nzTitle="Quản trị hệ thống" nzIcon="database" [nzOpen]="subMenuQLHT">
+    <li appCheckAuthorize nz-submenu nzTitle="Quản trị hệ thống" nzIcon="database" [nzOpen]="subMenuQLHT">
       <ul>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/register'">Tạo tài khoản</a></span></li>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/account'">Quản lý tài khoản</a></span></li>

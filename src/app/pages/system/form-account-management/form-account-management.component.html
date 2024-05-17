@@ -5,23 +5,27 @@
         <div nz-row>
           <app-input-text-v2 [ngClass]="'w-100'" formControlName="email" [required]="true"
                              label="Email" nz-col nzSpan="24"
-                             [ngStyleCus] ="{'padding-left' : '50px'}"
+                             [ngStyleCus]="{'padding-left' : '50px'}"
                              [nzAllowClear]="true"></app-input-text-v2>
         </div>
         <div nz-row>
           <nz-form-item nz-col nzSpan="24">
             <nz-form-control>
-              <nz-form-label [nzRequired]="true"
-                             [hidden]="false">Vai trò</nz-form-label>
-              <nz-select
-                [nzMaxTagCount]="3"
-                [nzMaxTagPlaceholder]="tagPlaceHolder"
-                nzMode="multiple"
-                nzPlaceHolder="Chọn vai trò người dùng"
-                formControlName="roles"
-              >
-                <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
-              </nz-select>
+              <div class="d-flex">
+                <nz-form-label [nzRequired]="true"
+                               [hidden]="false">Vai trò
+                </nz-form-label>
+                <nz-select
+                  [nzMaxTagCount]="3"
+                  [nzMaxTagPlaceholder]="tagPlaceHolder"
+                  nzMode="multiple"
+                  nzPlaceHolder="Chọn vai trò người dùng"
+                  formControlName="roles"
+                  [ngStyle]="{'margin-left': '52px'}"
+                >
+                  <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
+                </nz-select>
+              </div>
               <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
             </nz-form-control>
           </nz-form-item>

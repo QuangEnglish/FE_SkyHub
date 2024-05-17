@@ -55,6 +55,8 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
     name: null,
     size: 10, // -: desc | +: asc,
   };
+  isUserOffice =  false;
+  idUserDetail: any;
 
   constructor(private screen: ScreenService,
               private employeeService: EmployeeService,
@@ -73,6 +75,10 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
   }
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.idUserDetail = userObject.userDetailId;
     this.calculatePin();
     this.fetchDepartment();
     this.fetchPosition();
@@ -85,6 +91,11 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
   ngOnChanges(changes: SimpleChanges): void {
     const {userId} = changes;
     if (typeof userId.currentValue === 'number' && userId?.currentValue) {
+      if( this.idUserDetail === userId.currentValue){
+        this.isUserOffice = true;
+      }else{
+        this.isUserOffice = false;
+      }
       this.loadUserById(userId.currentValue);
     }
   }
@@ -92,6 +103,16 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
   ngOnDestroy(): void {
     this.userPanelSubscriptions.forEach((sub) => sub.unsubscribe());
   }
+
+  parseJwt(token: string) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
 
   loadUserById = (id: number) => {
     this.isLoading = true;

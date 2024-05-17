@@ -24,26 +24,18 @@ export class ActionComponentDirective implements OnInit, AfterViewInit{
   }
 
   checkAuthorize(){
-    // const optionalRole = this.loginService.getListRolesMenuItem();
-    // this.userComponent = optionalRole[0];
-    // if(this.userComponent.roleName === "ADMIN"){
-    //   return this.el.nativeElement.hidden = true;
-    // }
-    //
-    // // const lstMenuItem = this.userComponent.menuItems;
-    // // for (let index = 0; index < lstMenuItem.length; index++){
-    // //   if (this.jhiActionComponent === this.userComponent[index].label){
-    // //     return this.el.nativeElement.hidden = this.userComponent[index].value;
-    // //   }
-    // // }
-    // return this.el.nativeElement.hidden = false;
     const optionalRole = this.loginService.getListRolesMenuItem();
     if (optionalRole && optionalRole.length > 0) {
-      this.userComponent = optionalRole[0];
-      if (this.userComponent.roleName !== "ADMIN") {
-        this.el.nativeElement.hidden = true;
-      } else {
-        this.el.nativeElement.hidden = false;
+      for(let index = 0; index <optionalRole.length; index++ ){
+        this.userComponent = optionalRole[index];
+        if (this.userComponent.roleName !== "ADMIN") {
+          this.el.nativeElement.hidden = true;  //ẩn đi
+          this.el.nativeElement.style.display = 'none';
+        } else {
+          this.el.nativeElement.hidden = false;  //hiển thị
+          this.el.nativeElement.style.display = 'table-cell';
+          break;
+        }
       }
     } else {
       console.error('No roles found');

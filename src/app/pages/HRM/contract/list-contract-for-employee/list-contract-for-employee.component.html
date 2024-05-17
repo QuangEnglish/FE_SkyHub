@@ -12,7 +12,7 @@
       </div>
       <div *ngIf="isVisableButton" class="list__head-right">
         <div class="list__head-btn">
-          <app-button-create (clickCreate)="openCreateModal()" [loading]="isLoading"></app-button-create>
+          <app-button-create appCheckAuthorize (clickCreate)="openCreateModal()" [loading]="isLoading"></app-button-create>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
           <th nzWidth="150px" class="text-center">
             Ngày ký kết
           </th>
-          <th *ngIf="isVisableButton" nzWidth="150px" class="text-center" nzRight="0px">
+          <th appCheckAuthorize *ngIf="isVisableButton" nzWidth="150px" class="text-center" nzRight="0px">
             Hành động
           </th>
         </tr>
@@ -68,7 +68,7 @@
             <td class="max-width-150 text-center" [nz-tooltip]="data.activeDate | date: 'dd/MM/yyyy'">{{ data.activeDate | date: 'dd/MM/yyyy' }}</td>
             <td class="max-width-150 text-center" [nz-tooltip]="data.expiredDate | date: 'dd/MM/yyyy'">{{ data.expiredDate | date: 'dd/MM/yyyy' }}</td>
             <td class="max-width-150 text-center" [nz-tooltip]="data.signDate | date: 'dd/MM/yyyy'">{{ data.signDate | date: 'dd/MM/yyyy' }}</td>
-            <td *ngIf="isVisableButton" class="text-center max-width-150" nzRight="0px">
+            <td appCheckAuthorize *ngIf="isVisableButton" class="text-center max-width-150" nzRight="0px">
               <div class="action">
                 <app-button-icon class="action__margin" [isEdit] = "true"
                                  [tooltipTitle]="'Cập nhật hợp đồng'"

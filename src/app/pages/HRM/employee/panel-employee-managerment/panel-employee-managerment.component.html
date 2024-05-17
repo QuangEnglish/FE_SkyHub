@@ -176,6 +176,8 @@
             <dx-toolbar>
               <dxi-item location="after" [visible]="!isEditing">
                 <dx-button
+                  *ngIf="!isUserOffice"
+                  appCheckAuthorize
                   text="Chỉnh sửa"
                   icon="edit"
                   stylingMode="contained"
@@ -183,9 +185,27 @@
                   (onClick)="toggleEdit()"
                 >
                 </dx-button>
+                <dx-button *ngIf="isUserOffice"
+                           text="Chỉnh sửa"
+                           icon="edit"
+                           stylingMode="contained"
+                           type="default"
+                           (onClick)="toggleEdit()"
+                >
+                </dx-button>
               </dxi-item>
               <dxi-item location="after" [visible]="!isEditing">
                 <dx-button
+                  *ngIf="!isUserOffice"
+                  appCheckAuthorize
+                  text="Chi tiết"
+                  stylingMode="outlined"
+                  type="normal"
+                  (onClick)="navigateToDetails()"
+                >
+                </dx-button>
+                <dx-button
+                  *ngIf="isUserOffice"
                   text="Chi tiết"
                   stylingMode="outlined"
                   type="normal"
