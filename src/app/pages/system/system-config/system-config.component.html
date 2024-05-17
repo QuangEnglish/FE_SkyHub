@@ -36,7 +36,7 @@
         let-onItemSelectAll="onItemSelectAll"
         let-onItemSelect="onItemSelect"
       >
-        <nz-table #t [nzShowPagination]="false" [nzFooter]="footer" nzBordered [nzData]="$asTransferItems(items)"
+        <nz-table #t [nzShowPagination]="true" [nzFooter]="footer" nzBordered [nzData]="$asTransferItems(items)"
                   nzSize="small" [nzTitle]="direction === 'left' ? 'Danh sách Menu' : 'Menu hiện tại'" [nzLoading]="tableLoading">
           <thead>
           <tr>
@@ -68,6 +68,13 @@
           </tr>
           </tbody>
           <ng-template #footer>
+<!--            <nz-pagination-->
+<!--              [(nzPageIndex)]="pageIndex"-->
+<!--              [(nzPageSize)]="pageSize"-->
+<!--              [nzTotal]="total"-->
+<!--              (nzPageIndexChange)="onPageIndexChange($event)"-->
+<!--              (nzPageSizeChange)="onPageSizeChange($event)">-->
+<!--            </nz-pagination>-->
           </ng-template>
         </nz-table>
       </ng-template>

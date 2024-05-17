@@ -55,7 +55,7 @@
       <dxi-item location="before">
         <div class="grid-header">Nhân viên</div>
       </dxi-item>
-      <dxi-item location="after" locateInMenu="auto">
+      <dxi-item location="after" locateInMenu="auto" appCheckAuthorize>
         <dx-button
           text="Thêm nhân viên"
           icon="plus"
@@ -142,7 +142,8 @@
   </app-panel-employee-managerment>
 
   <app-form-popup [(visible)]="isAddContactPopupOpened" (save)="handleOkModal()" titleText="Thêm nhân viên mới">
-    <app-form-employee-managerment></app-form-employee-managerment>
+      <app-form-employee-managerment></app-form-employee-managerment>
   </app-form-popup>
+
 </div>
 

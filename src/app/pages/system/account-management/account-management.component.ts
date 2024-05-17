@@ -1,6 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
 import {AccountService} from "../../../service/account.service";
 import {AccountSearchResponse, AccountSearchRequest} from "./types/account";
+import {
+  PositionManagermentFormComponent
+} from "../../HRM/position/position-managerment-form/position-managerment-form.component";
+import {NzModalService} from "ng-zorro-antd/modal";
+import {NgxSpinnerService} from "ngx-spinner";
+import {ToastService} from "../../../service/toast.service";
+import {FormAccountManagementComponent} from "../form-account-management/form-account-management.component";
 
 @Component({
   selector: 'app-account-management',
@@ -9,6 +16,8 @@ import {AccountSearchResponse, AccountSearchRequest} from "./types/account";
 })
 export class AccountManagementComponent implements OnInit {
   searchActive: boolean = true
+  isLoading = false;
+
   resultActive: boolean = true
   tableLoading: boolean = false
   pagination: {total: number, current: number, pageSize: number} = {
@@ -49,16 +58,15 @@ export class AccountManagementComponent implements OnInit {
       width: '140px',
       compare: (a: any, b: any) => a.createdAt - b.createdAt ,
     },
-    {
-      title: 'Ngày cập nhật',
-      width: '140px',
-      compare: (a: any, b: any) => a.updatedAt - b.updatedAt,
-    },
-
   ];
 
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService,
+              private modal : NzModalService,
+              private spinner: NgxSpinnerService,
+              private viewContainerRef: ViewContainerRef,
+              private toastService: ToastService,
+  ) { }
 
   ngOnInit(): void {
     this.getData()
@@ -83,4 +91,29 @@ export class AccountManagementComponent implements OnInit {
     this.pagination.pageSize = $event
     this.getData()
   }
+
+  openUpdateModal(data?: any): void {
+    const modalRef = this.modal.create({
+      nzTitle: 'Cập nhật tài khoản',
+      nzContent: FormAccountManagementComponent,
+      nzWidth: '700px',
+      nzViewContainerRef: this.viewContainerRef,
+      nzComponentParams: {
+        isUpdate: true,
+        emailForm: data.email,
+        rolesForm: data.roles,
+      },
+      nzOnOk: () => new Promise((resolve) => setTimeout(resolve, 3000)),
+      nzFooter: null,
+      nzMaskClosable: false,
+    });
+    modalRef.afterClose.subscribe(rs => {
+      this.isLoading = true;
+      if(this.isLoading){
+        this.getData();
+      }
+    });
+  }
+
+
 }

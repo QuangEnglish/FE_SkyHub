@@ -112,13 +112,16 @@
         <td style="text-align: center">{{ data.active === 1 ? 'Kích hoạt' : 'Chưa kích hoạt'}}</td>
         <td style="text-align: center">{{ data.roles }}</td>
         <td style="text-align: center">{{ data.createdDate | date: 'dd/MM/yyyy'}}</td>
-        <td style="text-align: center">{{ data.updatedDate | date: 'dd/MM/yyyy'}}</td>
         <td>
           <div nz-row nzGutter="16" nzJustify="center">
             <div nz-col>
-              <span nz-tooltip nzTooltipTitle="Cập nhật">
-                <span nz-icon nzType="edit" nzTheme="outline" style="cursor: pointer; color: red"></span>
-              </span>
+<!--              <span nz-tooltip nzTooltipTitle="Cập nhật">-->
+<!--                <span nz-icon nzType="edit" nzTheme="outline" style="cursor: pointer; color: red"></span>-->
+<!--              </span>-->
+              <app-button-icon class="action__margin" [isEdit] = "true"
+                               [tooltipTitle]="'Cập nhật tài khoản'"
+                               [loading]="isLoading"
+                               (clickAction)="openUpdateModal(data)"></app-button-icon>
             </div>
             <div nz-col>
                 <span nz-tooltip nzTooltipTitle="Cấu hình chi tiết">

@@ -13,7 +13,10 @@ export class SystemConfigComponent implements OnInit {
   resultActive = true;
   roleSelect: string = 'ADMIN'
   menuItems: TransferItem[] = []
-  tableLoading: boolean = false
+  tableLoading: boolean = false;
+  pageIndex = 1;
+  pageSize = 10;
+  total = 0;
   $asTransferItems = (data: unknown): TransferItem[] => data as TransferItem[];
 
   constructor(private accountService: AccountService,
@@ -40,6 +43,7 @@ export class SystemConfigComponent implements OnInit {
           }
           return e;
         });
+
       },
       complete: () => {
         this.tableLoading = false
@@ -64,6 +68,9 @@ export class SystemConfigComponent implements OnInit {
           })
         })
         this.menuItems = [...this.menuItems, ...ret]
+        // this.total = this.menuItems.length;
+        // this.menuItems = this.menuItems.slice((this.pageIndex - 1) * this.pageSize, this.pageIndex * this.pageSize);
+
       }
     })
   }
@@ -121,5 +128,18 @@ export class SystemConfigComponent implements OnInit {
     });
 
   }
+
+  onPageSizeChange(size: number) {
+    this.pageSize = size;
+    this.pageIndex = 1; // Reset về trang đầu tiên
+    this.getAllMenuItem();
+  }
+
+  onPageIndexChange(index: number) {
+    this.pageIndex = index;
+    this.getAllMenuItem();
+  }
+
+
 
 }

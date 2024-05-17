@@ -2,11 +2,11 @@ import {AfterViewInit, Directive, DoCheck, ElementRef, Input, OnInit, Renderer2}
 import {LoginService} from "../../service/login.service";
 
 @Directive({
-  selector: '[appActionComponent]'
+  selector: '[appCheckAuthorize]'
 })
-export class ActionComponentDirective implements OnInit, AfterViewInit, DoCheck{
+export class ActionComponentDirective implements OnInit, AfterViewInit{
 
-  @Input() jhiActionComponent!: string;
+  // @Input() jhiActionComponent!: string;
 
   userComponent: any;
 
@@ -19,22 +19,37 @@ export class ActionComponentDirective implements OnInit, AfterViewInit, DoCheck{
   ngAfterViewInit(): void {
   }
 
-  ngDoCheck(): void {
-  }
-
   ngOnInit(): void {
     this.checkAuthorize();
   }
 
   checkAuthorize(){
+    // const optionalRole = this.loginService.getListRolesMenuItem();
+    // this.userComponent = optionalRole[0];
+    // if(this.userComponent.roleName === "ADMIN"){
+    //   return this.el.nativeElement.hidden = true;
+    // }
+    //
+    // // const lstMenuItem = this.userComponent.menuItems;
+    // // for (let index = 0; index < lstMenuItem.length; index++){
+    // //   if (this.jhiActionComponent === this.userComponent[index].label){
+    // //     return this.el.nativeElement.hidden = this.userComponent[index].value;
+    // //   }
+    // // }
+    // return this.el.nativeElement.hidden = false;
     const optionalRole = this.loginService.getListRolesMenuItem();
-    this.userComponent = optionalRole[0];
-    for (let index = 0; index < this.userComponent.length; index++){
-      if (this.jhiActionComponent === this.userComponent[index].label){
-        return this.el.nativeElement.hidden = this.userComponent[index].value;
+    if (optionalRole && optionalRole.length > 0) {
+      this.userComponent = optionalRole[0];
+      if (this.userComponent.roleName !== "ADMIN") {
+        this.el.nativeElement.hidden = true;
+      } else {
+        this.el.nativeElement.hidden = false;
       }
+    } else {
+      console.error('No roles found');
+      this.el.nativeElement.hidden = false; // Hoặc hành động mặc định khác
     }
-    this.el.nativeElement.hidden = true;
+
   }
 
 }

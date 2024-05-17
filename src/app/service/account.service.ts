@@ -45,5 +45,12 @@ export class AccountService {
     );
   }
 
+  updateRole(email: any, roleNames: string[]): Observable<any>{
+    return this.http.put(
+      AUTH_API + apiAccountManagement.apiUpdateRole + "/"+email,
+      roleNames,
+    )
+  }
+
 
 }
