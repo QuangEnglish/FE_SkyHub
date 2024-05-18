@@ -33,7 +33,7 @@ export class ActionComponentDirective implements OnInit, AfterViewInit{
           this.el.nativeElement.style.display = 'none';
         } else {
           this.el.nativeElement.hidden = false;  //hiển thị
-          this.el.nativeElement.style.display = 'table-cell';
+          this.el.nativeElement.style.display = 'block';
           break;
         }
       }

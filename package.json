@@ -20,6 +20,8 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "@delon/theme": "^13.0.0",
+    "@stomp/ng2-stompjs": "^8.0.0",
+    "@stomp/stompjs": "^7.0.0",
     "bootstrap": "^5.0.1",
     "devexpress-gantt": "^4.1.51",
     "devextreme": "^23.2.5",
