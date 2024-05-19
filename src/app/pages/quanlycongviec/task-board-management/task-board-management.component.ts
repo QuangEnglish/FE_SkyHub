@@ -16,7 +16,7 @@ export class TaskBoardManagementComponent implements OnChanges {
 
   @ViewChild(DxSortableComponent, { static: false }) sortable!: DxSortableComponent;
 
-  @Input() dataSource!: Task[];
+  @Input() dataSource!: TaskForm[];
 
   @Output() addTaskEvent: EventEmitter<any> = new EventEmitter();
 
@@ -51,8 +51,8 @@ export class TaskBoardManagementComponent implements OnChanges {
     }
   }
 
-  // getCardsByStatus = (status: TaskStatus): Task[] => {
-  //   const cards: Task[] = this.dataSource
+  // getCardsByStatus = (status: TaskStatus): TaskForm[] => {
+  //   const cards: TaskForm[] = this.dataSource
   //     .filter((task) => task.status === status);
   //
   //   return cards;

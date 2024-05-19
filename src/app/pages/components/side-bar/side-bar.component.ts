@@ -13,6 +13,7 @@ export class SideBarComponent implements OnInit, DoCheck {
   subMenuQLNS: boolean = false
   subMenuLLV: boolean = false
   subMenuQLHT: boolean = false
+  subMenuQLCV: boolean = false
   employeeName: any;
   userId: any;
   listRolesMenuItem: any;
@@ -25,8 +26,10 @@ export class SideBarComponent implements OnInit, DoCheck {
     name: null,
     size: 10, // -: desc | +: asc,
   };
+
   constructor(private router: Router,
-              private loginService:LoginService) { }
+              private loginService: LoginService) {
+  }
 
   ngDoCheck(): void {
     if (this.router.url === '/user') {
@@ -37,64 +40,55 @@ export class SideBarComponent implements OnInit, DoCheck {
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
+      this.subMenuQLCV = false
     } else if (this.router.url === '/position') {
       // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
-    }
-    else if (this.router.url === '/employee') {
+      this.subMenuQLCV = false
+    } else if (this.router.url === '/employee') {
       // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
-    }
-    else if (this.router.url.includes('/detail-employee') || this.router.url.includes('/infor-employee')) {
+      this.subMenuQLCV = false
+    } else if (this.router.url.includes('/detail-employee') || this.router.url.includes('/infor-employee')) {
       // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
-    }
-    else if (this.router.url === '/contract' || this.router.url === '/wage') {
+      this.subMenuQLCV = false
+    } else if (this.router.url === '/contract' || this.router.url === '/wage') {
       // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
-    }
-    else if (this.router.url === '/attendance') {
+      this.subMenuQLCV = false
+    } else if (this.router.url === '/attendance' || this.router.url === '/attendanceleave' || this.router.url === '/attendanceOt') {
       // this.isCollapsed = false
       this.subMenuLLV = true
       this.subMenuQLNS = false
       this.subMenuQLHT = false
-    }
-    else if (this.router.url === '/attendanceleave') {
-      // this.isCollapsed = false
-      this.subMenuLLV = true
-      this.subMenuQLNS = false
-      this.subMenuQLHT = false
-    }
-    else if (this.router.url === '/attendanceOt') {
-      // this.isCollapsed = false
-      this.subMenuLLV = true
-      this.subMenuQLNS = false
-      this.subMenuQLHT = false
-    }
-    else if (this.router.url === '/register') {
+      this.subMenuQLCV = false
+    } else if (this.router.url === '/register' || this.router.url === '/system' || this.router.url === '/account') {
       // this.isCollapsed = false
       this.subMenuQLHT = true
       this.subMenuQLNS = false
       this.subMenuLLV = false
-    }
-    else if (this.router.url === '/system' || this.router.url === '/account') {
-      // this.isCollapsed = true
+      this.subMenuQLCV = false
+    } else if (this.router.url === '/project' || this.router.url === '/task-list' || this.router.url === '/task-board') {
+      this.subMenuQLHT = false
       this.subMenuQLNS = false
       this.subMenuLLV = false
+      this.subMenuQLCV = true
     } else {
       this.subMenuQLNS = false
       this.subMenuLLV = false
       this.subMenuQLHT = false
+      this.subMenuQLCV = false
     }
-    if(document.body.offsetWidth <= 1024){
+    if (document.body.offsetWidth <= 1024) {
       this.isCollapsed = true
     } else {
       this.isCollapsed = false
@@ -122,7 +116,7 @@ export class SideBarComponent implements OnInit, DoCheck {
 
   toggleCollapsed(): void {
     this.isCollapsed = !this.isCollapsed;
-    console.log("//"+this.isCollapsed);
+    console.log("//" + this.isCollapsed);
   }
 
   navigateToDetails = () => {

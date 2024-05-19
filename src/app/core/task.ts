@@ -19,7 +19,7 @@ export type TaskPriority = (typeof taskPriorityList)[number];
 
 export type TaskStatus = (typeof taskStatusList)[number];
 
-export type Task = {
+export type TaskForm = {
   activities: Activity[],
   description: string,
   calendarId?: number,
@@ -39,7 +39,7 @@ export type Task = {
 };
 
 
-export const newTask: Task = {
+export const newTask: TaskForm = {
   id: null,
   text: '',
   description: '',

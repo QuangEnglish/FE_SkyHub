@@ -10,6 +10,7 @@ import {
 import {Contact} from "../core/contact";
 import { add } from 'date-fns';
 import {SalesOrOpportunitiesByCategory} from "../pages/components/ticker-card/ticker-card.component";
+import {TaskForm} from "../core/task";
 
 const API_URL = 'https://js.devexpress.com/Demos/RwaService/api';
 
@@ -25,14 +26,14 @@ export class DataService {
   public getContact = (id: number) =>
     this.http.get<Contact>(`${API_URL}/Users/Contacts/${id}`);
 
-  public getTasks = (): Observable<Task[]> =>
-    this.http.get<Task[]>(`${API_URL}/Employees/AllTasks`);
+  public getTasks = (): Observable<any> =>
+    this.http.get<TaskForm[]>(`${API_URL}/Employees/AllTasks`);
 
-  public getFilteredTasks = (): Observable<Task[]> =>
-    this.http.get<Task[]>(`${API_URL}/Employees/FilteredTasks`);
+  public getFilteredTasks = (): Observable<any> =>
+    this.http.get<TaskForm[]>(`${API_URL}/Employees/FilteredTasks`);
 
-  public getTask = (id: number): Observable<Task> =>
-    this.http.get<Task>(`${API_URL}/Employees/Tasks/${id}`);
+  public getTask = (id: number): Observable<any> =>
+    this.http.get<TaskForm>(`${API_URL}/Employees/Tasks/${id}`);
 
   public getContactNotes = (id: number) =>
     this.http.get(`${API_URL}/Users/Contacts/${id}/Notes`);

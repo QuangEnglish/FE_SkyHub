@@ -3,6 +3,7 @@ import {Activity} from "../../../core/activities";
 import {Opportunities} from "../../../core/opportunities";
 import {Notes} from "../../../core/notes";
 import {Messages} from "../../../core/messages";
+import {TaskForm} from "../../../core/task";
 
 @Component({
   selector: 'app-contact-cards',
@@ -11,7 +12,7 @@ import {Messages} from "../../../core/messages";
 })
 export class ContactCardsComponent {
 
-  @Input() tasks: Task[] | undefined;
+  @Input() tasks: TaskForm[] | undefined;
 
   @Input() activities: Activity[] | undefined;
 

@@ -1,5 +1,5 @@
 import { Activity } from './activities';
-import { Task } from './task';
+import { TaskForm } from './task';
 import { Opportunities } from './opportunities';
 
 export const contactStatusList: string[] = [

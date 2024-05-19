@@ -77,11 +77,12 @@
         <li nz-menu-item [nzMatchRouter]="true"><span><a >Cấu hình</a></span></li>
       </ul>
     </li>
-    <!--    <li nz-submenu nzTitle="Quản lý công việc" nzIcon="carry-out">-->
-    <!--      <ul>-->
-    <!--        <li nz-menu-item>Danh sách công việc</li>-->
-    <!--        <li nz-menu-item>Chi tiết công việc</li>-->
-    <!--      </ul>-->
-    <!--    </li>-->
+    <li appCheckAuthorize nz-submenu nzTitle="Quản lý công việc" nzIcon="carry-out" [nzOpen]="subMenuQLCV">
+      <ul>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/project'">Dự án</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/task-list'">Danh sách công việc</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/project/' + userId">Việc của tôi</a></span></li>
+      </ul>
+    </li>
   </ul>
 </div>
