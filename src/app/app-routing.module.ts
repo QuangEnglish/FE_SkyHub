@@ -34,11 +34,14 @@ import {DetailInforEmployeeComponent} from "./pages/HRM/employee/detail-infor-em
 import {ChangePasswordComponent} from "./pages/layout/auth-layout/change-password/change-password.component";
 import {
   ProjectListManagementComponent
-} from "./pages/quanlycongviec/project-list-management/project-list-management.component";
+} from "./pages/quanlycongviec/project/project-list-management/project-list-management.component";
 import {
   TaskBoardManagementComponent
 } from "./pages/quanlycongviec/task-board-management/task-board-management.component";
 import {TaskListManagementComponent} from "./pages/quanlycongviec/task-list-management/task-list-management.component";
+import {
+  CreateProjectManagementComponent
+} from "./pages/quanlycongviec/project/create-project-management/create-project-management.component";
 
 const routes: Routes = [
   {
@@ -107,12 +110,26 @@ const routes: Routes = [
       },
       {
         path: 'project',
-        component: ProjectListManagementComponent
+        component: ProjectListManagementComponent,
+        // children:[
+        //   {
+        //     path: 'add',
+        //     component: CreateProjectManagementComponent
+        //   },
+        // ]
+      },
+      {
+        path: 'project/add',
+        component: CreateProjectManagementComponent
       },
       {
         path: 'project/:id',
         component: ProjectListManagementComponent
       },
+      // {
+      //   path: 'add',
+      //   component: CreateProjectManagementComponent
+      // },
       {
         path: 'task-board',
         component: TaskBoardManagementComponent
