@@ -22,8 +22,9 @@
         <i nz-icon nzType="caret-right" class="ant-collapse-arrow" [nzRotate]="formPanel.nzActive ? 90 : -90"></i>
       </ng-template>
       <form nz-form [formGroup]="addForm" nzLayout="vertical">
-        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }" class="d-flex justify-content-center">
-          <div style="width: 200px; height: 200px;">
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }"
+             class="d-flex justify-content-center">
+          <div style="width: 200px; height: 120px;">
             <nz-upload
               nzAction=""
               nzListType="picture-card"
@@ -47,6 +48,32 @@
             <ng-template #modalContent>
               <img [src]="previewImage" [alt]="previewTitle" style="width: 100%"/>
             </ng-template>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+          <div nz-col [nzSm]="24" [nzMd]="24" [nzLg]="24">
+            <nz-form-item nz-col nzSpan="24">
+              <nz-form-control>
+                <div class="d-flex">
+                  <div style="width: 200px;">
+                    <nz-form-label [nzRequired]="true"
+                                   [hidden]="false">Nhân viên tham gia
+                    </nz-form-label>
+                  </div>
+                  <nz-select
+                    [nzMaxTagCount]="3"
+                    [nzMaxTagPlaceholder]="tagPlaceHolder"
+                    nzMode="multiple"
+                    nzPlaceHolder="Chọn nhân viên tham gia"
+                    formControlName="employees"
+                    [ngStyle]="{'margin-left': '52px'}"
+                  >
+                    <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
+                  </nz-select>
+                </div>
+                <ng-template #tagPlaceHolder let-selectedList>và hơn {{ selectedList.length }} người khác</ng-template>
+              </nz-form-control>
+            </nz-form-item>
           </div>
         </div>
         <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
@@ -117,43 +144,47 @@
         <div nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32}">
           <nz-form-item nz-col nzSpan="24">
             <nz-form-control>
-              <app-input-textarea-v2 formControlName="projectDescription" [maxlength]="'5000'"
-                                     label="Mô tả"
-                                     [placeholder]="'Nhập nội dung mô tả'"
-                                     [nzAllowClear]="true" [nzAutosize]="{ minRows: 6, maxRows: 10 }">
-              </app-input-textarea-v2>
+              <!--              <app-input-textarea-v2 formControlName="projectDescription" [maxlength]="'5000'"-->
+              <!--                                     label="Mô tả"-->
+              <!--                                     [placeholder]="'Nhập nội dung mô tả'"-->
+              <!--                                     [nzAllowClear]="true" [nzAutosize]="{ minRows: 6, maxRows: 10 }">-->
+              <!--              </app-input-textarea-v2>-->
+              <ckeditor [editor]="Editor" formControlName="projectDescription"
+                        [ngStyle]="{'min-height': '300px'}">
+              </ckeditor>
             </nz-form-control>
           </nz-form-item>
         </div>
       </form>
+      <div nz-row class="nz-card__form-action pt-4 d-flex" style="margin-bottom: 50px;">
+        <div *ngIf="!isUpdate && !isView" nz-col nzSpan="24" class="p-3">
+          <label class="create-another" nz-checkbox [(ngModel)]="continueAdd">
+            Tiếp tục tạo mới
+          </label>
+        </div>
+        <div *ngIf="isUpdate && !isView" nz-col nzSpan="24"
+             class="form-action__wrapper text-center d-flex justify-content-center">
+          <div style="margin-right: 10px;">
+            <app-button-cancel [isIcon]="true" [popConfirm]="false" (clickCancel)="cancelConfirm()"></app-button-cancel>
+          </div>
+          <app-button-save [isIcon]="true" text="Cập nhật"
+                           (clickSave)="submitForm()"></app-button-save>
+        </div>
+        <div *ngIf="!isUpdate && !isView" nz-col nzSpan="24"
+             class="form-action__wrapper text-center d-flex justify-content-center">
+          <div style="margin-right: 10px;">
+            <app-button-cancel [isIcon]="true" [popConfirm]="false" (clickCancel)="cancelConfirm()"></app-button-cancel>
+          </div>
+          <app-button-save [isIcon]="true" text="Tạo mới"
+                           (clickSave)="submitForm()"></app-button-save>
+        </div>
+        <div *ngIf="!isUpdate && isView" nz-col nzSpan="24"
+             class="form-action__wrapper text-center d-flex justify-content-center">
+          <app-button-cancel [isIcon]="true" text="Đóng" [popConfirm]="false"
+                             (clickCancel)="goBack()"></app-button-cancel>
+        </div>
+      </div>
     </nz-collapse-panel>
   </nz-collapse>
-  <div nz-row class="nz-card__form-action pt-4 d-flex" style="margin-bottom: 50px;">
-    <div *ngIf="!isUpdate && !isView" nz-col nzSpan="24" class="p-3">
-      <label class="create-another" nz-checkbox [(ngModel)]="continueAdd">
-        Tiếp tục tạo mới
-      </label>
-    </div>
-    <div *ngIf="isUpdate && !isView" nz-col nzSpan="24"
-         class="form-action__wrapper text-center d-flex justify-content-center">
-      <div style="margin-right: 10px;">
-        <app-button-cancel [isIcon]="true" [popConfirm]="false" (clickCancel)="cancelConfirm()"></app-button-cancel>
-      </div>
-      <app-button-save [isIcon]="true" text="Cập nhật"
-                       (clickSave)="submitForm()"></app-button-save>
-    </div>
-    <div *ngIf="!isUpdate && !isView" nz-col nzSpan="24"
-         class="form-action__wrapper text-center d-flex justify-content-center">
-      <div style="margin-right: 10px;">
-        <app-button-cancel [isIcon]="true" [popConfirm]="false" (clickCancel)="cancelConfirm()"></app-button-cancel>
-      </div>
-      <app-button-save [isIcon]="true" text="Tạo mới"
-                       (clickSave)="submitForm()"></app-button-save>
-    </div>
-    <div *ngIf="!isUpdate && isView" nz-col nzSpan="24"
-         class="form-action__wrapper text-center d-flex justify-content-center">
-      <app-button-cancel [isIcon]="true" text="Đóng" [popConfirm]="false" (clickCancel)="goBack()"></app-button-cancel>
-    </div>
-  </div>
 </nz-card>
 

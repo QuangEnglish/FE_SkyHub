@@ -29,9 +29,8 @@ export class ProjectListManagementComponent implements OnInit {
   idUserDetail: any;
 
 
-  onEdit(project: any): void {
-    console.log('Edit project:', project);
-    // Your edit logic here
+  onEdit(id: any): void {
+    this.router.navigate(['/project/detail/', id]);
   }
 
   constructor(private router: Router,
@@ -48,15 +47,26 @@ export class ProjectListManagementComponent implements OnInit {
   }
 
   loadData() {
+    this.idUserDetail = this.idUserDetail ? this.idUserDetail : null;
     this.spinner.show().then();
     this.projectService.search(this.idUserDetail).subscribe(res => {
       if (res && res.code === "OK") {
         this.projects = res.data;
+        this.projects.sort((a, b) => {
+          if (a.createdDate > b.createdDate) {
+            return -1;
+          } else if (a.createdDate < b.createdDate) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
         this.spinner.hide().then();
       } else {
         this.toastService.openErrorToast(res.msgCode);
         this.spinner.hide().then();
       }
+      this.spinner.hide().then();
     })
   }
 
@@ -66,6 +76,14 @@ export class ProjectListManagementComponent implements OnInit {
       state: {
         page: this.request,
         isUpdate: this.isUpdate
+      }
+    })
+  }
+
+  getListTask(projectId: any){
+    this.router.navigate(['/task-board/'+projectId], {
+      state: {
+        page: this.request
       }
     })
   }

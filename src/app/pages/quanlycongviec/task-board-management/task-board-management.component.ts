@@ -1,6 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {TaskForm, TaskStatus, taskStatusList} from "../../../core/task";
-import {DxSortableComponent, DxSortableTypes} from "devextreme-angular/ui/sortable";
+import {DxSortableComponent} from "devextreme-angular/ui/sortable";
+import {DxSortableTypes} from 'devextreme-angular/ui/sortable';
+import {ActivatedRoute, Router} from "@angular/router";
+import {NgxSpinnerService} from "ngx-spinner";
+import {ToastService} from "../../../service/toast.service";
+import {ProjectService} from "../../../service/project.service";
 
 type Board = {
   name: TaskStatus
@@ -14,7 +19,7 @@ type Board = {
 })
 export class TaskBoardManagementComponent implements OnChanges {
 
-  @ViewChild(DxSortableComponent, { static: false }) sortable!: DxSortableComponent;
+  @ViewChild(DxSortableComponent, {static: false}) sortable!: DxSortableComponent;
 
   @Input() dataSource!: TaskForm[];
 
@@ -23,12 +28,33 @@ export class TaskBoardManagementComponent implements OnChanges {
   kanbanDataSource: Board[] = [];
 
   statuses = taskStatusList;
-
+  isLoading = false;
+  isUpdate = false;
+  request: any = {
+    listTextSearch: [],
+    code: null,
+    page: 1,
+    name: null,
+    currentPage: 0,
+    pageSize: 10,
+    sort: 'created_date,desc', // -: desc | +: asc,
+  };
+  projects: any[] = [];
+  idUserDetail: any;
   boardMenuItems: Array<{ text: string }> = [
-    { text: 'Add card' },
-    { text: 'Copy list' },
-    { text: 'Move list' },
+    {text: 'Add card'},
+    {text: 'Copy list'},
+    {text: 'Move list'},
   ];
+
+  constructor(private router: Router,
+              private spinner: NgxSpinnerService,
+              private toastService: ToastService,
+              private projectService: ProjectService,
+              private activatedRoute: ActivatedRoute,
+  ) {
+    this.idUserDetail = this.activatedRoute.snapshot.params['id'];
+  }
 
   refresh() {
     this.sortable.instance.update();
@@ -39,7 +65,7 @@ export class TaskBoardManagementComponent implements OnChanges {
     for (const status of this.statuses) {
       const value = cards.filter((item) => item.status === status);
 
-      result.push(<Board>{ name: status, cards: value });
+      result.push(<Board>{name: status, cards: value});
     }
 
     return result;
@@ -59,13 +85,13 @@ export class TaskBoardManagementComponent implements OnChanges {
   // };
 
   onListReorder = (e: DxSortableTypes.ReorderEvent) => {
-    const { fromIndex, toIndex } = e;
+    const {fromIndex, toIndex} = e;
     const list = this.kanbanDataSource.splice(fromIndex, 1)[0];
     this.kanbanDataSource.splice(toIndex, 0, list);
   };
 
   onTaskDragStart(e: DxSortableTypes.DragStartEvent) {
-    const { fromData, fromIndex } = e;
+    const {fromData, fromIndex} = e;
     e.itemData = fromData.cards[fromIndex];
   }
 
@@ -82,6 +108,16 @@ export class TaskBoardManagementComponent implements OnChanges {
 
   addTask() {
     this.addTaskEvent.emit();
+  }
+
+  openCreateModal(): void {
+    this.isUpdate = false
+    this.router.navigate(['/task/add'], {
+      state: {
+        page: this.request,
+        isUpdate: this.isUpdate
+      }
+    })
   }
 
 }

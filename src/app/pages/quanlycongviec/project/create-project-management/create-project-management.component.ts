@@ -7,6 +7,7 @@ import {differenceInCalendarDays} from "date-fns";
 import {ProjectService} from "../../../../service/project.service";
 import {NzUploadChangeParam, NzUploadFile} from "ng-zorro-antd/upload";
 import {en_US, NzI18nService} from "ng-zorro-antd/i18n";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 @Component({
   selector: 'app-create-project-management',
@@ -15,6 +16,7 @@ import {en_US, NzI18nService} from "ng-zorro-antd/i18n";
 })
 export class CreateProjectManagementComponent implements OnInit, AfterViewChecked {
 
+  public Editor = ClassicEditor;
   idProject;
   responsePagination: any;
   isUpdate = false;
@@ -38,6 +40,8 @@ export class CreateProjectManagementComponent implements OnInit, AfterViewChecke
   previewImage: string | undefined = '';
   previewVisible = false;
   previewTitle: string | undefined = '';
+  listOfOption: string[] = [];
+
   @Output() clickCancel = new EventEmitter();
   @Output() clickSave = new EventEmitter();
 
@@ -73,6 +77,7 @@ export class CreateProjectManagementComponent implements OnInit, AfterViewChecke
       startDay: new FormControl(null, [Validators.required]),
       endDay: new FormControl(null, [Validators.required]),
       projectDescription: new FormControl(null),
+      employees: [[]],
     });
     if (this.isUpdate || this.isView) {
       this.projectService.getProjectId(this.idProject).subscribe(res => {
@@ -80,6 +85,15 @@ export class CreateProjectManagementComponent implements OnInit, AfterViewChecke
           const dataProject = res.data;
           this.data = dataProject;
           this.addForm.patchValue(dataProject);
+          this.addForm.get('employees')?.setValue(this.data.employees);
+          this.fileList = [
+            {
+              uid: '-1',
+              name: this.data.customerAvatar,
+              status: 'done',
+              url: 'http://localhost:8080/api/v1/project/'+ this.data.customerAvatar // Đường dẫn đến ảnh đã tải lên
+            }
+          ];
         } else {
           this.toastService.openErrorToast(res.msgCode);
         }
@@ -120,8 +134,11 @@ export class CreateProjectManagementComponent implements OnInit, AfterViewChecke
       data.startDay = data.startDay ? data.startDay : null;
       data.endDay = data.endDay ? data.endDay : null;
       data.customerName = data.customerName.trim();
+      data.employees = data.employees ? data.employees : null;
       const avatarFile = this.fileList[0].originFileObj;
       if (this.isUpdate) {
+        data.startDay = new Date(data.startDay);
+        data.endDay = new Date(data.endDay);
         this.projectService.editProject(avatarFile!, data).subscribe(res => {
           if (res && res.code === "OK") {
             this.toastService.openSuccessToast("Cập nhật thành công");
@@ -180,6 +197,7 @@ export class CreateProjectManagementComponent implements OnInit, AfterViewChecke
     this.employeeService.searchEmployee(this.payloadEmployee, {page: 0, size: -1}).subscribe(res => {
       if (res && res.code === "OK") {
         this.lstEmployee = res.data.data;
+        this.listOfOption =  this.lstEmployee.map(res => `${res.employeeName} - ${res.employeeCode}`);
         this.lstEmployee = this.lstEmployee.map(item => ({
           ...item,
           employeeName: item.employeeName + " - " + item.employeeCode

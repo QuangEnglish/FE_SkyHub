@@ -77,7 +77,7 @@ export class SideBarComponent implements OnInit, DoCheck {
       this.subMenuQLNS = false
       this.subMenuLLV = false
       this.subMenuQLCV = false
-    } else if (this.router.url === '/project' || this.router.url === '/task-list' || this.router.url === '/task-board') {
+    } else if (this.router.url === '/project' || this.router.url === '/task-list' || this.router.url === '/task-board' || this.router.url.includes("/project-person")) {
       this.subMenuQLHT = false
       this.subMenuQLNS = false
       this.subMenuLLV = false

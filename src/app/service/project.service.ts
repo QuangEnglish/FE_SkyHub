@@ -14,13 +14,15 @@ export class ProjectService {
   constructor(private httpClient: HttpClient) {
   }
 
-  search(id: any): Observable<any>{
+  search(userDetailId: any): Observable<any>{
+    if(userDetailId!=null){
+      return this.httpClient.post(AUTH_API+ "/search" +"?userDetailId="+userDetailId,
+        null,
+      )
+    }
     return this.httpClient.post(AUTH_API+ "/search",
       null,
-      {
-        params: id ? id : null
-      }
-      )
+    )
   }
 
   create(avatarFile: File, projectDTO: any): Observable<any> {
@@ -33,6 +35,7 @@ export class ProjectService {
     formData.append('startDay', projectDTO.startDay);
     formData.append('endDay', projectDTO.endDay);
     formData.append('customerName', projectDTO.customerName);
+    formData.append('employees', projectDTO.employees);
     return this.httpClient.post(
         AUTH_API+ "/create",
         formData,
@@ -56,6 +59,7 @@ export class ProjectService {
     formData.append('startDay', projectDTO.startDay);
     formData.append('endDay', projectDTO.endDay);
     formData.append('customerName', projectDTO.customerName);
+    formData.append('employees', projectDTO.employees);
     return this.httpClient.put(
         AUTH_API,
         formData,

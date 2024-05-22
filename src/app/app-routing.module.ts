@@ -42,6 +42,7 @@ import {TaskListManagementComponent} from "./pages/quanlycongviec/task-list-mana
 import {
   CreateProjectManagementComponent
 } from "./pages/quanlycongviec/project/create-project-management/create-project-management.component";
+import {TaskFormManagementComponent} from "./pages/quanlycongviec/task-form-management/task-form-management.component";
 
 const routes: Routes = [
   {
@@ -111,32 +112,30 @@ const routes: Routes = [
       {
         path: 'project',
         component: ProjectListManagementComponent,
-        // children:[
-        //   {
-        //     path: 'add',
-        //     component: CreateProjectManagementComponent
-        //   },
-        // ]
+      },
+      {
+        path: 'project-person/:id',
+        component: ProjectListManagementComponent
       },
       {
         path: 'project/add',
         component: CreateProjectManagementComponent
       },
       {
-        path: 'project/:id',
-        component: ProjectListManagementComponent
+        path: 'project/detail/:id',
+        component: CreateProjectManagementComponent
       },
-      // {
-      //   path: 'add',
-      //   component: CreateProjectManagementComponent
-      // },
       {
-        path: 'task-board',
+        path: 'task-board/:id',
         component: TaskBoardManagementComponent
       },
       {
         path: 'task-list',
         component: TaskListManagementComponent
+      },
+      {
+        path: 'task/add',
+        component: TaskFormManagementComponent
       },
     ]
   },

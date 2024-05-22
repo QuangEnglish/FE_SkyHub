@@ -3,10 +3,10 @@ import { Notes } from './notes';
 import { Messages } from './messages';
 
 export const taskStatusList: string[] = [
-  'Open',
-  'In Progress',
-  'Deferred',
-  'Completed',
+  'Mới',
+  'Đang xử lý',
+  'Review',
+  'Reopen',
 ];
 
 export const taskPriorityList: string[] = [

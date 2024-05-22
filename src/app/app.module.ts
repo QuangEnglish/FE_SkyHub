@@ -82,7 +82,7 @@ import { DetailEmployeeManagermentComponent } from './pages/HRM/employee/detail-
 import {
   DevExtremeModule,
   DxAccordionModule, DxBulletModule,
-  DxButtonModule, DxCalendarModule, DxChartModule,
+  DxCalendarModule, DxChartModule,
   DxDataGridModule,
   DxDateBoxModule,
   DxDropDownButtonModule,
@@ -91,8 +91,7 @@ import {
   DxLoadPanelModule,
   DxNumberBoxModule, DxPieChartModule,
   DxPopupModule, DxRangeSelectorModule, DxSchedulerModule,
-  DxScrollViewModule,
-  DxSelectBoxModule, DxSortableModule, DxSpeedDialActionModule,
+  DxSelectBoxModule, DxSpeedDialActionModule,
   DxTabPanelModule, DxTabsModule, DxTextAreaModule,
   DxTextBoxModule,
   DxToolbarModule, DxTooltipModule,
@@ -163,6 +162,10 @@ import { TaskListGridComponent } from './pages/quanlycongviec/task-list-grid/tas
 import { StatusIndicatorComponent } from './pages/components/status-indicator/status-indicator.component';
 import { CreateProjectManagementComponent } from './pages/quanlycongviec/project/create-project-management/create-project-management.component';
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { DxScrollViewModule } from 'devextreme-angular/ui/scroll-view';
+import { DxSortableModule } from 'devextreme-angular/ui/sortable';
+import { DxButtonModule } from 'devextreme-angular/ui/button';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -341,8 +344,13 @@ const INTERCEPTOR_PROVIDES = [
         DxTextAreaModule,
         ReactiveFormsModule,
         NzCheckboxModule,
+        CKEditorModule,
     ],
-  providers: [{provide: NZ_I18N, useValue: [en_US]},{ provide: NZ_ICONS, useValue: icons }, NzNotificationService, TransferState, INTERCEPTOR_PROVIDES],
+  providers: [{provide: NZ_I18N, useValue: [en_US]},
+    { provide: NZ_ICONS, useValue: icons },
+    NzNotificationService,
+    TransferState,
+    INTERCEPTOR_PROVIDES],
   bootstrap: [AppComponent]
 })
 export class AppModule {

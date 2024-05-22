@@ -33,13 +33,18 @@
       <div class="wrapper-item"
            nz-col [nzXs]="{ span: 5, offset: 1 }" [nzLg]="{ span: 6, offset: 2 }" >
         <div class="wrapper-card-header">
-          <h4 class="project-title">{{ project.title }}</h4>
-          <button nz-button nzType="text" nzShape="circle" (click)="onEdit(project)">
-            <i class="fa-solid fa-pen-to-square"></i>
+          <h4 class="project-title">{{ project.projectName }}</h4>
+          <button class="btn-edit" nz-button nzType="text" nzShape="circle" (click)="onEdit(project.id)">
+            <i style="font-size: 20px;" class="fa-solid fa-pen-to-square"></i>
           </button>
         </div>
-        <div class="wrapper-card-content" >
-          <p>{{ project.content }}</p>
+        <div class="wrapper-card-content" (click)="getListTask(project.id)">
+          <p>Từ ngày {{ project.startDay | date: 'dd/MM/yyyy' }} đến ngày {{ project.endDay | date: 'dd/MM/yyyy'}}</p>
+          <div class="card-content-footer">
+            <p style="color: #1abc9c; font-weight: bold;">{{ project.taskNumber}} Nhiệm vụ</p>
+            <p style="color: #f39f1e; font-weight: bold;">Etimate({{ project.etimate}}h)</p>
+            <p style="color: #d70303; font-weight: bold;">Timesheets({{ project.timesheet}}h)</p>
+          </div>
         </div>
       </div>
     </div>
