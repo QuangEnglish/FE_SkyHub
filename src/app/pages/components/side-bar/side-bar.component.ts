@@ -36,48 +36,45 @@ export class SideBarComponent implements OnInit, DoCheck {
       // this.isCollapsed = false
       this.subMenuQLNS = true
     } else if (this.router.url === '/department') {
-      // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
       this.subMenuQLCV = false
     } else if (this.router.url === '/position') {
-      // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
       this.subMenuQLCV = false
     } else if (this.router.url === '/employee') {
-      // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
       this.subMenuQLCV = false
     } else if (this.router.url.includes('/detail-employee') || this.router.url.includes('/infor-employee')) {
-      // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
       this.subMenuQLCV = false
     } else if (this.router.url === '/contract' || this.router.url === '/wage') {
-      // this.isCollapsed = false
       this.subMenuQLNS = true
       this.subMenuLLV = false
       this.subMenuQLHT = false
       this.subMenuQLCV = false
     } else if (this.router.url === '/attendance' || this.router.url === '/attendanceleave' || this.router.url === '/attendanceOt') {
-      // this.isCollapsed = false
       this.subMenuLLV = true
       this.subMenuQLNS = false
       this.subMenuQLHT = false
       this.subMenuQLCV = false
     } else if (this.router.url === '/register' || this.router.url === '/system' || this.router.url === '/account') {
-      // this.isCollapsed = false
       this.subMenuQLHT = true
       this.subMenuQLNS = false
       this.subMenuLLV = false
       this.subMenuQLCV = false
-    } else if (this.router.url === '/project' || this.router.url === '/task-list' || this.router.url === '/task-board' || this.router.url.includes("/project-person")) {
+    } else if (this.router.url.includes("/project") ||
+      this.router.url.includes("/task-list") ||
+      this.router.url.includes("/task-board") ||
+      this.router.url.includes("/task/add") ||
+      this.router.url.includes("/project-person")) {
       this.subMenuQLHT = false
       this.subMenuQLNS = false
       this.subMenuLLV = false

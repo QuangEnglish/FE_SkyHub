@@ -54,19 +54,18 @@
           <div nz-col [nzSm]="24" [nzMd]="24" [nzLg]="24">
             <nz-form-item nz-col nzSpan="24">
               <nz-form-control>
-                <div class="d-flex">
+                <div style="display: block">
                   <div style="width: 200px;">
                     <nz-form-label [nzRequired]="true"
                                    [hidden]="false">Nhân viên tham gia
                     </nz-form-label>
                   </div>
                   <nz-select
-                    [nzMaxTagCount]="3"
+                    [nzMaxTagCount]="25"
                     [nzMaxTagPlaceholder]="tagPlaceHolder"
                     nzMode="multiple"
                     nzPlaceHolder="Chọn nhân viên tham gia"
                     formControlName="employees"
-                    [ngStyle]="{'margin-left': '52px'}"
                   >
                     <nz-option *ngFor="let item of listOfOption" [nzLabel]="item" [nzValue]="item"></nz-option>
                   </nz-select>

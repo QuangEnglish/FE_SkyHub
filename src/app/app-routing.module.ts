@@ -134,7 +134,7 @@ const routes: Routes = [
         component: TaskListManagementComponent
       },
       {
-        path: 'task/add',
+        path: 'task/add/:id',
         component: TaskFormManagementComponent
       },
     ]

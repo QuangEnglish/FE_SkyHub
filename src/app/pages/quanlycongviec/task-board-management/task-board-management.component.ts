@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {TaskForm, TaskStatus, taskStatusList} from "../../../core/task";
-import {DxSortableComponent} from "devextreme-angular/ui/sortable";
-import {DxSortableTypes} from 'devextreme-angular/ui/sortable';
+import {DxSortableComponent, DxSortableTypes} from "devextreme-angular/ui/sortable";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ToastService} from "../../../service/toast.service";
 import {ProjectService} from "../../../service/project.service";
+
 
 type Board = {
   name: TaskStatus
@@ -17,7 +17,7 @@ type Board = {
   templateUrl: './task-board-management.component.html',
   styleUrls: ['./task-board-management.component.less']
 })
-export class TaskBoardManagementComponent implements OnChanges {
+export class TaskBoardManagementComponent implements OnInit, OnChanges {
 
   @ViewChild(DxSortableComponent, {static: false}) sortable!: DxSortableComponent;
 
@@ -40,7 +40,7 @@ export class TaskBoardManagementComponent implements OnChanges {
     sort: 'created_date,desc', // -: desc | +: asc,
   };
   projects: any[] = [];
-  idUserDetail: any;
+  idProject: any;
   boardMenuItems: Array<{ text: string }> = [
     {text: 'Add card'},
     {text: 'Copy list'},
@@ -53,7 +53,10 @@ export class TaskBoardManagementComponent implements OnChanges {
               private projectService: ProjectService,
               private activatedRoute: ActivatedRoute,
   ) {
-    this.idUserDetail = this.activatedRoute.snapshot.params['id'];
+    this.idProject = this.activatedRoute.snapshot.params['id'];
+  }
+
+  ngOnInit(): void {
   }
 
   refresh() {
@@ -112,12 +115,14 @@ export class TaskBoardManagementComponent implements OnChanges {
 
   openCreateModal(): void {
     this.isUpdate = false
-    this.router.navigate(['/task/add'], {
+    this.router.navigate(['/task/add/', this.idProject], {
       state: {
         page: this.request,
         isUpdate: this.isUpdate
       }
     })
   }
+
+
 
 }

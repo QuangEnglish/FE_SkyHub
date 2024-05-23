@@ -69,19 +69,19 @@
         </li>
       </ul>
     </li>
+    <li appCheckAuthorize nz-submenu nzTitle="Quản lý công việc" nzIcon="carry-out" [nzOpen]="subMenuQLCV">
+      <ul>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/project'">Dự án</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/task-list'">Danh sách công việc</a></span></li>
+        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="['/project-person', userId]">Việc của tôi</a></span></li>
+      </ul>
+    </li>
     <li appCheckAuthorize nz-submenu nzTitle="Quản trị hệ thống" nzIcon="database" [nzOpen]="subMenuQLHT">
       <ul>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/register'">Tạo tài khoản</a></span></li>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/account'">Quản lý tài khoản</a></span></li>
         <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/system'">Quản lý cây phân cấp</a></span></li>
         <li nz-menu-item [nzMatchRouter]="true"><span><a >Cấu hình</a></span></li>
-      </ul>
-    </li>
-    <li appCheckAuthorize nz-submenu nzTitle="Quản lý công việc" nzIcon="carry-out" [nzOpen]="subMenuQLCV">
-      <ul>
-        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/project'">Dự án</a></span></li>
-        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="'/task-list'">Danh sách công việc</a></span></li>
-        <li nz-menu-item [nzMatchRouter]="true"><span><a [routerLink]="['/project-person', userId]">Việc của tôi</a></span></li>
       </ul>
     </li>
   </ul>

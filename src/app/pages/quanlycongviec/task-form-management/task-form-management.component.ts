@@ -11,6 +11,7 @@ import {ProjectService} from "../../../service/project.service";
 import {EmployeeService} from "../../../service/employee.service";
 import {en_US, NzI18nService} from "ng-zorro-antd/i18n";
 import {differenceInCalendarDays} from "date-fns";
+import {TaskService} from "../../../service/task.service";
 
 @Component({
   selector: 'app-task-form-management',
@@ -20,7 +21,7 @@ import {differenceInCalendarDays} from "date-fns";
 export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
 
   public Editor = ClassicEditor;
-  idProject;
+  idProject: any;
   responsePagination: any;
   isUpdate = false;
   isView = false;
@@ -67,7 +68,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     private toastService: ToastService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private projectService: ProjectService,
+    private taskService: TaskService,
     private employeeService: EmployeeService,
     private i18n: NzI18nService,
     private readonly changeDetectorRef: ChangeDetectorRef
@@ -86,17 +87,18 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     const minutes = currentDate.getMinutes().toString().padStart(2, '0');
     const genderCode = year + month + day + hours + minutes;
     this.addForm = this.formBuilder.group({
-      projectCode: 'DA'+genderCode,
-      projectName: new FormControl(null, [Validators.required, Validators.maxLength(250)]),
-      customerName: new FormControl(null, [Validators.required, Validators.maxLength(250)]),
-      projectManagerId: new FormControl(null, [Validators.required]),
+      taskCode: 'T'+genderCode,
+      taskName: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
+      taskDescription: new FormControl(null),
+      taskStatus: new FormControl(null, [Validators.required]),
       startDay: new FormControl(null, [Validators.required]),
       endDay: new FormControl(null, [Validators.required]),
-      projectDescription: new FormControl(null),
+      followId: new FormControl(null, [Validators.required]),
+      priority: new FormControl(null, [Validators.required]),
       employees: [[]],
     });
     if (this.isUpdate || this.isView) {
-      this.projectService.getProjectId(this.idProject).subscribe(res => {
+      this.taskService.getTaskId(this.idProject).subscribe(res => {
         if (res && res.code === "OK") {
           const dataProject = res.data;
           this.data = dataProject;
@@ -143,19 +145,20 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     if (this.addForm.valid) {
       const data = this.addForm.getRawValue();
       data.id = this.idProject;
-      data.projectCode = data.projectCode.trim();
-      data.projectName = data.projectName.trim();
-      data.projectDescription = data.projectDescription.trim();
-      data.projectManagerId = data.projectManagerId ? data.projectManagerId : null;
+      data.taskCode = data.taskCode.trim();
+      data.taskName = data.taskName.trim();
+      data.taskDescription = data.taskDescription.trim();
+      data.followId = data.followId ? data.followId : null;
       data.startDay = data.startDay ? data.startDay : null;
       data.endDay = data.endDay ? data.endDay : null;
-      data.customerName = data.customerName.trim();
+      data.taskStatus = data.taskStatus ? data.taskStatus : null;
+      data.projectId = this.idProject ? this.idProject : null;
+      data.priority = data.priority ? data.priority : null;
       data.employees = data.employees ? data.employees : null;
-      const avatarFile = this.fileList[0].originFileObj;
       if (this.isUpdate) {
         data.startDay = new Date(data.startDay);
         data.endDay = new Date(data.endDay);
-        this.projectService.editProject(avatarFile!, data).subscribe(res => {
+        this.taskService.edit(data).subscribe(res => {
           if (res && res.code === "OK") {
             this.toastService.openSuccessToast("Cập nhật thành công");
             this.clickSave.emit();
@@ -169,7 +172,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
           console.log(error);
         });
       } else {
-        this.projectService.create(avatarFile!, data).subscribe(res => {
+        this.taskService.create(data).subscribe(res => {
           if (res && res.code === "OK") {
             this.toastService.openSuccessToast("Thêm mới thành công");
             this.clickSave.emit();
@@ -196,7 +199,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
   }
 
   goBack() {
-    this.router.navigate(['/project'],
+    this.router.navigate(['/task-board/', this.idProject],
       {
         state: {
           response: this.responsePagination,

@@ -147,6 +147,7 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
       this.employeeService.editEmployee(avatarFile, data).subscribe(res => {
         if (res && res.code === "OK") {
           this.toastService.openSuccessToast('Cập nhật nhân viên thành công');
+          this.goBackHone();
           this.onClosePanel();
         } else {
           this.toastService.openErrorToast(res.msgCode);
@@ -210,5 +211,9 @@ export class PanelEmployeeManagermentComponent implements OnInit, OnChanges, Aft
     if (files.length > 0) {
       this.avatarFile = files[0];
     }
+  }
+
+  goBackHone(){
+    this.router.navigate(["/employee"]).then();
   }
 }
