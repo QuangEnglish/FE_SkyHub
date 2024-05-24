@@ -49,6 +49,11 @@ const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     children: [
+      // {
+      //   path: '',
+      //   redirectTo: 'dashboard',
+      //   pathMatch: 'full'
+      // },
       {
         path: 'dashboard',
         component: DashboardComponent
@@ -152,6 +157,9 @@ const routes: Routes = [
         component: ChangePasswordComponent
       }
     ]
+  },
+  {
+    path:'**', redirectTo: '/exception'
   }
 ];
 

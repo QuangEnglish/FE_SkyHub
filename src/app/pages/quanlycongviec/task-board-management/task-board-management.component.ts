@@ -5,11 +5,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NgxSpinnerService} from "ngx-spinner";
 import {ToastService} from "../../../service/toast.service";
 import {ProjectService} from "../../../service/project.service";
+import {TaskService} from "../../../service/task.service";
 
 
 type Board = {
   name: TaskStatus
-  cards: TaskForm[]
+  taskForm: TaskForm[]
 };
 
 @Component({
@@ -21,13 +22,15 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
 
   @ViewChild(DxSortableComponent, {static: false}) sortable!: DxSortableComponent;
 
-  @Input() dataSource!: TaskForm[];
-
-  @Output() addTaskEvent: EventEmitter<any> = new EventEmitter();
-
-  kanbanDataSource: Board[] = [];
-
-  statuses = taskStatusList;
+  dataSource!: TaskForm[];
+  kanbanDataSource:any[] = [];
+  statuses = [
+    'Mới',
+    'Đang xử lý',
+    'Review',
+    'Reopen',
+    'Hoàn thành',
+  ];
   isLoading = false;
   isUpdate = false;
   request: any = {
@@ -39,38 +42,60 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
     pageSize: 10,
     sort: 'created_date,desc', // -: desc | +: asc,
   };
-  projects: any[] = [];
   idProject: any;
-  boardMenuItems: Array<{ text: string }> = [
-    {text: 'Add card'},
-    {text: 'Copy list'},
-    {text: 'Move list'},
-  ];
+  idUserDetail: any;
 
   constructor(private router: Router,
               private spinner: NgxSpinnerService,
               private toastService: ToastService,
-              private projectService: ProjectService,
+              private taskService: TaskService,
               private activatedRoute: ActivatedRoute,
   ) {
     this.idProject = this.activatedRoute.snapshot.params['id'];
   }
 
   ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    const payloadToken: any = token ? this.parseJwt(token) : null;
+    const userObject = JSON.parse(payloadToken.user);
+    this.idUserDetail = userObject.userDetailId;
+    this.loadData();
+  }
+
+  parseJwt(token: string): string {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+  };
+
+  loadData() {
+    this.spinner.show().then();
+    this.taskService.search(this.idUserDetail, this.idProject).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.kanbanDataSource = res.data;
+        this.spinner.hide().then();
+      } else {
+        this.toastService.openErrorToast(res.msgCode);
+        this.spinner.hide().then();
+      }
+      this.spinner.hide().then();
+    })
   }
 
   refresh() {
     this.sortable.instance.update();
   }
 
-  fillOutBoard = (cards: TaskForm[]): Board[] => {
+  fillOutBoard = (taskForm: TaskForm[]): Board[] => {
     const result: Board[] = [];
     for (const status of this.statuses) {
-      const value = cards.filter((item) => item.status === status);
-
-      result.push(<Board>{name: status, cards: value});
+      const value = taskForm.filter((item) => item.taskStatusName === status);
+      result.push(<Board>{name: status, taskForm: value});
     }
-
     return result;
   };
 
@@ -80,12 +105,12 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
     }
   }
 
-  // getCardsByStatus = (status: TaskStatus): TaskForm[] => {
-  //   const cards: TaskForm[] = this.dataSource
-  //     .filter((task) => task.status === status);
-  //
-  //   return cards;
-  // };
+  getCardsByStatus = (status: TaskStatus): TaskForm[] => {
+    const taskForm: TaskForm[] = this.dataSource
+      .filter((task) => task.taskStatusName === status);
+
+    return taskForm;
+  };
 
   onListReorder = (e: DxSortableTypes.ReorderEvent) => {
     const {fromIndex, toIndex} = e;
@@ -95,7 +120,7 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
 
   onTaskDragStart(e: DxSortableTypes.DragStartEvent) {
     const {fromData, fromIndex} = e;
-    e.itemData = fromData.cards[fromIndex];
+    e.itemData = fromData.taskForm[fromIndex];
   }
 
   onTaskDrop(e: DxSortableTypes.ReorderEvent | DxSortableTypes.AddEvent) {
@@ -103,15 +128,15 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
       fromData, toData, fromIndex, toIndex, itemData,
     } = e;
 
-    itemData.status = toData.name;
+    itemData.taskStatus = toData.name;
 
-    fromData.cards.splice(fromIndex, 1);
-    toData.cards.splice(toIndex, 0, itemData);
+    fromData.taskForm.splice(fromIndex, 1);
+    toData.taskForm.splice(toIndex, 0, itemData);
   }
 
-  addTask() {
-    this.addTaskEvent.emit();
-  }
+  // addTask() {
+  //   this.addTaskEvent.emit();
+  // }
 
   openCreateModal(): void {
     this.isUpdate = false

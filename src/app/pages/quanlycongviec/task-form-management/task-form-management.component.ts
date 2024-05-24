@@ -38,9 +38,9 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     {code: 5, name: "Hoàn thành"},
   ];
   lstPriority: any[] = [
-    {code: 1, name: "Mức 1"},
-    {code: 2, name: "Mức 2"},
-    {code: 3, name: "Mức 3"},
+    {code: 1, name: "Low"},
+    {code: 2, name: "Normal"},
+    {code: 3, name: "High"},
   ];
   payloadEmployee = {
     employeeCode: null,

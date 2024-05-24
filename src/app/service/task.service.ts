@@ -11,9 +11,9 @@ export class TaskService {
   constructor(private httpClient: HttpClient) {
   }
 
-  search(userDetailId: any): Observable<any>{
-    if(userDetailId!=null){
-      return this.httpClient.post(AUTH_API+ "/search" +"?userDetailId="+userDetailId,
+  search(userDetailId: any, projectId: any): Observable<any>{
+    if(userDetailId!=null && projectId != null){
+      return this.httpClient.post(AUTH_API+ "/search" +"?userDetailId="+userDetailId+"&&projectId="+projectId,
         null,
       )
     }

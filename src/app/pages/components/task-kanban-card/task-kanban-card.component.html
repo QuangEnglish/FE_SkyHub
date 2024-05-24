@@ -2,24 +2,29 @@
   class="card dx-theme-text-color dx-theme-background-color"
   (click)="navigateToDetails()"
 >
-  <div class="card-wrapper priority-{{ task.priority | lowercase }}">
+  <div class="card-wrapper priority-{{ task.taskStatusName | lowercase }}">
     <div class="card-priority"></div>
     <dx-button
       icon="edit"
       stylingMode="text"
-      (onClick)="notify($event)"
+      (onClick)="onDetail(task.id)"
     ></dx-button>
     <div class="card-content">
-      <div class="card-subject dx-theme-text-color">{{ task.text }}</div>
+      <div class="card-subject dx-theme-text-color">{{ task.taskName }}</div>
       <div class="card-data">
-        <span class="priority">{{ task.priority }}</span>
+        <span class="priority" *ngIf="task.priority == 1">Low</span>
+        <span class="priority" *ngIf="task.priority == 2">Normal</span>
+        <span class="priority" *ngIf="task.priority == 3">High</span>
         <span class="date dx-theme-text-color">{{
-          task.dueDate | date: 'MM/dd/yyyy'
+          task.startDay | date: 'dd/MM/yyyy'
+          }} - </span>
+        <span class="date dx-theme-text-color">{{
+          task.endDay | date: 'dd/MM/yyyy'
           }}</span>
       </div>
       <div class="card-assignee">
-        <span class="company dx-theme-text-color">{{ task.company }}</span>
-<!--        <user-avatar [dataLetters]="getAvatarText(task.owner)"></user-avatar>-->
+        <span class="company dx-theme-text-color">{{ task.projectName }}</span>
+        <div class="circle" ></div>
       </div>
     </div>
   </div>
