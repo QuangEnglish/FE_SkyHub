@@ -22,6 +22,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
 
   public Editor = ClassicEditor;
   idProject: any;
+  idTask: any;
   responsePagination: any;
   isUpdate = false;
   isView = false;
@@ -53,11 +54,8 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
   startDayErrorMessage = '';
   endDayErrorMessage = '';
   avatarFile!: File;
-  fileList: NzUploadFile[] = [];
-  previewImage: string | undefined = '';
-  previewVisible = false;
-  previewTitle: string | undefined = '';
   listOfOption: string[] = [];
+  projectName!: string;
 
   @Output() clickCancel = new EventEmitter();
   @Output() clickSave = new EventEmitter();
@@ -70,14 +68,17 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     private activatedRoute: ActivatedRoute,
     private taskService: TaskService,
     private employeeService: EmployeeService,
+    private projectService:ProjectService,
     private i18n: NzI18nService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
-    this.idProject = this.activatedRoute.snapshot.params['id'];
+    this.idProject = this.activatedRoute.snapshot.params['projectId'];
+    this.idTask = this.activatedRoute.snapshot.params['taskId'];
   }
 
   ngOnInit() {
     this.i18n.setLocale(en_US);
+    this.loadProject();
     this.checkIsViewOrUpdate();
     const currentDate = new Date();
     const year = currentDate.getFullYear().toString();
@@ -98,20 +99,12 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
       employees: [[]],
     });
     if (this.isUpdate || this.isView) {
-      this.taskService.getTaskId(this.idProject).subscribe(res => {
+      this.taskService.getTaskId(this.idTask).subscribe(res => {
         if (res && res.code === "OK") {
           const dataProject = res.data;
           this.data = dataProject;
           this.addForm.patchValue(dataProject);
           this.addForm.get('employees')?.setValue(this.data.employees);
-          this.fileList = [
-            {
-              uid: '-1',
-              name: this.data.customerAvatar,
-              status: 'done',
-              url: 'http://localhost:8080/api/v1/project/'+ this.data.customerAvatar // Đường dẫn đến ảnh đã tải lên
-            }
-          ];
         } else {
           this.toastService.openErrorToast(res.msgCode);
         }
@@ -124,6 +117,18 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
+  }
+
+  loadProject(){
+    this.projectService.getProjectId(this.idProject).subscribe(res => {
+      if (res && res.code === "OK") {
+        const dataProject = res.data;
+        this.projectName = dataProject.projectName;
+
+      } else {
+        this.toastService.openErrorToast(res.msgCode);
+      }
+    });
   }
 
   checkIsViewOrUpdate() {
@@ -144,7 +149,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     }
     if (this.addForm.valid) {
       const data = this.addForm.getRawValue();
-      data.id = this.idProject;
+      data.id = Number(this.idTask) || null;
       data.taskCode = data.taskCode.trim();
       data.taskName = data.taskName.trim();
       data.taskDescription = data.taskDescription.trim();
@@ -152,7 +157,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
       data.startDay = data.startDay ? data.startDay : null;
       data.endDay = data.endDay ? data.endDay : null;
       data.taskStatus = data.taskStatus ? data.taskStatus : null;
-      data.projectId = this.idProject ? this.idProject : null;
+      data.projectId = Number(this.idProject) ? Number(this.idProject) : null;
       data.priority = data.priority ? data.priority : null;
       data.employees = data.employees ? data.employees : null;
       if (this.isUpdate) {
@@ -169,6 +174,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
             this.addForm.controls.code.setErrors({'error': true});
           }
         }, error => {
+          this.toastService.openErrorToast(error.msgCode);
           console.log(error);
         });
       } else {
@@ -180,6 +186,14 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
             if (!this.continueAdd) {
               this.goBack();
             } else {
+              const currentDate = new Date();
+              const year = currentDate.getFullYear().toString();
+              const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+              const day = currentDate.getDate().toString().padStart(2, '0');
+              const hours = currentDate.getHours().toString().padStart(2, '0');
+              const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+              const genderCode = year + month + day + hours + minutes;
+              this.addForm.get('taskCode').setValue('T'+genderCode);
               this.continueAdd = false;
             }
           } else {
@@ -291,37 +305,5 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
       }
     }
   }
-
-  handlePreview = async (file: any) => {
-    if (!file.url && !file.preview) {
-      file.preview = await this.getBase64(file.originFileObj);
-    }
-    this.previewImage = file.url || file.preview;
-    this.previewVisible = true;
-    this.previewTitle = file.name || file.url.substring(file.url.lastIndexOf('/') + 1);
-  };
-
-  handleCancel = () => this.previewVisible = false;
-
-  getBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-    });
-  }
-
-  beforeUpload = (file: NzUploadFile, fileList: NzUploadFile[]): boolean => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-      this.toastService.openErrorToast('File upload phải là JPG/PNG !');
-    }
-    const isLt2M = file.size! / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      this.toastService.openErrorToast('File upload phải lớn hơn 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-  };
 
 }

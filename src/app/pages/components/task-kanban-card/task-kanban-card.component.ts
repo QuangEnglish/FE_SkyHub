@@ -23,11 +23,11 @@ export class TaskKanbanCardComponent implements  OnInit{
   getAvatarText = (name: string) => name.split(' ').map((name) => name[0]).join('');
 
   onDetail(id: any){
-
+    this.router.navigate(['/task/detail']);
   }
 
-  navigateToDetails = () => {
-    this.router.navigate(['/task/detail']);
+  navigateToDetails = (projectId: any, taskId: any) => {
+    this.router.navigate(['/task/detail/', projectId,taskId]);
   };
 
 

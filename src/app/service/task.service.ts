@@ -42,4 +42,10 @@ export class TaskService {
     );
   }
 
+  updateStatus(id: any, taskStatus: any): Observable<any>{
+    return this.httpClient.post(AUTH_API+"/updateTaskStatus/"+id+"?taskStatus="+taskStatus,
+      null,
+      )
+  }
+
 }

@@ -8,18 +8,42 @@
   display: block;
 }
 
-.priority(@priority-color) {
-  .card-priority {
+
+.priority-hight(@priority-color) {
+  .card-priority-hight {
     background: @priority-color;
   }
-
-  span.priority {
+  span.priority-hight {
     color: @priority-color;
   }
 }
-
 // Sử dụng mixin với màu đỏ
-.priority(#ff0000);
+.priority-hight(#ff0000);
+
+
+.priority-low(@priority-color) {
+  .card-priority-low {
+    background: @priority-color;
+  }
+  span.priority-low {
+    color: @priority-color;
+  }
+}
+// Sử dụng mixin với màu xanh
+.priority-low(#6fbaca);
+
+
+.priority-normal(@priority-color) {
+  .card-priority-normal {
+    background: @priority-color;
+  }
+  span.priority-normal {
+    color: @priority-color;
+  }
+}
+// Sử dụng mixin với màu đỏ
+.priority-normal(#dfb32f);
+
 
 .card {
   position: relative;
@@ -29,10 +53,12 @@
 
 .card-wrapper {
   padding: 10px;
+  min-height: 120px;
 
   dx-button {
     position: absolute;
-    right: 10px;
+    top:0;
+    right: 0;
     font-size: 18px;
     opacity: 0.87;
   }
@@ -75,7 +101,8 @@
 }
 
 .card-assignee {
-  padding-top: 14px;
+  position: absolute;
+  bottom: 10px;
   font-size: 12px;
   line-height: 14px;
   display: flex;
@@ -83,10 +110,17 @@
   align-items: center;
 }
 
-.card-priority {
+.card-priority-low,
+.card-priority-normal,
+.card-priority-hight {
   position: absolute;
   top: 10px;
   bottom: 10px;
   left: 10px;
   width: 4px;
+}
+
+.card-data{
+  position: absolute;
+  bottom: 30px;
 }

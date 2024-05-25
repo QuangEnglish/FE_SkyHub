@@ -44,11 +44,13 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
   };
   idProject: any;
   idUserDetail: any;
+  projectName!: string;
 
   constructor(private router: Router,
               private spinner: NgxSpinnerService,
               private toastService: ToastService,
               private taskService: TaskService,
+              private projectService:ProjectService,
               private activatedRoute: ActivatedRoute,
   ) {
     this.idProject = this.activatedRoute.snapshot.params['id'];
@@ -60,6 +62,7 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
     const userObject = JSON.parse(payloadToken.user);
     this.idUserDetail = userObject.userDetailId;
     this.loadData();
+    this.loadProject();
   }
 
   parseJwt(token: string): string {
@@ -84,6 +87,18 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
       }
       this.spinner.hide().then();
     })
+  }
+
+  loadProject(){
+    this.projectService.getProjectId(this.idProject).subscribe(res => {
+      if (res && res.code === "OK") {
+        const dataProject = res.data;
+        this.projectName = dataProject.projectName;
+
+      } else {
+        this.toastService.openErrorToast(res.msgCode);
+      }
+    });
   }
 
   refresh() {
@@ -121,6 +136,7 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
   onTaskDragStart(e: DxSortableTypes.DragStartEvent) {
     const {fromData, fromIndex} = e;
     e.itemData = fromData.taskForm[fromIndex];
+    console.log("//"+fromIndex);
   }
 
   onTaskDrop(e: DxSortableTypes.ReorderEvent | DxSortableTypes.AddEvent) {
@@ -132,6 +148,28 @@ export class TaskBoardManagementComponent implements OnInit, OnChanges {
 
     fromData.taskForm.splice(fromIndex, 1);
     toData.taskForm.splice(toIndex, 0, itemData);
+
+    const statusMap: { [key: string]: number } = {
+      "Mới": 1,
+      "Đang xử lý": 2,
+      "Review": 3,
+      "Reopen": 4,
+      "Hoàn thành": 5
+    };
+
+    const statusName: string = e.toData.name;
+    const statusId = statusMap[statusName];
+    if (statusId !== undefined) {
+      this.taskService.updateStatus(e.itemData.id, statusId).subscribe(res => {
+        if (res && res.code === "OK") {
+          this.toastService.openSuccessToast(res.msgCode);
+        } else {
+          this.toastService.openErrorToast(res.msgCode);
+        }
+      });
+    }
+
+
   }
 
   // addTask() {

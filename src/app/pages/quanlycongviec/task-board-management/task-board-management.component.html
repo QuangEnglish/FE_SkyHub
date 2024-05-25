@@ -16,7 +16,7 @@
     <div class="list__head-left">
       <div class="list__head-title">
         <span class="head-title" style="font-size: 24px;"><i class="fa-solid fa-diagram-project"
-                                                             style="margin-right: 7px;"></i>Dự án công ty</span>
+                                                             style="margin-right: 7px;"></i>Dự án << {{projectName}} >></span>
       </div>
     </div>
     <div class="list__head-right">
@@ -39,7 +39,7 @@
       >
         <div class="list" *ngFor="let board of kanbanDataSource">
           <div class="list-title dx-theme-text-color">
-            <span>{{ board.name }}</span>
+            <span style="color: black; font-size: 20px;">{{ board.name }}</span>
           </div>
           <dx-scroll-view
             class="scrollable-list"
