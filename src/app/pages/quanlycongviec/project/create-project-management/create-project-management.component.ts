@@ -161,6 +161,14 @@ export class CreateProjectManagementComponent implements OnInit, AfterViewChecke
             if (!this.continueAdd) {
               this.goBack();
             } else {
+              const currentDate = new Date();
+              const year = currentDate.getFullYear().toString();
+              const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+              const day = currentDate.getDate().toString().padStart(2, '0');
+              const hours = currentDate.getHours().toString().padStart(2, '0');
+              const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+              const genderCode = year + month + day + hours + minutes;
+              this.addForm.get('projectCode').setValue('DA'+genderCode);
               this.continueAdd = false;
             }
           } else {

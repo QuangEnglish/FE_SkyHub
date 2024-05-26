@@ -12,6 +12,8 @@ import {EmployeeService} from "../../../service/employee.service";
 import {en_US, NzI18nService} from "ng-zorro-antd/i18n";
 import {differenceInCalendarDays} from "date-fns";
 import {TaskService} from "../../../service/task.service";
+import {TimeSheetService} from "../../../service/timesheet.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-task-form-management',
@@ -21,6 +23,9 @@ import {TaskService} from "../../../service/task.service";
 export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
 
   public Editor = ClassicEditor;
+  public editorConfig = {
+    extraPlugins: [MyCustomUploadAdapterPlugin]
+  };
   idProject: any;
   idTask: any;
   responsePagination: any;
@@ -30,6 +35,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
   isViewConfirmCancel: any;
   data: any;
   addForm: any;
+  addFormTimeSheet: any;
   lstEmployee: any[] = [];
   lstTaskStatus: any[] = [
     {code: 1, name: "Mới"},
@@ -56,6 +62,23 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
   avatarFile!: File;
   listOfOption: string[] = [];
   projectName!: string;
+  lstData: any[] = [];
+  SCROLL_TABLE = {
+    SCROLL_X: '1000px',
+    SCROLL_Y: '60vh'
+  }
+  isVisibleModalDelete = false;
+  idTimeSheet: any;
+  request: any = {
+    listTextSearch: [],
+    code: null,
+    page: 1,
+    name: null,
+    currentPage: 0,
+    pageSize: 10,
+    sort: 'created_date,desc', // -: desc | +: asc,
+  };
+
 
   @Output() clickCancel = new EventEmitter();
   @Output() clickSave = new EventEmitter();
@@ -64,11 +87,13 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
   constructor(
     private router: Router,
     private toastService: ToastService,
+    private spinner:NgxSpinnerService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private taskService: TaskService,
     private employeeService: EmployeeService,
-    private projectService:ProjectService,
+    private projectService: ProjectService,
+    private timeSheetService: TimeSheetService,
     private i18n: NzI18nService,
     private readonly changeDetectorRef: ChangeDetectorRef
   ) {
@@ -88,7 +113,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     const minutes = currentDate.getMinutes().toString().padStart(2, '0');
     const genderCode = year + month + day + hours + minutes;
     this.addForm = this.formBuilder.group({
-      taskCode: 'T'+genderCode,
+      taskCode: 'T' + genderCode,
       taskName: new FormControl(null, [Validators.required, Validators.maxLength(500)]),
       taskDescription: new FormControl(null),
       taskStatus: new FormControl(null, [Validators.required]),
@@ -96,6 +121,8 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
       endDay: new FormControl(null, [Validators.required]),
       followId: new FormControl(null, [Validators.required]),
       priority: new FormControl(null, [Validators.required]),
+      duration: new FormControl(null),
+      communication: new FormControl(null),
       employees: [[]],
     });
     if (this.isUpdate || this.isView) {
@@ -110,6 +137,8 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
         }
       });
     }
+    this.buildFormTimeSheet();
+    this.fetchData();
     setTimeout(() => {
       this.fetchEmployee();
     })
@@ -119,12 +148,19 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     this.changeDetectorRef.detectChanges();
   }
 
-  loadProject(){
+  buildFormTimeSheet() {
+    this.addFormTimeSheet = this.formBuilder.group({
+      dayTimeSheet: new FormControl(null),
+      durationTimeSheet: new FormControl(null),
+      timeSheetDescription: new FormControl(null, [Validators.maxLength(1000)]),
+    });
+  }
+
+  loadProject() {
     this.projectService.getProjectId(this.idProject).subscribe(res => {
       if (res && res.code === "OK") {
         const dataProject = res.data;
         this.projectName = dataProject.projectName;
-
       } else {
         this.toastService.openErrorToast(res.msgCode);
       }
@@ -159,6 +195,8 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
       data.taskStatus = data.taskStatus ? data.taskStatus : null;
       data.projectId = Number(this.idProject) ? Number(this.idProject) : null;
       data.priority = data.priority ? data.priority : null;
+      data.duration = data.duration ? data.duration : null;
+      data.communication = data.communication ? data.communication : null;
       data.employees = data.employees ? data.employees : null;
       if (this.isUpdate) {
         data.startDay = new Date(data.startDay);
@@ -193,7 +231,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
               const hours = currentDate.getHours().toString().padStart(2, '0');
               const minutes = currentDate.getMinutes().toString().padStart(2, '0');
               const genderCode = year + month + day + hours + minutes;
-              this.addForm.get('taskCode').setValue('T'+genderCode);
+              this.addForm.get('taskCode').setValue('T' + genderCode);
               this.continueAdd = false;
             }
           } else {
@@ -230,7 +268,7 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     this.employeeService.searchEmployee(this.payloadEmployee, {page: 0, size: -1}).subscribe(res => {
       if (res && res.code === "OK") {
         this.lstEmployee = res.data.data;
-        this.listOfOption =  this.lstEmployee.map(res => `${res.employeeName} - ${res.employeeCode}`);
+        this.listOfOption = this.lstEmployee.map(res => `${res.employeeName} - ${res.employeeCode}`);
         this.lstEmployee = this.lstEmployee.map(item => ({
           ...item,
           employeeName: item.employeeName + " - " + item.employeeCode
@@ -306,4 +344,126 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  submitTimeSheetForm(): void {
+    if (this.addFormTimeSheet.valid) {
+      const data = this.addFormTimeSheet.value;
+      data.taskId = this.idTask;
+      data.dayTimeSheet = data.dayTimeSheet ? data.dayTimeSheet : null;
+      data.durationTimeSheet = data.durationTimeSheet ? data.durationTimeSheet : null;
+      data.timeSheetDescription = data.timeSheetDescription ? data.timeSheetDescription : null;
+      this.timeSheetService.create(data).subscribe(res => {
+        if (res && res.code === "OK") {
+          this.toastService.openSuccessToast('Lưu thành công');
+          this.addFormTimeSheet.reset();
+          this.fetchData();
+        } else {
+          this.toastService.openErrorToast(res.body.msgCode);
+        }
+      });
+    }
+  }
+
+  fetchData() {
+    this.timeSheetService.search(this.idTask).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.lstData = res.data;
+      } else {
+        this.toastService.openErrorToast(res.body.msgCode);
+      }
+    }, error => {
+      this.toastService.openErrorToast(error.error.msgCode);
+    });
+  }
+
+  openModalDelete(item: any): void {
+    if (!item.totalEmp) {
+      this.isVisibleModalDelete = true;
+      this.idTimeSheet = item.id;
+    }
+  }
+
+  callBackModalDelete() {
+    this.timeSheetService.deleteTimeSheet(this.idTimeSheet).subscribe(res => {
+      if (res && res.code === "OK") {
+        this.toastService.openSuccessToast('Xóa time sheet thành công');
+        this.isVisibleModalDelete = false;
+      } else {
+        this.toastService.openErrorToast(res.msgCode);
+      }
+      this.fetchData();
+    });
+  }
+
+  onCancelModalDelete() {
+    this.isVisibleModalDelete = false;
+    this.fetchData();
+  }
+
 }
+
+function MyCustomUploadAdapterPlugin(editor: any) {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader: any) => {
+    return new MyUploadAdapter(loader);
+  };
+}
+
+
+export class MyUploadAdapter {
+  loader: any;
+  url: string;
+  xhr!: XMLHttpRequest;
+
+  constructor(loader: any) {
+    this.loader = loader;
+    this.url = 'YOUR_UPLOAD_URL'; // Địa chỉ URL để upload ảnh
+  }
+
+  upload() {
+    return this.loader.file
+      .then((file: any) => new Promise((resolve, reject) => {
+        this._initRequest();
+        // this._initListeners(resolve, reject, file);
+        this._sendRequest(file);
+      }));
+  }
+
+  abort() {
+    if (this.xhr) {
+      this.xhr.abort();
+    }
+  }
+
+  private _initRequest() {
+    const xhr = this.xhr = new XMLHttpRequest();
+    xhr.open('POST', this.url, true);
+    xhr.responseType = 'json';
+  }
+
+  // private _initListeners(resolve: any, reject: any, file: any) {
+  //   const xhr = this.xhr;
+  //   const loader = this.loader;
+  //   const genericErrorText = `Couldn't upload file: ${file.name}.`;
+  //
+  //   xhr.addEventListener('error', () => reject(genericErrorText));
+  //   xhr.addEventListener('abort', () => reject());
+  //   xhr.addEventListener('load', () => {
+  //     const response = xhr.response;
+  //
+  //     if (!response || response.error) {
+  //       return reject(response && response.error ? response.error.message : genericErrorText);
+  //     }
+  //
+  //     resolve({
+  //       default: response.url
+  //     });
+  //   });
+  // }
+
+  private _sendRequest(file: any) {
+    const data = new FormData();
+    data.append('upload', file);
+
+    this.xhr.send(data);
+  }
+}
+
