@@ -113,27 +113,86 @@ export class DetailInforEmployeeComponent implements OnInit {
   // });
 //  }
 
-  onExportPdf(){
-    this.spinner.show().then();
-    var data = document.getElementById('contentToConvert');
-    html2canvas(data!).then(canvas => {
-      var imgWidth = 208;
-      var pageHeight = 295;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
+  // onExportPdf(){
+  //   this.spinner.show().then();
+  //   var data = document.getElementById('contentToConvert');
+  //   html2canvas(data!).then(canvas => {
+  //     var imgWidth = 208;
+  //     var pageHeight = 295;
+  //     var imgHeight = canvas.height * imgWidth / canvas.width;
+  //     var heightLeft = imgHeight;
+  //
+  //     const contentDataURL = canvas.toDataURL('image/png')
+  //     let pdf = new jspdf.default('p', 'mm', 'a4'); // A4 size page of PDF
+  //     var position = 0;
+  //     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+  //     pdf.save('ho_so_nhan_vien.pdf'); // Generated
+  //     setTimeout(() =>{
+  //       this.spinner.hide().then();
+  //     }, 2000);
+  //   }, error => {
+  //     this.toastService.openErrorToast("Lỗi xuất file PDF");
+  //     this.spinner.hide().then();
+  //   });
+  // }
 
-      const contentDataURL = canvas.toDataURL('image/png')
-      let pdf = new jspdf.default('p', 'mm', 'a4'); // A4 size page of PDF
-      var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-      pdf.save('ho_so_nhan_vien.pdf'); // Generated
-      setTimeout(() =>{
-        this.spinner.hide().then();
-      }, 2000);
-    }, error => {
-      this.toastService.openErrorToast("Lỗi xuất file PDF");
-      this.spinner.hide().then();
+  private loadImages(container: HTMLElement): Promise<void> {
+    const images = Array.from(container.getElementsByTagName('img'));
+    const loadPromises = images.map(img => {
+      if (img.complete) {
+        return Promise.resolve();
+      }
+      return new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject();
+      });
     });
+    return Promise.all(loadPromises).then(() => {});
+  }
+
+  onExportPdf() {
+    const data = document.getElementById('contentToConvert');
+
+    if (data) {
+      this.spinner.show().then();
+
+      this.loadImages(data).then(() => {
+        html2canvas(data, { useCORS: true }).then(canvas => {
+          const imgWidth = 208;
+          const pageHeight = 295;
+          const imgHeight = canvas.height * imgWidth / canvas.width;
+          let heightLeft = imgHeight;
+
+          const contentDataURL = canvas.toDataURL('image/png');
+          let pdf = new jspdf.default('p', 'mm', 'a4'); // A4 size page of PDF
+          let position = 0;
+
+          pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+
+          while (heightLeft > 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+
+          pdf.save('ho_so_nhan_vien.pdf'); // Generated
+          setTimeout(() => {
+            this.spinner.hide().then();
+          }, 2000);
+        }).catch(error => {
+          this.toastService.openErrorToast("Lỗi xuất file PDF");
+          this.spinner.hide().then();
+        });
+      }).catch(() => {
+        this.toastService.openErrorToast("Lỗi tải hình ảnh");
+        this.spinner.hide().then();
+      });
+    } else {
+      this.toastService.openErrorToast("Không tìm thấy nội dung để xuất PDF");
+      this.spinner.hide().then();
+    }
   }
 
   loadUserById = (id: number) => {

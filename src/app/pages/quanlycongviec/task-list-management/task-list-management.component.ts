@@ -33,10 +33,8 @@ export class TaskListManagementComponent implements OnInit {
 
   @ViewChild(FormEmployeeManagermentComponent, {static: false}) contactNewForm!: FormEmployeeManagermentComponent;
 
-  // dataSource!: DataSource<Contact[], string>;
   isPanelOpened = false;
   searchForm!: FormGroup;
-  isAddContactPopupOpened = false;
 
   userId: number | undefined;
   request: any = {
@@ -50,12 +48,10 @@ export class TaskListManagementComponent implements OnInit {
   };
   lstData: any[] = [];
   total = 0;
-  genderCodeFromList: any;
 
   constructor(
     private toastService: ToastService,
     private spinner: NgxSpinnerService,
-    private employeeService: EmployeeService,
     private formBuilder: FormBuilder,
     private taskService:TaskService,
     private fileManagerService: FileManagerService
@@ -67,34 +63,42 @@ export class TaskListManagementComponent implements OnInit {
       name: new FormControl(null, [Validators.maxLength(100)]),
       status: new FormControl(null),
     });
-    this.fetchData(this.request.currentPage, this.request.pageSize);
+    this.fetchData();
   }
 
-  fetchData(currentPage?: number, pageSize?: number) {
-    const formValue = this.searchForm.value;
-    const queryModel = {
-      employeeCode: !formValue.employeeCode ? null : formValue.employeeCode.toString(),
-      employeeName: !formValue.employeeName ? null : formValue.employeeName.toString(),
-      employeeEmail: !formValue.employeeEmail ? null : formValue.employeeEmail.toString(),
-      employeeGender: !formValue.employeeGender ? null : formValue.employeeGender,
-      positionId: !formValue.positionId ? null : formValue.positionId,
-      departmentId: !formValue.departmentId ? null : formValue.departmentId
-    };
-    const pageable = {
-      page: currentPage,
-      size: pageSize,
-      sort: this.request.sort,
-    };
+  fetchData() {
     this.spinner.show().then();
-    this.employeeService.searchEmployee(queryModel, pageable).subscribe(res => {
+    this.taskService.search(null, null).subscribe(res => {
       if (res && res.code === "OK") {
-        this.lstData = res.data.data;
-        this.total = res.data.totalElements;
+        this.lstData = res.data.map((item: any) => {
+          if (item.taskStatus === 1) {
+            item.taskStatus = "Mới";
+          } else if (item.taskStatus === 2) {
+            item.taskStatus = "Đang xử lý";
+          } else if (item.taskStatus === 3) {
+            item.taskStatus = "Review";
+          }
+          else if (item.taskStatus === 4) {
+            item.taskStatus = "Reopen";
+          }
+          else if (item.taskStatus === 5) {
+            item.taskStatus = "Hooàn thành";
+          }
+          if (item.endDay) {
+            const endDate = new Date(item.endDay);
+            item.endDay = this.formatDate(endDate);
+          }
+          if (item.startDay) {
+            const startDate = new Date(item.startDay);
+            item.startDay = this.formatDate(startDate);
+          }
+          return item;
+        });
         this.spinner.hide().then();
         if (this.lstData.length === 0) {
           if (this.request.currentPage !== 0) {
             this.request.currentPage = this.request.currentPage - 1;
-            this.fetchData(this.request.currentPage, this.request.pageSize);
+            this.fetchData();
           }
         }
         this.spinner.hide().then();
@@ -108,6 +112,13 @@ export class TaskListManagementComponent implements OnInit {
     }, () => {
       this.spinner.hide().then();
     });
+  }
+
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng trong JavaScript bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   refresh = () => {

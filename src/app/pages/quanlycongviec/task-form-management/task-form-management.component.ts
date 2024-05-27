@@ -364,15 +364,17 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
   }
 
   fetchData() {
-    this.timeSheetService.search(this.idTask).subscribe(res => {
-      if (res && res.code === "OK") {
-        this.lstData = res.data;
-      } else {
-        this.toastService.openErrorToast(res.body.msgCode);
-      }
-    }, error => {
-      this.toastService.openErrorToast(error.error.msgCode);
-    });
+    if(this.idTask!=null){
+      this.timeSheetService.search(this.idTask).subscribe(res => {
+        if (res && res.code === "OK") {
+          this.lstData = res.data;
+        } else {
+          this.toastService.openErrorToast(res.body.msgCode);
+        }
+      }, error => {
+        this.toastService.openErrorToast(error.error.msgCode);
+      });
+    }
   }
 
   openModalDelete(item: any): void {

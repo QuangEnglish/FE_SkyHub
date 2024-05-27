@@ -15,11 +15,11 @@
     <span class="toolbar-child"><a href="https://nodo.vn/" style="color: #1F1F1F;" target="_blank">
       <i class="fa-solid fa-house-user" style="margin-right: 3px;"></i>Giới thiệu</a></span>
     <div class="menu-divider"></div>
-    <span class="toolbar-child"><a style="color: #1F1F1F;">
+    <span class="toolbar-child"><a style="color: #1F1F1F;" (click)="showPopup()">
       <i class="fa-solid fa-phone" style="margin-right: 3px;"></i>Liên hệ</a>
     </span>
     <div class="menu-divider"></div>
-    <span class="toolbar-child"><a style="color: #1F1F1F;">
+    <span class="toolbar-child"><a style="color: #1F1F1F;" (click)="showPopup()">
       <i class="fa-solid fa-circle-info" style="margin-right: 3px;"></i>Trợ giúp</a>
     </span>
   </div>
@@ -103,3 +103,5 @@
 
   </div>
 </div>
+
+<app-pop-up-img *ngIf="isPopupVisible" [imageUrl]="popupImageUrl" (close)="hidePopup()"></app-pop-up-img>

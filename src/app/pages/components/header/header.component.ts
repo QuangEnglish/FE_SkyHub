@@ -82,4 +82,15 @@ export class HeaderComponent implements OnInit, DoCheck {
     this.router.navigate(['/auth/changePassword']);
   };
 
+  isPopupVisible = false;
+  popupImageUrl = 'imgSinhNhatNodo.jpg'; // Thay bằng đường dẫn đến hình ảnh của bạn
+
+  showPopup() {
+    this.isPopupVisible = true;
+  }
+
+  hidePopup() {
+    this.isPopupVisible = false;
+  }
+
 }

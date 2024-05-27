@@ -166,6 +166,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DxScrollViewModule } from 'devextreme-angular/ui/scroll-view';
 import { DxSortableModule } from 'devextreme-angular/ui/sortable';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
+import { PopUpImgComponent } from './pages/components/pop-up-img/pop-up-img.component';
 
 registerLocaleData(en);
 const antDesignIcons = AllIcons as {
@@ -266,7 +267,8 @@ const INTERCEPTOR_PROVIDES = [
     TaskListGridComponent,
     StatusIndicatorComponent,
     ProjectListManagementComponent,
-    CreateProjectManagementComponent
+    CreateProjectManagementComponent,
+    PopUpImgComponent
   ],
     imports: [
         BrowserModule,

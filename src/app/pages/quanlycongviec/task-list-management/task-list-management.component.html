@@ -76,46 +76,48 @@
     </dxo-toolbar>
 
     <dxi-column
-      dataField="employeeCode"
-      caption="Mã nhân viên"
+      dataField="taskCode"
+      caption="Mã công việc"
       sortOrder="desc"
       [hidingPriority]="5"
       [minWidth]="150"
     ></dxi-column>
     <dxi-column
-      dataField="employeeName"
-      caption="Tên nhân viên"
+      dataField="taskName"
+      caption="Tên công việc"
       sortOrder="asc"
       [hidingPriority]="5"
       [minWidth]="150"
     ></dxi-column>
     <dxi-column
-      dataField="departmentName"
-      caption="Phòng ban"
+      dataField="taskStatus"
+      caption="Trạng thái"
       [hidingPriority]="5"
       [minWidth]="150"
     ></dxi-column>
     <dxi-column
-      dataField="positionName"
-      caption="Chức vụ"
+      dataField="startDay"
+      caption="Từ ngày"
       [hidingPriority]="5"
       [minWidth]="150"
+      [format]="{ type: 'date', format: 'dd/MM/yyyy' }"
     ></dxi-column>
     <dxi-column
-      dataField="phone"
-      caption="Số điện thoại"
+      dataField="endDay"
+      caption="Đến ngày"
       [hidingPriority]="5"
       [minWidth]="150"
+      [format]="{ type: 'date', format: 'dd/MM/yyyy' }"
     ></dxi-column>
     <dxi-column
-      dataField="genderName"
-      caption="Giới tính"
+      dataField="priorityName"
+      caption="Độ ưu tiên"
       [hidingPriority]="5"
       [minWidth]="100"
     ></dxi-column>
     <dxi-column
-      dataField="address"
-      caption="Địa chỉ"
+      dataField="projectName"
+      caption="Tên dự án"
       [hidingPriority]="5"
       [minWidth]="100"
     ></dxi-column>
