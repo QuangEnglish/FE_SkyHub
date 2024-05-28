@@ -2,6 +2,7 @@ import {Component, DoCheck, OnInit, TemplateRef, ViewChild} from '@angular/core'
 import {Router} from "@angular/router";
 import {LoginService} from "../../../service/login.service";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {NotificationService} from "../../../service/notification.service";
 
 @Component({
   selector: 'app-header',
@@ -20,12 +21,15 @@ export class HeaderComponent implements OnInit, DoCheck {
     name: null,
     size: 10, // -: desc | +: asc,
   };
+  employees: any[] = [];
+  hasNotifications: boolean = false;
 
   @ViewChild(TemplateRef, { static: false }) template?: TemplateRef<{}>;
 
 
   constructor(private router: Router,
               private notification: NzNotificationService,
+              private notificationService: NotificationService,
               private loginService :LoginService) { }
 
   ngOnInit(): void {
@@ -34,6 +38,10 @@ export class HeaderComponent implements OnInit, DoCheck {
     const userObject = JSON.parse(payloadToken.user);
     this.employeeName = userObject.userDetailName;
     this.userId = userObject.userDetailId;
+    this.notificationService.getEmployeesWithBirthdaysInCurrentMonth().subscribe(data => {
+      this.employees = data;
+      this.hasNotifications = this.employees.length > 0;
+    });
   }
 
   parseJwt(token: string): string {
@@ -64,7 +72,7 @@ export class HeaderComponent implements OnInit, DoCheck {
     const notifyData = {
       name: 'Apple',
       color: 'red',
-      message: 'Message title',
+      message: 'Sinh nhật trong tháng',
     };
 
     // this.notification.template(this.template!, { nzData: notifyData });
@@ -91,6 +99,11 @@ export class HeaderComponent implements OnInit, DoCheck {
 
   hidePopup() {
     this.isPopupVisible = false;
+  }
+
+  markAsNotified(id: number): void {
+    this.employees = this.employees.filter(employee => employee.id !== id);
+    this.hasNotifications = this.employees.length > 0;
   }
 
 }

@@ -31,17 +31,23 @@
     </button>
     <ng-template #template2 let-notifyData="data">
       <div class="ant-notification-notice-content">
-        <div>
-          <div class="ant-notification-notice-message">{{notifyData.message }}</div>
+        <div class="ant-notification-notice-message">{{notifyData.message }}</div>
+        <div *ngFor="let employee of employees">
           <div class="ant-notification-notice-description">
-            A function will be be called after the notification is closed (automatically after the "duration" time of
-            manually).
+            <div *ngIf="hasNotifications">
+              <div>
+                <p>{{ employee.employeeName }} - {{ employee.birthday | date: 'dd/MM/yyyy'}}</p>
+              </div>
+            </div>
           </div>
           <span class="ant-notification-notice-btn">
             <button nz-button nzType="primary" nzSize="small" (click)="notifyData.close()">
-            <span>Confirm</span>
+              <span (click)="markAsNotified(employee.id)">Đã xem</span>
             </button>
           </span>
+        </div>
+        <div *ngIf="!hasNotifications">
+          <p style="color: black;">Không có thông báo sinh nhật nào trong tháng này.</p>
         </div>
       </div>
     </ng-template>
