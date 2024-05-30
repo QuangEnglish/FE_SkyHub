@@ -186,9 +186,9 @@ export class TaskFormManagementComponent implements OnInit, AfterViewChecked {
     if (this.addForm.valid) {
       const data = this.addForm.getRawValue();
       data.id = Number(this.idTask) || null;
-      data.taskCode = data.taskCode.trim();
-      data.taskName = data.taskName.trim();
-      data.taskDescription = data.taskDescription.trim();
+      data.taskCode = data.taskCode.trim() || null;
+      data.taskName = data.taskName.trim() || null;
+      data.taskDescription = data.taskDescription.trim() || null;
       data.followId = data.followId ? data.followId : null;
       data.startDay = data.startDay ? data.startDay : null;
       data.endDay = data.endDay ? data.endDay : null;
