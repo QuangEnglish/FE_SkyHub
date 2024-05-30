@@ -2,9 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 
 export type SalesByState = SaleByState[];
 export type SaleByState = {
-  stateName: string,
-  stateCoords: string,
-  total: number,
+  employeeName: string,
+  totalTask: number,
+  totalTaskDone: number,
   percentage: number,
 };
 @Component({

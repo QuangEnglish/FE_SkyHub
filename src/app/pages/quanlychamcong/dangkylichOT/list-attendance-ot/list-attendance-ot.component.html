@@ -174,8 +174,10 @@
                 <app-button-icon class="action__margin" [isEdit]="true"
                                  [tooltipTitle]="'Sửa đơn'"
                                  [loading]="isLoading"
+                                 [disabled] ="data.employeeId != idUserDetailId"
                                  (clickAction)="openUpdateModal(data)"></app-button-icon>
                 <app-button-icon class="action__margin" [isDelete]="true"
+                                 [disabled] ="data.employeeId != idUserDetailId"
                                  [tooltipTitle]="'Xóa đơn'" (click)="openModalDelete(data)"></app-button-icon>
               </div>
             </td>

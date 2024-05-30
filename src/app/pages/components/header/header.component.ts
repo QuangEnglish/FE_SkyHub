@@ -106,4 +106,9 @@ export class HeaderComponent implements OnInit, DoCheck {
     this.hasNotifications = this.employees.length > 0;
   }
 
+  toggleCollapsed(): void {
+    this.isCollapsed = !this.isCollapsed;
+    console.log("//" + this.isCollapsed);
+  }
+
 }

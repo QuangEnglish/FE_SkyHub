@@ -1,21 +1,20 @@
-<app-card-analytics titleText="Phân tích nghỉ phép" contentClass="sales-by-state grid">
+<app-card-analytics titleText="Thống kê đăng ký lịch" contentClass="sales-by-state grid">
     <dx-data-grid
             [dataSource]="data"
             [height]="290"
             [width]="670"
             [loadPanel]="{ enabled: false }"
     >
-        <dxi-column caption="Phòng ban"
-                    dataField="stateName"
+        <dxi-column caption="Nhân viên"
+                    dataField="employeeName"
                     [width]="200"
         > </dxi-column>
 
         <dxi-column
                 alignment="left"
-                caption="Số ngày nghỉ"
-                dataField="total"
+                caption="Công việc"
+                dataField="totalTask"
                 dataType="number"
-                format="currency"
                 sortOrder="desc"
                 [hidingPriority]="1"
                 [width]="150"
@@ -24,7 +23,7 @@
 
         <dxi-column
                 alignment="left"
-                caption="Số người nghỉ"
+                caption="Hoàn thành"
                 dataField="percentage"
                 name="percentN"
                 format="percent"
@@ -35,7 +34,7 @@
 
         <dxi-column
                 alignment="left"
-                caption="Phần trăm"
+                caption=""
                 dataField="percentage"
                 name="percentB"
                 cellTemplate="salesBullet"

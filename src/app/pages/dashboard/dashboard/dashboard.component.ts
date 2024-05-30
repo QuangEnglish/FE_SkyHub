@@ -55,49 +55,10 @@ export class DashboardComponent implements OnInit {
     const payloadToken: any = token ? this.parseJwt(token) : null;
     const userObject = JSON.parse(payloadToken.user);
     this.idUserDetailId = userObject.userDetailId;
-
-    this.salesByState = [
-      {
-        stateName: "Phòng java",
-        stateCoords: "vvvv",
-        total: 50,
-        percentage: 0.1,
-      },
-      {
-        stateName: "Phòng kỹ thuật",
-        stateCoords: "vvvv",
-        total: 70,
-        percentage: 0.2,
-      },
-      {
-        stateName: "Phòng Kinh Doanh",
-        stateCoords: "ccc",
-        total: 20,
-        percentage: 0.5,
-      },
-      {
-        stateName: "Phòng Nhân Sự",
-        stateCoords: "bbv",
-        total: 30,
-        percentage: 0.1,
-      },
-      {
-        stateName: "Phòng Nhân Sự",
-        stateCoords: "bbv",
-        total: 30,
-        percentage: 0.1,
-      },
-      {
-        stateName: "Phòng Nhân Sự",
-        stateCoords: "bbv",
-        total: 30,
-        percentage: 0.1,
-      },
-    ];
-
     this.loadStatisticalDepartment();
     this.loadStatisticalHeader();
     this.loadStatisticalContract();
+    this.loadStatisticalTask();
   }
 
   parseJwt(token: string): string {
@@ -144,6 +105,18 @@ export class DashboardComponent implements OnInit {
       res => {
         if (res && res.code === "OK") {
           this.lstContractType = res.data;
+        } else {
+          this.toastService.openErrorToast(res.body.msgCode);
+        }
+      }
+    )
+  }
+
+  loadStatisticalTask(){
+    this.dashboardService.getStatisticalTask().subscribe(
+      res => {
+        if (res && res.code === "OK") {
+          this.salesByState = res.data;
         } else {
           this.toastService.openErrorToast(res.body.msgCode);
         }

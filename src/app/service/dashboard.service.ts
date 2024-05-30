@@ -29,6 +29,12 @@ export class DashboardService {
       AUTH_API + "/statisticalContract/",
     );
   }
+
+  getStatisticalTask(): Observable<any> {
+    return this.httpClient.get(
+      AUTH_API + "/statisticalTask/",
+    );
+  }
   // search(payload: any, pageable: any): Observable<any> {
   //   return this.httpClient.post(
   //     AUTH_API + "/search",
