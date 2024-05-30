@@ -117,7 +117,7 @@
           <th nzWidth="200px" class="text-center">
             Mô tả
           </th>
-          <th nzWidth="150px" class="text-center">
+          <th nzWidth="200px" class="text-center">
             Trạng thái
           </th>
           <th nzWidth="100px" class="text-center">
@@ -133,9 +133,9 @@
             <td class="max-width-150" [nz-tooltip]="data.positionName">{{data.positionName}}</td>
             <td class="max-width-150" [nz-tooltip]="data.departmentName">{{data.departmentName}}</td>
             <td class="max-width-200" [nz-tooltip]="data.positionDescription">{{data.positionDescription}}</td>
-            <td class="max-width-150 text-center" [nz-tooltip]="'Không hoạt động'" *ngIf="data.isActive !== 1">
+            <td class="max-width-200 text-center" [nz-tooltip]="'Không hoạt động'" *ngIf="data.isActive !== 1">
               <span class="css-badge badge badge-pill bg-danger p-3">Không hoạt động</span></td>
-            <td class="max-width-150 text-center" [nz-tooltip]="'Hoạt động'" *ngIf="data.isActive === 1">
+            <td class="max-width-200 text-center" [nz-tooltip]="'Hoạt động'" *ngIf="data.isActive === 1">
               <span class="css-badge badge badge-pill bg-success p-3">Hoạt động</span></td>
             <td class="text-center max-width-150">
               <div class="action">
